@@ -9,6 +9,7 @@ import { useRef, useState } from "react";
 export default function Blog() {
   const prevButtonRef = useRef<HTMLButtonElement | null>(null);
   const nextButtonRef = useRef<HTMLButtonElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setSwiperInit] = useState(false);
   return (
     <section id="blog" className="py-4 md:py-8 px-4 md:px-24 min-h-screen">
