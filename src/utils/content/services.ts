@@ -26,5 +26,8 @@ const services = [
   {
     title: "DevOps",
   },
+  {
+    title: "CyberSec",
+  },
 ];
 export default services;

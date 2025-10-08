@@ -79,7 +79,10 @@ export default function Navbar() {
           />
         </svg>
       </Link>
-      <TextAlignJustifyIcon className="cursor-pointer" onClick={showNavbar} />
+      <div className="flex">
+        <TextAlignJustifyIcon className="cursor-pointer" onClick={showNavbar} />
+      </div>
+
       <ul
         ref={menuRef}
         className="z-120  flex-col overflow-hidden gap-8 translate-x-full md:w-2xl w-full px-8 pt-18 fixed h-full right-0 top-0 bg-[var(--background)]"
