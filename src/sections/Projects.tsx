@@ -44,7 +44,7 @@ export default function Projects() {
               href={"#"}
             >
               <ProjectImage src={`/videos/${index + 1}.mp4`} />
-              <div className="md:basis-3xl">
+              <div className="lg:basis-3xl">
                 <p className="mango font-bold mt-8 tracking-wide text-5xl">
                   {project.title}
                 </p>
