@@ -53,14 +53,14 @@ export default function Footer() {
 
           {/* Column 2: Product Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">
+            <h3 className="text-sm font-semibold  text-[var(--foreground)] tracking-wider uppercase">
               Product
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Features
                 </a>
@@ -68,7 +68,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Pricing
                 </a>
@@ -76,7 +76,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Integrations
                 </a>
@@ -84,7 +84,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101]  transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)]  transition-colors duration-200"
                 >
                   Security
                 </a>
@@ -92,7 +92,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Changelog
                 </a>
@@ -102,14 +102,14 @@ export default function Footer() {
 
           {/* Column 3: Resources Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">
+            <h3 className="text-sm font-semibold  text-[var(--foreground)] tracking-wider uppercase">
               Resources
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Blog
                 </a>
@@ -117,7 +117,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Help Center
                 </a>
@@ -125,7 +125,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
                 >
                   API Documentation
                 </a>
@@ -133,7 +133,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
                 >
                   System Status
                 </a>
@@ -141,7 +141,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   FAQ
                 </a>
@@ -151,14 +151,14 @@ export default function Footer() {
 
           {/* Column 4: Company Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">
+            <h3 className="text-sm font-semibold text-[var(--foreground)] tracking-wider uppercase">
               Company
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   About Us
                 </a>
@@ -166,7 +166,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Careers
                 </a>
@@ -174,7 +174,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Press
                 </a>
@@ -182,7 +182,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] dark:text-white transition-colors duration-200"
+                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Contact Us
                 </a>

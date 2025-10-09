@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import useTextReveal, { useRotateOnScroll } from "../hooks";
+import Link from "next/link";
 
 export default function Hero() {
   const textRevealRef = useRef<HTMLHeadingElement | null>(null);
@@ -55,15 +56,18 @@ export default function Hero() {
           muted
           autoPlay
         ></video>
-
-        <Image
-          ref={smileyStickerRef}
-          src="/images/10.png"
-          alt="smiley face"
-          width={200}
-          height={200}
+        <Link
+          href="#"
           className="absolute md:-top-[7%] md:-left-[8%] -top-[15%] -left-[15%] w-32 md:w-42 h-auto"
-        />
+        >
+          <Image
+            ref={smileyStickerRef}
+            src="/images/10.png"
+            alt="smiley face"
+            width={200}
+            height={200}
+          />
+        </Link>
       </div>
     </header>
   );
