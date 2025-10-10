@@ -20,11 +20,16 @@ export default function ProjectImage({ src }: Props) {
       className="overflow-hidden w-full aspect-11/6 rounded-2xl"
     >
       <video
-        playsInline={false}
-        controls={false}
-        autoPlay
-        muted
         loop
+        muted
+        autoPlay
+        controlsList="nofullscreen nodownload"
+        disablePictureInPicture
+        disableRemotePlayback
+        playsInline
+        poster=""
+        preload="metadata"
+        tabIndex={-1}
         ref={mediaRef}
         src={src}
         className="h-full scale-200 object-cover relative w-full"

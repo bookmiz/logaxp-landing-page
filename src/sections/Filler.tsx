@@ -21,13 +21,18 @@ export default function Filler() {
       >
         <div className="absolute  bg-gradient-to-t from-transparent from-0% to-100% z-20 to-[var(--background)] top-0 left-0 w-full h-full"></div>
         <video
-          playsInline={false}
-          controls={false}
           src="/videos/7.mp4"
           className="w-full scale-150 h-full object-cover"
-          autoPlay
-          muted
           loop
+          muted
+          autoPlay
+          controlsList="nofullscreen nodownload"
+          disablePictureInPicture
+          disableRemotePlayback
+          playsInline
+          poster=""
+          preload="metadata"
+          tabIndex={-1}
           ref={mediaRef}
         ></video>
         <div className="absolute  bg-gradient-to-b from-transparent from-0% to-100% z-20 to-[var(--background)] bottom-0 left-0 w-full h-full"></div>

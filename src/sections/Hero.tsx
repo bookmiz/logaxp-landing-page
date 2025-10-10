@@ -48,13 +48,18 @@ export default function Hero() {
       </section>
       <div ref={heroMediaRef} className="relative">
         <video
-          playsInline={false}
-          controls={false}
           className="rounded-3xl w-full md:aspect-video"
           src="/videos/2.mp4"
           loop
           muted
           autoPlay
+          controlsList="nofullscreen nodownload" 
+          disablePictureInPicture
+          disableRemotePlayback
+          playsInline
+          poster="" 
+          preload="metadata" 
+          tabIndex={-1}
         ></video>
         <Link
           href="/portal"
