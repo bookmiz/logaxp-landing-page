@@ -6,29 +6,15 @@ import { Geist } from "next/font/google";
 import CustomLenis, { BackToTop } from "../components";
 import { Navbar } from "../sections";
 import Cursor from "../components/Cursor";
+import ReactQueryProvider from "../providers/ReactQueryProvider"; // ✅ add this
 
 const mangoGrotesque = localFont({
   src: [
-    {
-      path: "../../public/fonts/mango/extrabold.woff2",
-      weight: "900",
-    },
-    {
-      path: "../../public/fonts/mango/regular.woff2",
-      weight: "400",
-    },
-    {
-      path: "../../public/fonts/mango/medium.woff2",
-      weight: "500",
-    },
-    {
-      path: "../../public/fonts/mango/semibold.woff2",
-      weight: "600",
-    },
-    {
-      path: "../../public/fonts/mango/light.woff2",
-      weight: "300",
-    },
+    { path: "../../public/fonts/mango/extrabold.woff2", weight: "900" },
+    { path: "../../public/fonts/mango/regular.woff2", weight: "400" },
+    { path: "../../public/fonts/mango/medium.woff2", weight: "500" },
+    { path: "../../public/fonts/mango/semibold.woff2", weight: "600" },
+    { path: "../../public/fonts/mango/light.woff2", weight: "300" },
   ],
   variable: "--font-mango",
 });
@@ -53,14 +39,17 @@ export default function RootLayout({
     <html lang="en">
       <body
         suppressHydrationWarning
-        className={`${mangoGrotesque.variable} ${geist.variable}  antialiased`}
+        className={`${mangoGrotesque.variable} ${geist.variable} antialiased`}
       >
-        <CustomLenis>
-          <Navbar />
-          {children}
-          <BackToTop />
-          <Cursor />
-        </CustomLenis>
+       
+        <ReactQueryProvider>
+          <CustomLenis>
+            <Navbar />
+            {children}
+            <BackToTop />
+            <Cursor />
+          </CustomLenis>
+        </ReactQueryProvider>
       </body>
     </html>
   );
