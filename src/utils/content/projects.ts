@@ -39,7 +39,7 @@ const projects = [
   {
     title: "LogaLuxe",
     description:
-      "Your Fix-It Hero, On Demand. ProFixer connects you instantly to trusted handymen for every job—plumbing leaks, electrical tweaks, or full renos. AI-matched pros, real-time quotes, and hassle-free booking make home fixes a breeze. No more DIY disasters.",
+      "Glam Up Your Schedule—Zero No-Shows, All Shine. LogaLuxe is the ultimate booking app for beauty pros: salons, stylists, spas, and beyond. AI alerts slash no-shows by 80%, seamless payments lock in clients, and one-tap discovery connects you to every service under the sun. Effortless, elegant, unstoppable.",
     categories: [],
     links: "",
     tags: ["LogaLuxeGlow", "BeautyBookingBoss", "NoShowSlayer", "ProBeautyHub"],
