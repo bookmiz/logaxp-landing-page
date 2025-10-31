@@ -13,7 +13,7 @@ export function useLogout() {
       await axios.post(`${API_URL}/auth/revoke`, { refreshToken });
     },
     onSuccess: () => {
-      // ✅ Clear everything when logged out
+      // Clear everything when logged out
       clearAuth();
     },
     onError: (error) => {
