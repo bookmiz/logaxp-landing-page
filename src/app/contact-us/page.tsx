@@ -24,14 +24,7 @@ export default function ContactUsPage() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] mb-24">
-      {/* Header */}
-      <header className="border-b border-gray-200 dark:border-gray-700 px-4 md:px-24 py-6">
-        <div className="container mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)] tracking-wide">
-            Contact Us
-          </h1>
-        </div>
-      </header>
+     
 
       <main className="container mx-auto px-4 md:px-24 py-12 md:py-16">
         {/* Hero Section */}
