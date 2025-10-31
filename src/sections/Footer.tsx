@@ -193,10 +193,27 @@ export default function Footer() {
 
         {/* Bottom Bar: Copyright and Social Links */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between">
-          <p className="text-sm text-center sm:text-left">
-            &copy; 2025 Loga<span className="text-[#89E101]">XP</span>, Inc. All
-            Rights Reserved.
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-center sm:text-left">
+              &copy; 2025 Loga<span className="text-[#89E101]">XP</span>, Inc. All
+              Rights Reserved.
+            </p>
+            <a
+              href="/admin/login"
+              className="opacity-30 hover:opacity-100 transition-opacity duration-300 flex items-center gap-1 text-sm"
+              title="System Login"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2V9h2v8z"/>
+              </svg>
+              Admin
+            </a>
+          </div>
           <div className="flex space-x-5 mt-4 sm:mt-0">
             {/* Social Icons */}
             <a

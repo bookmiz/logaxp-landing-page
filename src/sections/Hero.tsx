@@ -62,7 +62,7 @@ export default function Hero() {
           tabIndex={-1}
         ></video>
         <Link
-          href="/portal"
+          href=""
           className="absolute md:-top-[7%] md:-left-[8%] -top-[15%] -left-[15%] w-32 md:w-42 h-auto"
         >
           <Image

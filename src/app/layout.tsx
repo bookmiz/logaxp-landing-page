@@ -6,7 +6,7 @@ import { Geist } from "next/font/google";
 import CustomLenis, { BackToTop } from "../components";
 import { Navbar } from "../sections";
 import Cursor from "../components/Cursor";
-import ReactQueryProvider from "../providers/ReactQueryProvider"; // ✅ add this
+import ReactQueryProvider from "../providers/ReactQueryProvider"; 
 
 const mangoGrotesque = localFont({
   src: [
