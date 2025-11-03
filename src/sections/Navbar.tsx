@@ -44,15 +44,25 @@ export default function Navbar() {
 
   return (
     <nav className="w-full flex justify-between items-center px-8 md:px-24 py-4">
-     <Link href="/">
+         <Link href="/">
   <Image
-    src="/logo.png"
-    alt="LogaXp"
-    width={140}     
-    height={40}     
-    priority        
+    src="/logo-light.png"
+    alt="LogaXp logo"
+    width={140}
+    height={40}
+    priority
+    className="block dark:hidden" // shows only in light mode
+  />
+  <Image
+    src="/logo-dark.png"
+    alt="LogaXp logo"
+    width={140}
+    height={40}
+    priority
+    className="hidden dark:block" // shows only in dark mode
   />
 </Link>
+
 
       <div className="flex">
         <TextAlignJustifyIcon className="cursor-pointer" onClick={showNavbar} />

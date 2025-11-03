@@ -13,15 +13,25 @@ export default function Footer() {
           <div className="md:col-span-2 lg:col-span-1">
             <div className="flex items-center space-x-2">
               {/* SVG Logo */}
-                <Link href="/">
+      <Link href="/">
   <Image
-    src="/logo.png"
-    alt="LogaXp"
-    width={140}     
-    height={40}     
-    priority        
+    src="/logo-light.png"
+    alt="LogaXp logo"
+    width={140}
+    height={40}
+    priority
+    className="block dark:hidden" // shows only in light mode
+  />
+  <Image
+    src="/logo-dark.png"
+    alt="LogaXp logo"
+    width={140}
+    height={40}
+    priority
+    className="hidden dark:block" // shows only in dark mode
   />
 </Link>
+
             </div>
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               Experience elevated analytics and insights. Loga
@@ -136,7 +146,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-3">
               <li>
                 <a
-                  href="#"
+                  href="/about"
                   className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   About Us
@@ -166,6 +176,16 @@ export default function Footer() {
                   Contact Us
                 </a>
               </li>
+ <li>
+  <a
+              href="/admin/login"
+              className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
+            >
+              
+              Portal
+            </a>
+</li>
+
             </ul>
           </div>
         </div>
@@ -177,21 +197,7 @@ export default function Footer() {
               &copy; 2025 Loga<span className="text-[#89E101]">XP</span>, Inc. All
               Rights Reserved.
             </p>
-            <a
-              href="/admin/login"
-              className="opacity-30 hover:opacity-100 transition-opacity duration-300 flex items-center gap-1 text-sm"
-              title="System Login"
-            >
-              <svg
-                className="h-4 w-4"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2V9h2v8z"/>
-              </svg>
-              Admin
-            </a>
+          
           </div>
           <div className="flex space-x-5 mt-4 sm:mt-0">
             {/* Social Icons */}
