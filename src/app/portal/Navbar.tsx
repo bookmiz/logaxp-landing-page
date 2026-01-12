@@ -181,12 +181,21 @@ const Navbar = ({ activeLink, setActiveLink }: NavbarProps) => {
             active={activeLink === "Reports"}
             onClick={() => handleNavigation("/portal/reports", "Reports")}
           />
-          <SidebarLink
-            text="Settings"
-            icon={<CogIcon className="w-5 h-5" />}
-            active={activeLink === "Settings"}
-            onClick={() => handleNavigation("/portal/settings", "Settings")}
+            <SidebarLink
+            text="create-user"
+            icon={<DocumentReportIcon className="w-5 h-5" />}
+            active={activeLink === "create-user"}
+            onClick={() => handleNavigation("/portal/create-user", "create-user")}
           />
+          
+          <SidebarLink
+            text="usersList"
+            icon={<CogIcon className="w-5 h-5" />}
+            active={activeLink === "usersList"}
+            onClick={() => handleNavigation("/portal/usersList", "usersList")}
+          />
+
+
           <SidebarLink
             text="Help"
             icon={<QuestionMarkCircleIcon className="w-5 h-5" />}
