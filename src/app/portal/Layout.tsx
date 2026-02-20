@@ -14,8 +14,6 @@ type LayoutProps = {
 
 export default function Layout({
   children,
-  theme,
-  toggleTheme,
   activeLink,
   setActiveLink,
 }: LayoutProps) {
@@ -29,8 +27,8 @@ export default function Layout({
       {/* Header */}
       <div className="sticky top-0 z-50">
         <Header
-          theme={theme}
-          toggleTheme={toggleTheme}
+        
+         
           title={headerTitle}
           subtitle="Admin Console"
           onOpenSidebar={() => setSidebarOpen(true)}
