@@ -1,243 +1,351 @@
- "use client";
+"use client";
 
-import React from "react";
-import { useRouter } from "next/navigation";
+import React, { useMemo, useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { useAuthStore } from "../../store/useAuthStore";
 
- 
-export const ChartBarIcon = ({ className = "w-6 h-6" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-    />
-  </svg>
-);
-
-export const DocumentReportIcon = ({ className = "w-6 h-6" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-    />
-  </svg>
-);
-
-export const ViewGridIcon = ({ className = "w-6 h-6" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-    />
-  </svg>
-);
-
-export const CogIcon = ({ className = "w-6 h-6" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-    />
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-    />
-  </svg>
-);
-
-export const QuestionMarkCircleIcon = ({ className = "w-6 h-6" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-);
-
-// Sidebar Link Component
-type SidebarLinkProps = {
-  icon: React.ReactNode;
-  text: string;
-  active?: boolean;
-  onClick?: () => void;
+/* icons (keep yours) */
+const Icon = {
+  Dashboard: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M4 13h7V4H4v9zM13 20h7V11h-7v9zM13 4h7v5h-7V4zM4 16h7v4H4v-4z" />
+    </svg>
+  ),
+  Employees: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M16 11a4 4 0 10-8 0 4 4 0 008 0z" />
+      <path d="M4 20a8 8 0 0116 0" />
+    </svg>
+  ),
+  Recruitment: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M9 12l2 2 4-4" />
+      <path d="M7 20h10a2 2 0 002-2V7l-5-5H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+    </svg>
+  ),
+  Time: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v6l4 2" />
+    </svg>
+  ),
+  Payroll: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M7 7h10v10H7V7z" />
+      <path d="M9 3h6M9 21h6" />
+      <path d="M12 10v4" />
+      <path d="M10.5 12h3" />
+    </svg>
+  ),
+  Leave: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M7 3h10v6H7V3z" />
+      <path d="M6 9h12v12H6V9z" />
+      <path d="M9 13h6" />
+      <path d="M9 17h4" />
+    </svg>
+  ),
+  Performance: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M4 19h16" />
+      <path d="M7 15l3-3 3 2 4-6" />
+    </svg>
+  ),
+  Reports: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M9 17v-2m3 2v-4m3 4v-6" />
+      <path d="M7 21h10a2 2 0 002-2V7l-5-5H7a2 2 0 00-2 2v15a2 2 0 002 2z" />
+    </svg>
+  ),
+  Settings: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z" />
+      <path d="M19.4 15a7.8 7.8 0 00.1-1l2-1.2-2-3.4-2.3.6a8 8 0 00-1.7-1l-.3-2.4H11l-.3 2.4a8 8 0 00-1.7 1l-2.3-.6-2 3.4L6.7 14a7.8 7.8 0 00.1 1 7.8 7.8 0 00-.1 1l-2 1.2 2 3.4 2.3-.6a8 8 0 001.7 1l.3 2.4h4l.3-2.4a8 8 0 001.7-1l2.3.6 2-3.4-2-1.2a7.8 7.8 0 00-.1-1z" />
+    </svg>
+  ),
+  Logout: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M10 17l5-5-5-5" />
+      <path d="M15 12H3" />
+      <path d="M21 21V3" />
+    </svg>
+  ),
+  Collapse: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
+  ),
+  Expand: ({ className = "h-5 w-5" }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M9 18l6-6-6-6" />
+    </svg>
+  ),
 };
 
-const SidebarLink = ({ icon, text, active, onClick }: SidebarLinkProps) => (
-  <a
-    href="#"
-    onClick={(e) => {
-      e.preventDefault();
-      onClick?.();
-    }}
-    className={`flex items-center p-3 my-1 rounded-lg transition-colors duration-200 ${
-      active
-        ? "bg-indigo-600 text-white shadow-lg"
-        : "text-gray-400 hover:bg-gray-700 hover:text-white"
-    }`}
-  >
-    {icon}
-    <span className="mx-4 text-sm font-normal">{text}</span>
-  </a>
-);
-
-// Navbar Props
 type NavbarProps = {
   activeLink: string;
   setActiveLink: (link: string) => void;
+
+  /** desktop collapse */
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
+
+  /** mobile drawer */
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
+
+  /** optional: close drawer after nav */
+  onNavigate?: () => void;
 };
 
-const Navbar = ({ activeLink, setActiveLink }: NavbarProps) => {
-  const router = useRouter();
-  const { clearAuth } = useAuthStore();
+type NavItem = { name: string; path: string; icon: React.ReactNode };
 
-  const handleNavigation = (path: string, linkName: string) => {
-    setActiveLink(linkName);
-    router.push(path);
-  };
+function cx(...c: Array<string | false | null | undefined>) {
+  return c.filter(Boolean).join(" ");
+}
 
-  const handleLogout = () => {
-    clearAuth();
-    window.location.href = "/admin/login";
-  };
-
+function NavButton({
+  collapsed,
+  active,
+  icon,
+  label,
+  onClick,
+}: {
+  collapsed?: boolean;
+  active?: boolean;
+  icon: React.ReactNode;
+  label: string;
+  onClick?: () => void;
+}) {
   return (
-    <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-white dark:bg-gray-900 border-r rtl:border-r-0 rtl:border-l dark:border-gray-700">
-      <div className="flex items-center space-x-2">
-        <svg
-          className="h-8 w-8 text-indigo-500"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4ZM12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6Z"
-          />
-        </svg>
-        <span className="text-2xl font-bold text-gray-900 dark:text-white">
-          LogaXP
-        </span>
+    <button
+      type="button"
+      onClick={onClick}
+      className={cx(
+        "group w-full flex items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a3d900]/35",
+        active
+          ? "bg-[#a3d900] text-black shadow-[0_12px_28px_rgba(163,217,0,0.25)]"
+          : "text-white/70 hover:bg-white/5 hover:text-white"
+      )}
+    >
+      <span
+        className={cx(
+          "grid place-items-center h-10 w-10 rounded-2xl border transition",
+          active ? "bg-black/10 border-black/10" : "bg-white/[0.04] border-white/10 group-hover:bg-white/[0.07]"
+        )}
+      >
+        {icon}
+      </span>
+
+      {!collapsed && (
+        <span className="text-[13px] font-semibold tracking-wide">{label}</span>
+      )}
+    </button>
+  );
+}
+
+function SidebarShell({
+  children,
+  collapsed,
+}: {
+  children: React.ReactNode;
+  collapsed?: boolean;
+}) {
+  return (
+    <div
+      className={cx(
+        "h-full rounded-[28px] overflow-hidden relative",
+        "border border-white/10 bg-gradient-to-b from-[#070D16] via-[#060C14] to-[#050A12]",
+        "shadow-[0_24px_70px_rgba(0,0,0,0.45)]",
+        collapsed ? "w-[96px]" : "w-[292px]"
+      )}
+    >
+      {/* soft orbs, subtle */}
+      <div className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-[#a3d900]/8 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-[#a3d900]/6 blur-3xl" />
+      <div className="relative h-full flex flex-col">{children}</div>
+    </div>
+  );
+}
+
+export default function Navbar({
+  activeLink,
+  setActiveLink,
+  collapsed = false,
+  onToggleCollapse,
+  mobileOpen,
+  onMobileClose,
+  onNavigate,
+}: NavbarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { clearAuth, user } = useAuthStore();
+
+  const items = useMemo<NavItem[]>(
+    () => [
+      { name: "Dashboard", path: "/portal", icon: <Icon.Dashboard /> },
+      { name: "Employees", path: "/portal/employees", icon: <Icon.Employees /> },
+      { name: "Recruitment", path: "/portal/recruitment", icon: <Icon.Recruitment /> },
+      { name: "Time & Attendance", path: "/portal/time-attendance", icon: <Icon.Time /> },
+      { name: "Payroll", path: "/portal/payroll", icon: <Icon.Payroll /> },
+      { name: "Leave Requests", path: "/portal/leave-requests", icon: <Icon.Leave /> },
+      { name: "Performance", path: "/portal/performance", icon: <Icon.Performance /> },
+      { name: "Reports", path: "/portal/reports", icon: <Icon.Reports /> },
+      { name: "Settings", path: "/portal/settings", icon: <Icon.Settings /> },
+    ],
+    []
+  );
+
+  // keep activeLink in sync with route (optional)
+  useEffect(() => {
+    const seg = pathname.split("/")[2] ?? ""; // /portal/<seg>
+    const map: Record<string, string> = {
+      "": "Dashboard",
+      employees: "Employees",
+      recruitment: "Recruitment",
+      "time-attendance": "Time & Attendance",
+      payroll: "Payroll",
+      "leave-requests": "Leave Requests",
+      performance: "Performance",
+      reports: "Reports",
+      settings: "Settings",
+    };
+    const next = map[seg] ?? "Dashboard";
+    if (next && next !== activeLink) setActiveLink(next);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  const go = (path: string, name: string) => {
+    setActiveLink(name);
+    router.push(path);
+    onNavigate?.();
+    onMobileClose?.();
+  };
+
+  const logout = () => {
+    clearAuth();
+    onMobileClose?.();
+    router.push("/admin/login");
+  };
+
+  const initials =
+    user?.name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) || "LX";
+
+  const SidebarContent = (
+    <SidebarShell collapsed={collapsed}>
+      {/* Top brand row + collapse */}
+      <div className={cx("px-4 pt-5 pb-4", collapsed ? "px-3" : "px-5")}>
+        <div className="flex items-center gap-3">
+          <div className="h-11 w-11 rounded-2xl bg-[#a3d900] text-black grid place-items-center shadow-[0_14px_34px_rgba(163,217,0,0.22)]">
+            <span className="font-black text-lg">L</span>
+          </div>
+
+          {!collapsed && (
+            <div className="min-w-0">
+              <div className="text-white font-bold leading-tight text-lg">LogaXP</div>
+              <div className="text-[11px] text-white/55 leading-tight">HR Suite • Admin</div>
+            </div>
+          )}
+
+          {/* Collapse toggle (desktop) */}
+          {onToggleCollapse && (
+            <button
+              type="button"
+              onClick={onToggleCollapse}
+              className={cx(
+                "ml-auto h-10 w-10 rounded-2xl border border-white/10 bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.07] transition grid place-items-center",
+                collapsed && "ml-0"
+              )}
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              title={collapsed ? "Expand" : "Collapse"}
+            >
+              {collapsed ? <Icon.Expand /> : <Icon.Collapse />}
+            </button>
+          )}
+        </div>
+
+        <div className="mt-4 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>
 
-      <div className="flex flex-col justify-between flex-1 mt-8">
-        <nav className="-mx-3 space-y-1">
-          <SidebarLink
-            text="Dashboard"
-            icon={<ViewGridIcon className="w-5 h-5" />}
-            active={activeLink === "Dashboard"}
-            onClick={() => handleNavigation("/portal", "Dashboard")}
-          />
-          <SidebarLink
-            text="Analytics"
-            icon={<ChartBarIcon className="w-5 h-5" />}
-            active={activeLink === "Analytics"}
-            onClick={() => handleNavigation("/portal/analytics", "Analytics")}
-          />
-          <SidebarLink
-            text="Reports"
-            icon={<DocumentReportIcon className="w-5 h-5" />}
-            active={activeLink === "Reports"}
-            onClick={() => handleNavigation("/portal/reports", "Reports")}
-          />
-            <SidebarLink
-            text="create-user"
-            icon={<DocumentReportIcon className="w-5 h-5" />}
-            active={activeLink === "create-user"}
-            onClick={() => handleNavigation("/portal/create-user", "create-user")}
-          />
-          
-          <SidebarLink
-            text="usersList"
-            icon={<CogIcon className="w-5 h-5" />}
-            active={activeLink === "usersList"}
-            onClick={() => handleNavigation("/portal/usersList", "usersList")}
-          />
-
-
-          <SidebarLink
-            text="Help"
-            icon={<QuestionMarkCircleIcon className="w-5 h-5" />}
-            active={activeLink === "Help"}
-            onClick={() => handleNavigation("/portal/help", "Help")}
-          />
-        </nav>
-        <div className="mt-6">
-          <div className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <div className="flex items-center">
-              <img
-                className="object-cover w-8 h-8 rounded-full"
-                src="https://placehold.co/100x100/667eea/e0e7ff?text=OC"
-                alt="Avatar"
-              />
-              <span className="mx-2 font-semibold text-gray-800 dark:text-gray-200 text-sm">
-                Olivia Chen
-              </span>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white"
-              title="Logout"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
+      {/* Nav (scrollable inside sidebar) */}
+      <div className="flex-1 px-3 pb-3 overflow-y-auto no-scrollbar">
+        <div className="space-y-2">
+          {items.map((it) => (
+            <NavButton
+              key={it.name}
+              collapsed={collapsed}
+              label={it.name}
+              icon={it.icon}
+              active={activeLink === it.name}
+              onClick={() => go(it.path, it.name)}
+            />
+          ))}
         </div>
       </div>
-    </aside>
-  );
-};
 
-export default Navbar;
+      {/* Bottom user card */}
+      <div className={cx("p-4", collapsed ? "p-3" : "p-4")}>
+        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-3 flex items-center gap-3">
+          <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-[#a3d900]/20 to-transparent border border-white/10 grid place-items-center text-white font-bold">
+            {initials}
+          </div>
+
+          {!collapsed && (
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-bold text-white truncate">{user?.name || "Admin"}</div>
+              <div className="text-[11px] text-white/55 truncate">Administrator</div>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={logout}
+            className="h-11 w-11 rounded-2xl grid place-items-center border border-white/10 bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] transition"
+            aria-label="Logout"
+            title="Logout"
+          >
+            <Icon.Logout />
+          </button>
+        </div>
+      </div>
+    </SidebarShell>
+  );
+
+  // Desktop render (when used in md:block wrapper)
+  if (mobileOpen === undefined) {
+    return <aside className={cx("h-full p-4", collapsed ? "w-[120px]" : "w-[324px]")}>{SidebarContent}</aside>;
+  }
+
+  // Mobile drawer render
+  return (
+    <AnimatePresence>
+      {mobileOpen ? (
+        <>
+          {/* Overlay */}
+          <motion.button
+            type="button"
+            aria-label="Close sidebar"
+            className="fixed inset-0 z-[60] bg-black/50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onMobileClose}
+          />
+
+          {/* Drawer */}
+          <motion.div
+            className="fixed left-0 top-0 z-[70] h-dvh p-4"
+            initial={{ x: -320 }}
+            animate={{ x: 0 }}
+            exit={{ x: -320 }}
+            transition={{ type: "spring", stiffness: 320, damping: 30 }}
+          >
+            {SidebarContent}
+          </motion.div>
+        </>
+      ) : null}
+    </AnimatePresence>
+  );
+}

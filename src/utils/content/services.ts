@@ -1,9 +1,10 @@
 const services = [
+  
   {
-    title: "UI/UX Design",
+    title: "HR & People Operations",
     description:
-      "Crafting intuitive and engaging user interfaces that enhance user experience and drive engagement.",
-    icon: "/svg/6.svg",
+      "Employee records, workflows, approvals, performance reviews, and analytics — built for modern teams.",
+    icon: "/gifs/management.gif", // or swap to a proper svg later
   },
   {
     title: "Web Development",
@@ -23,11 +24,25 @@ const services = [
       "Developing robust e-commerce platforms that provide secure and efficient online shopping experiences.",
     icon: "/svg/9.svg",
   },
+
   {
     title: "DevOps",
+    description:
+      "CI/CD, cloud infrastructure, monitoring, automation, and reliable deployments for scalable products.",
+    icon: "/svg/devops.svg", // replace with your real asset
   },
   {
     title: "CyberSec",
+    description:
+      "Security engineering, hardening, monitoring, and compliance-first systems to protect your business.",
+    icon: "/svg/cybersec.svg", // replace with your real asset
   },
+  {
+    title: "UI/UX Design",
+    description:
+      "Crafting intuitive and engaging user interfaces that enhance user experience and drive engagement.",
+    icon: "/svg/6.svg",
+  }, 
 ];
+
 export default services;

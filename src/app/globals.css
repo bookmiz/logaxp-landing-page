@@ -7,9 +7,6 @@
   --foreground: #101720;
 }
 
-body {
-  scroll-behavior: smooth;
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -53,4 +50,22 @@ body {
   border-color: var(--foreground);
   box-sizing: border-box;
   overflow-x: hidden !important;
+  
+}
+
+
+/* Hide scrollbar but keep scroll */
+.no-scrollbar::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+/* Optional: prevent scrollbar "reserved space" on some browsers */
+.no-scrollbar {
+  scrollbar-gutter: auto;
 }
