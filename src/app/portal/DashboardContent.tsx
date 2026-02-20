@@ -320,9 +320,9 @@ export default function MainContent() {
               <svg viewBox="0 0 600 220" className="w-full h-full" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="rgba(59,130,246,0.22)" />
-                    <stop offset="100%" stopColor="rgba(59,130,246,0)" />
-                  </linearGradient>
+                  <stop offset="0%" stopColor="rgba(163,217,0,0.16)" />
+                  <stop offset="100%" stopColor="rgba(163,217,0,0)" />
+                </linearGradient>
                 </defs>
 
                 {/* grid */}
@@ -338,7 +338,7 @@ export default function MainContent() {
                 <path
                   d="M0,170 C60,150 90,120 140,130 C190,140 230,110 280,95 C330,80 380,120 430,105 C480,90 520,70 600,95"
                   fill="none"
-                  stroke="#3B82F6"
+                  stroke="#affc41"  
                   strokeWidth="3"
                   strokeLinecap="round"
                 />

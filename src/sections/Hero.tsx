@@ -19,33 +19,30 @@ export default function Hero() {
     >
       <section className="lg:max-w-4xl">
      <div className="flex md:items-center lg:px-18 flex-col gap-2">
-  <h1
-    data-cursor="-inverse"
-    ref={textRevealRef}
-    className="text-6xl mb-4 md:text-8xl overflow-hidden tracking-wide mango font-bold md:text-center"
-  >
-    Enterprise Grade{" "}
-    <span>
-      <Image
-        className="inline hero-gifs rounded-2xl md:rounded-3xl w-12 h-12 md:w-18 md:h-18"
-        width={100}
-        height={100}
-        alt="mini"
-        unoptimized
-        src={"/gifs/management.gif"}
-      />
-    </span>{" "}
-    Software Built on{" "}
-    <span className="block text-[#a3d900] opacity-100">Innovation</span>
-  </h1>
+        <h1
+          data-cursor="-inverse"
+          ref={textRevealRef}
+          className="text-6xl mb-4 md:text-8xl overflow-hidden tracking-wide mango font-bold md:text-center"
+        >
+          Enterprise Grade{" "}
+          <span>
+            <Image
+              className="inline hero-gifs rounded-2xl md:rounded-3xl w-12 h-12 md:w-18 md:h-18"
+              width={100}
+              height={100}
+              alt="mini"
+              unoptimized
+              src={"/gifs/management.gif"}
+            />
+          </span>{" "}
+          Software Built on{" "}
+          <span className="block text-[#a3d900] opacity-100">Innovation</span>
+        </h1>
 
-  <p className="md:text-lg opacity-80 geist font-normal md:text-center max-w-2xl">
-    From cybersecurity to operations tools, we ship SaaS products teams depend on every day.
-  </p>
-</div>
-
-
-
+        <p className="md:text-lg opacity-80 geist font-normal md:text-center max-w-2xl">
+          From cybersecurity to operations tools, we ship SaaS products teams depend on every day.
+        </p>
+      </div>
       </section>
       <div ref={heroMediaRef} className="relative">
         <video
