@@ -77,7 +77,7 @@ export default function Navbar() {
               <div className="flex items-center gap-3">
                 <Link
                   href="/contact"
-                  className="hidden md:inline-flex items-center gap-2 rounded-full text-sm bg-[#a3d900] px-3 py-2 font-bold text-black shadow-lg shadow-[#a3d900]/25 hover:shadow-[#a3d900]/40 hover:brightness-95 transition"
+                  className="hidden md:inline-flex items-center gap-2 rounded-full text-sm bg-[#a3d900] px-3 py-2 font-bold text-blue-950 shadow-lg shadow-[#a3d900]/25 hover:shadow-[#a3d900]/40 hover:brightness-95 transition"
                 >
                   Contact Sales
                   <span className="h-2 w-2 rounded-full bg-white" />
@@ -107,6 +107,59 @@ export default function Navbar() {
           onClick={hideNavbar}
           className="top-8 right-8 cursor-pointer absolute"
         />
+        {/* Featured product */}
+        <li className="mt-2">
+          <Link
+            href="/hr"
+            onClick={hideNavbar}
+            className="
+              group relative block overflow-hidden
+              rounded-3xl border border-black/10 dark:border-white/10
+              bg-white/70 dark:bg-white/5 backdrop-blur-xl
+              p-2
+              hover:bg-white/85 dark:hover:bg-white/10
+              transition
+            "
+          >
+            {/* soft glow */}
+            <div className="pointer-events-none absolute -inset-10 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(163,217,0,0.35),transparent_60%)]" />
+            </div>
+
+            <div className="relative flex items-center gap-4">
+              <div className="h-12 w-12 rounded-2xl bg-[#a3d900]/20 grid place-items-center border border-black/10 dark:border-white/10">
+                <Image
+                  src="/gifs/sparkle.gif"
+                  alt=""
+                  width={28}
+                  height={28}
+                  className="h-7 w-7"
+                  unoptimized
+                />
+              </div>
+
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <p className="mango text-2xl font-black leading-none">HR Suite</p>
+                  <span className="rounded-full bg-black/5 dark:bg-white/10 px-2.5 py-1 text-[11px] geist font-bold opacity-80">
+                    NEW
+                  </span>
+                </div>
+                <p className="geist text-sm opacity-75 mt-1">
+                  Hiring • Engagement • Performance — in one system
+                </p>
+              </div>
+
+              <span className="ml-auto geist text-sm font-bold opacity-60 group-hover:opacity-100 transition">
+                →
+              </span>
+            </div>
+          </Link>
+        </li>
+
+        {/* divider */}
+        <li className="h-px bg-black/10 dark:bg-white/10 my-2" />
+
 
         {links.map((link, index) => (
           <NavLink

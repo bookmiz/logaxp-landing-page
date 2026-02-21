@@ -186,8 +186,8 @@ export default function Navbar({
   const items = useMemo<NavItem[]>(
     () => [
       { name: "Dashboard", path: "/portal", icon: <Icon.Dashboard /> },
-      { name: "Employees", path: "/portal/employees", icon: <Icon.Employees /> },
-      { name: "Recruitment", path: "/portal/recruitment", icon: <Icon.Recruitment /> },
+      { name: "Employees", path: "/portal/usersList", icon: <Icon.Employees /> },
+      { name: "Recruitment", path: "/portal/create-user", icon: <Icon.Recruitment /> },
       { name: "Time & Attendance", path: "/portal/time-attendance", icon: <Icon.Time /> },
       { name: "Payroll", path: "/portal/payroll", icon: <Icon.Payroll /> },
       { name: "Leave Requests", path: "/portal/leave-requests", icon: <Icon.Leave /> },

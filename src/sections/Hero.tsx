@@ -15,38 +15,39 @@ export default function Hero() {
   return (
     <header
       id="home"
-      className="px-4 md:px-12 lg:px-24 pt-24 gap-18 flex flex-col items-center"
+      className="px-4 md:px-12 lg:px-24 pt-24 gap-18 flex flex-col items-center pb-10 md:pb-20"
     >
       <section className="lg:max-w-4xl">
-     <div className="flex md:items-center lg:px-18 flex-col gap-2">
-        <h1
-          data-cursor="-inverse"
-          ref={textRevealRef}
-          className="text-6xl mb-4 md:text-8xl overflow-hidden tracking-wide mango font-bold md:text-center"
-        >
-          Enterprise Grade{" "}
-          <span>
-            <Image
-              className="inline hero-gifs rounded-2xl md:rounded-3xl w-12 h-12 md:w-18 md:h-18"
-              width={100}
-              height={100}
-              alt="mini"
-              unoptimized
-              src={"/gifs/management.gif"}
-            />
-          </span>{" "}
-          Software Built on{" "}
-          <span className="block text-[#a3d900] opacity-100">Innovation</span>
-        </h1>
+        <div className="flex md:items-center lg:px-18 flex-col gap-2">
+            <h1
+              data-cursor="-inverse"
+              ref={textRevealRef}
+              className="text-6xl mb-4 md:text-8xl overflow-hidden tracking-wide mango font-bold md:text-center"
+            >
+              Enterprise Software{" "}
+              <span>
+                <Image
+                  className="inline hero-gifs rounded-2xl md:rounded-3xl w-12 h-12 md:w-18 md:h-18"
+                  width={100}
+                  height={100}
+                  alt="mini"
+                  unoptimized
+                  src={"/gifs/management.gif"}
+                />
+              </span>{" "}
+              Built to Power{" "}
+              <span className="block text-[#a3d900] opacity-100">People & Performance</span>
+            </h1>
 
-        <p className="md:text-lg opacity-80 geist font-normal md:text-center max-w-2xl">
-          From cybersecurity to operations tools, we ship SaaS products teams depend on every day.
-        </p>
-      </div>
+            <p className="md:text-lg opacity-80 geist font-normal md:text-center max-w-2xl">
+              Hiring, cybersecurity to operations tools, we ship SaaS products teams depend on every day.
+            </p>
+
+          </div>
       </section>
       <div ref={heroMediaRef} className="relative">
         <video
-          className="rounded-3xl w-full md:aspect-video"
+          className="rounded-4xl w-full md:aspect-video"
           src="/videos/2.mp4"
           loop
           muted
