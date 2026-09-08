@@ -205,18 +205,7 @@ export default function TenantManagementPanel() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-xl">
-            <Building2 className="h-5 w-5" />
-            Tenant Management
-          </CardTitle>
-          <CardDescription>
-            Create, manage, activate, suspend, and configure tenant organizations across the platform.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-0">
+      <div className="admin-page-heading"><div className="admin-kicker">Workspace / Organizations</div><h1>Tenants</h1><p className="mt-2 text-sm text-slate-500">Manage organizations and the people who work in them.</p></div><div>
           <TenantFiltersBar
             search={search}
             onSearchChange={setSearch}
@@ -227,10 +216,7 @@ export default function TenantManagementPanel() {
             onRefresh={() => void loadTenants()}
             onCreate={() => setCreateOpen(true)}
             loading={loading}
-          />
-        </CardContent>
-      </Card>
-
+          /></div>
       {/* Stats */}
       {initialLoading ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">

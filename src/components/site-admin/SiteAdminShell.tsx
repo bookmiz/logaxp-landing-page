@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import SiteAdminHeader from "./SiteAdminHeader";
 import SiteAdminSidebar from "./SiteAdminSidebar";
+import "./admin-console.css";
 
 type SiteAdminShellProps = {
   activeLink: string;
@@ -19,7 +20,7 @@ export default function SiteAdminShell({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-dvh bg-slate-50 text-slate-900 dark:bg-[#070b08] dark:text-white">
+    <div className="admin-console">
       {/* IMPORTANT: items-stretch ensures sidebar stretches with main content */}
       <div className="flex min-h-dvh items-stretch">
         {/* Desktop sidebar */}
@@ -48,10 +49,8 @@ export default function SiteAdminShell({
         <div className="flex-1 min-w-0 flex flex-col">
           <SiteAdminHeader onOpenSidebar={() => setMobileOpen(true)} />
 
-          <main className="flex-1 p-4 sm:p-6">
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/[0.03]">
-              <div className="p-4 sm:p-6">{children}</div>
-            </div>
+          <main id="admin-content" className="admin-content">
+            {children}
           </main>
         </div>
       </div>

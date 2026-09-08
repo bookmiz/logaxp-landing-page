@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   Activity,
   ArrowUpRight,
@@ -16,7 +15,6 @@ import {
   Mail,
   RefreshCw,
   Search,
-  ShieldCheck,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -171,7 +169,7 @@ function Panel({
   return (
     <div
       className={cx(
-        "rounded-[28px] border backdrop-blur-xl",
+        "rounded-xl border",
         "border-black/10 dark:border-white/10",
         "bg-white/80 dark:bg-white/[0.04]",
         "shadow-[0_14px_45px_-20px_rgba(0,0,0,0.20)] dark:shadow-[0_16px_50px_-18px_rgba(0,0,0,0.45)]",
@@ -207,39 +205,11 @@ function StatCard({
   meta?: string;
   icon: React.ReactNode;
 }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={cx(
-        "rounded-[28px] border p-4 sm:p-5",
-        "border-black/10 dark:border-white/10",
-        "bg-gradient-to-b from-white to-neutral-50/80 dark:from-white/[0.06] dark:to-white/[0.02]",
-        "shadow-[0_10px_35px_-18px_rgba(0,0,0,0.18)] dark:shadow-none",
-      )}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <div className="text-[11px] uppercase tracking-[0.14em] text-neutral-500 dark:text-white/50">
-            {label}
-          </div>
-          <div className="mt-2 text-2xl font-black text-neutral-900 dark:text-white sm:text-3xl">
-            {value}
-          </div>
-          {meta ? (
-            <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-black/10 bg-black/[0.03] px-2 py-0.5 text-[11px] font-semibold text-neutral-600 dark:border-white/10 dark:bg-white/[0.05] dark:text-white/65">
-              <ArrowUpRight className="h-3.5 w-3.5" />
-              {meta}
-            </div>
-          ) : null}
-        </div>
-
-        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-black/10 bg-black/[0.03] text-neutral-800 dark:border-white/10 dark:bg-white/[0.04] dark:text-white">
-          {icon}
-        </div>
-      </div>
-    </motion.div>
-  );
+  return <div className="admin-metric">
+    <div className="flex items-center justify-between gap-2"><span className="admin-metric-label">{label}</span><span className="admin-metric-icon">{icon}</span></div>
+    <div className="admin-metric-value">{value}</div>
+    {meta && <p className="admin-metric-meta">{meta}</p>}
+  </div>;
 }
 
 function Input({
@@ -258,11 +228,12 @@ function Input({
   return (
     <input
       type={type}
+      aria-label={placeholder || (type === "date" ? "Date filter" : "Filter")}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       className={cx(
-        "h-11 w-full rounded-2xl border px-3 text-sm outline-none transition",
+        "h-9 w-full rounded-2xl border px-3 text-sm outline-none transition",
         "border-black/10 bg-white/80 text-neutral-900 placeholder:text-neutral-400",
         "focus:border-black/20 focus:ring-2 focus:ring-black/5",
         "dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/35 dark:focus:border-white/20 dark:focus:ring-white/5",
@@ -286,9 +257,10 @@ function Select({
   return (
     <select
       value={value}
+      aria-label="Filter selection"
       onChange={(e) => onChange(e.target.value)}
       className={cx(
-        "h-11 w-full rounded-2xl border px-3 text-sm outline-none transition",
+        "h-9 w-full rounded-2xl border px-3 text-sm outline-none transition",
         "border-black/10 bg-white/80 text-neutral-900",
         "focus:border-black/20 focus:ring-2 focus:ring-black/5",
         "dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:focus:border-white/20 dark:focus:ring-white/5",
@@ -312,7 +284,7 @@ function EmptyState({
   subtitle?: string;
 }) {
   return (
-    <div className="rounded-3xl border border-dashed border-black/10 px-4 py-10 text-center dark:border-white/10">
+    <div className="rounded-3xl border border-dashed border-black/10 px-4 py-6 text-center dark:border-white/10">
       <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl border border-black/10 bg-black/[0.03] text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70">
         <Sparkles className="h-5 w-5" />
       </div>
@@ -576,23 +548,20 @@ export default function SiteAdminDashboardContent() {
 
   return (
     <div className="space-y-5">
-      <div className="rounded-[32px] border border-black/10 bg-white/80 p-4 shadow-[0_18px_60px_-25px_rgba(0,0,0,0.20)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.04] dark:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.45)] sm:p-5">
+      {[overviewQuery, growthQuery, tenantHealthQuery, recentActivityQuery, auditQuery].some(query => query.isError) && <p role="alert" className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">Some platform data could not be loaded. Refresh to try again; previously loaded data may still be shown.</p>}
+      <div className="admin-page-heading">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/60">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Site Admin Analytics
-            </div>
-            <h1 className="mt-3 text-2xl font-black tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
-              Platform Command Dashboard
+            <div className="admin-kicker">Your platform at a glance</div>
+            <h1 className="mt-3 text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+              Overview
             </h1>
             <p className="mt-2 max-w-3xl text-sm text-neutral-600 dark:text-white/55">
-              Live visibility into tenant growth, platform activity, invitation
-              flow, audit events, and showcase footprint.
+              Keep track of your tenants, people and daily operations.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-4 xl:w-auto">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:max-w-[540px]">
             <Input type="date" value={from} onChange={setFrom} />
             <Input type="date" value={to} onChange={setTo} />
             <Select
@@ -609,7 +578,7 @@ export default function SiteAdminDashboardContent() {
             <button
               type="button"
               onClick={refreshAll}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-black/10 bg-neutral-900 px-4 text-sm font-semibold text-white transition hover:opacity-90 dark:border-white/10 dark:bg-white dark:text-neutral-900"
+              className="inline-flex h-9 items-center justify-center gap-2 rounded-2xl border border-black/10 bg-neutral-900 px-4 text-sm font-semibold text-white transition hover:opacity-90 dark:border-white/10 dark:bg-white dark:text-neutral-900"
             >
               <RefreshCw
                 className={cx("h-4 w-4", isRefreshing && "animate-spin")}
@@ -620,7 +589,7 @@ export default function SiteAdminDashboardContent() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-6">
+      {overviewQuery.isPending ? <div role="status"><SkeletonRows rows={2} /><span className="sr-only">Loading platform metrics</span></div> : overviewQuery.isError && !overview ? <p className="text-sm text-slate-500">Platform metrics are unavailable.</p> : <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <StatCard
           label="Active Tenants"
           value={formatNumber(overview?.tenants.active)}
@@ -661,15 +630,16 @@ export default function SiteAdminDashboardContent() {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-5 2xl:grid-cols-12">
-        <div className="space-y-5 2xl:col-span-8">
+      }
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-12">
+        <div className="space-y-5 xl:col-span-8">
           <Panel
             title="Growth Trends"
             subtitle={`Grouped by ${groupBy}`}
             right={
               <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-[11px] font-semibold text-neutral-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/60">
                 <BarChart3 className="h-3.5 w-3.5" />
-                Live endpoint
+                Growth over time
               </div>
             }
           >
@@ -835,7 +805,7 @@ export default function SiteAdminDashboardContent() {
 
           <Panel
             title="Audit Console"
-            subtitle="Latest audit log records from the live audit endpoint"
+            subtitle="Review recent changes and administrative actions"
             right={
               <div className="flex flex-wrap items-center gap-2">
                 <div className="relative min-w-[220px]">
@@ -958,10 +928,10 @@ export default function SiteAdminDashboardContent() {
           </Panel>
         </div>
 
-        <div className="space-y-5 2xl:col-span-4">
+        <div className="space-y-5 xl:col-span-4">
           <Panel
             title="Live Activity Feed"
-            subtitle="Combined stream from recent activity endpoints"
+            subtitle="Latest changes across your platform"
             right={
               <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-[11px] font-semibold text-neutral-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/60">
                 <CalendarDays className="h-3.5 w-3.5" />
@@ -974,7 +944,7 @@ export default function SiteAdminDashboardContent() {
             ) : !feedItems.length ? (
               <EmptyState
                 title="No recent activity yet"
-                subtitle="This panel will populate from recent audits, users, tenants, and invitations."
+                subtitle="New account and workspace activity will appear here."
               />
             ) : (
               <div className="space-y-3">
@@ -1007,7 +977,7 @@ export default function SiteAdminDashboardContent() {
 
           <Panel
             title="Platform Snapshot"
-            subtitle="Operational ratios based on overview data"
+            subtitle="A closer look at your platform"
           >
             <div className="space-y-3">
               <div className="rounded-3xl border border-black/10 bg-white/60 p-4 dark:border-white/10 dark:bg-white/[0.03]">
@@ -1016,7 +986,7 @@ export default function SiteAdminDashboardContent() {
                     <div className="text-[11px] uppercase tracking-[0.12em] text-neutral-500 dark:text-white/45">
                       Pending Invitations
                     </div>
-                    <div className="mt-2 text-2xl font-black text-neutral-900 dark:text-white">
+                    <div className="mt-2 text-2xl font-semibold text-neutral-900 dark:text-white">
                       {formatNumber(overview?.invitations.pending)}
                     </div>
                   </div>
@@ -1030,7 +1000,7 @@ export default function SiteAdminDashboardContent() {
                     <div className="text-[11px] uppercase tracking-[0.12em] text-neutral-500 dark:text-white/45">
                       Suspended Tenants
                     </div>
-                    <div className="mt-2 text-2xl font-black text-neutral-900 dark:text-white">
+                    <div className="mt-2 text-2xl font-semibold text-neutral-900 dark:text-white">
                       {formatNumber(overview?.tenants.suspended)}
                     </div>
                   </div>
@@ -1044,7 +1014,7 @@ export default function SiteAdminDashboardContent() {
                     <div className="text-[11px] uppercase tracking-[0.12em] text-neutral-500 dark:text-white/45">
                       Disabled Users
                     </div>
-                    <div className="mt-2 text-2xl font-black text-neutral-900 dark:text-white">
+                    <div className="mt-2 text-2xl font-semibold text-neutral-900 dark:text-white">
                       {formatNumber(overview?.users.disabled)}
                     </div>
                   </div>
@@ -1058,7 +1028,7 @@ export default function SiteAdminDashboardContent() {
                     <div className="text-[11px] uppercase tracking-[0.12em] text-neutral-500 dark:text-white/45">
                       Onboarding Employees
                     </div>
-                    <div className="mt-2 text-2xl font-black text-neutral-900 dark:text-white">
+                    <div className="mt-2 text-2xl font-semibold text-neutral-900 dark:text-white">
                       {formatNumber(overview?.employees.onboarding)}
                     </div>
                   </div>
@@ -1068,7 +1038,7 @@ export default function SiteAdminDashboardContent() {
             </div>
           </Panel>
 
-          <Panel title="Quick Access" subtitle="Jump directly into key admin surfaces">
+          <Panel title="Quick Access" subtitle="Shortcuts to your everyday work">
             <div className="grid grid-cols-1 gap-2">
               {[
                 {

@@ -10,7 +10,7 @@ export default async function SiteAdminUserDetailsPage({ params }: PageProps) {
   const { userId } = await params;
 
   return (
-    <div className="p-4 sm:p-6 xl:p-8">
+    <div className="">
       <SiteAdminUsersWorkspace initialSelectedUserId={userId} />
     </div>
   );

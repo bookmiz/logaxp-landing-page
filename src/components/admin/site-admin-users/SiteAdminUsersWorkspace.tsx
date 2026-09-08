@@ -218,13 +218,13 @@ function StatCard({
   meta?: string;
 }) {
   return (
-    <div className="rounded-[24px] border border-black/10 bg-gradient-to-b from-white to-neutral-50/80 p-4 shadow-[0_14px_35px_-20px_rgba(0,0,0,0.18)] dark:border-white/10 dark:from-white/[0.05] dark:to-white/[0.02] dark:shadow-none">
+    <div className="rounded-xl border border-black/10 bg-gradient-to-b from-white to-neutral-50/80 p-4 shadow-[0_14px_35px_-20px_rgba(0,0,0,0.18)] dark:border-white/10 dark:from-white/[0.05] dark:to-white/[0.02] dark:shadow-none">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-[11px] uppercase tracking-[0.14em] text-neutral-500 dark:text-white/45">
             {label}
           </div>
-          <div className="mt-2 text-2xl font-black text-neutral-900 dark:text-white">
+          <div className="mt-2 text-2xl font-semibold text-neutral-900 dark:text-white">
             {value}
           </div>
           {meta ? (
@@ -233,7 +233,7 @@ function StatCard({
             </div>
           ) : null}
         </div>
-        <div className="grid h-11 w-11 place-items-center rounded-2xl border border-black/10 bg-black/[0.04] text-neutral-800 dark:border-white/10 dark:bg-white/[0.05] dark:text-white">
+        <div className="grid h-9 w-11 place-items-center rounded-2xl border border-black/10 bg-black/[0.04] text-neutral-800 dark:border-white/10 dark:bg-white/[0.05] dark:text-white">
           {icon}
         </div>
       </div>
@@ -258,7 +258,7 @@ function TextInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       className={cx(
-        "h-11 w-full rounded-2xl border border-black/10 bg-white px-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-black/20 focus:ring-2 focus:ring-black/5 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/30 dark:focus:border-white/20 dark:focus:ring-white/5",
+        "h-9 w-full rounded-2xl border border-black/10 bg-white px-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-black/20 focus:ring-2 focus:ring-black/5 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/30 dark:focus:border-white/20 dark:focus:ring-white/5",
         className,
       )}
     />
@@ -281,7 +281,7 @@ function SelectInput({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className={cx(
-        "h-11 w-full rounded-2xl border border-black/10 bg-white px-3 text-sm outline-none transition focus:border-black/20 focus:ring-2 focus:ring-black/5 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:focus:border-white/20 dark:focus:ring-white/5",
+        "h-9 w-full rounded-2xl border border-black/10 bg-white px-3 text-sm outline-none transition focus:border-black/20 focus:ring-2 focus:ring-black/5 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:focus:border-white/20 dark:focus:ring-white/5",
         className,
       )}
     >
@@ -357,7 +357,7 @@ function EmptyState({
   subtitle?: string;
 }) {
   return (
-    <div className="rounded-[24px] border border-dashed border-black/10 px-4 py-10 text-center dark:border-white/10">
+    <div className="rounded-xl border border-dashed border-black/10 px-4 py-10 text-center dark:border-white/10">
       <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl border border-black/10 bg-black/[0.04] dark:border-white/10 dark:bg-white/[0.05]">
         <Users className="h-5 w-5 text-neutral-700 dark:text-white/65" />
       </div>
@@ -415,7 +415,7 @@ function Drawer({
             <div className="flex h-full flex-col">
               <div className="flex items-start justify-between gap-3 border-b border-black/10 px-5 py-4 dark:border-white/10">
                 <div>
-                  <h2 className="text-lg font-black text-neutral-900 dark:text-white">
+                  <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">
                     {title}
                   </h2>
                   {subtitle ? (
@@ -479,7 +479,7 @@ function Modal({
           >
             <div className="flex items-start justify-between gap-3 border-b border-black/10 px-5 py-4 dark:border-white/10">
               <div>
-                <h3 className="text-lg font-black text-neutral-900 dark:text-white">
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
                   {title}
                 </h3>
                 {subtitle ? (
@@ -508,7 +508,7 @@ function Modal({
 
 function LoadingBlock({ label = "Loading..." }: { label?: string }) {
   return (
-    <div className="flex items-center justify-center gap-2 rounded-[24px] border border-black/10 bg-black/[0.02] px-4 py-10 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/[0.03] dark:text-white/60">
+    <div className="flex items-center justify-center gap-2 rounded-xl border border-black/10 bg-black/[0.02] px-4 py-10 text-sm text-neutral-600 dark:border-white/10 dark:bg-white/[0.03] dark:text-white/60">
       <Loader2 className="h-4 w-4 animate-spin" />
       {label}
     </div>
@@ -801,21 +801,19 @@ export default function SiteAdminUsersWorkspace({
 
   return (
     <div className="space-y-5">
-      <section className="rounded-[32px] border border-black/10 bg-white/80 p-5 shadow-[0_18px_60px_-22px_rgba(0,0,0,0.18)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.04] dark:shadow-[0_18px_60px_-22px_rgba(0,0,0,0.45)]">
+      <section className="admin-page-heading">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-600 dark:border-white/10 dark:bg-white/[0.05] dark:text-white/55">
               <Shield className="h-3.5 w-3.5" />
-              Site Admin • User Control Center
+              Accounts & access
             </div>
 
-            <h1 className="mt-3 text-2xl font-black tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
-              User Administration Workspace
+            <h1 className="mt-3 text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+              People
             </h1>
             <p className="mt-2 max-w-3xl text-sm text-neutral-600 dark:text-white/55">
-              Control account lifecycle, active sessions, verification tokens,
-              security activity, and password recovery operations from one
-              enterprise-grade console.
+              Manage accounts, access and recovery across your platform.
             </p>
           </div>
 
@@ -831,7 +829,7 @@ export default function SiteAdminUsersWorkspace({
                   void selectedUserVerificationTokensQuery.refetch();
                 }
               }}
-              className="inline-flex h-11 items-center gap-2 rounded-2xl border border-black/10 bg-neutral-900 px-4 text-sm font-semibold text-white transition hover:opacity-90 dark:border-white/10 dark:bg-white dark:text-neutral-900"
+              className="inline-flex h-9 items-center gap-2 rounded-2xl border border-black/10 bg-neutral-900 px-4 text-sm font-semibold text-white transition hover:opacity-90 dark:border-white/10 dark:bg-white dark:text-neutral-900"
             >
               <RefreshCcw className="h-4 w-4" />
               Refresh
@@ -843,7 +841,7 @@ export default function SiteAdminUsersWorkspace({
       {feedback ? (
         <div
           className={cx(
-            "rounded-[24px] border px-4 py-3 text-sm",
+            "rounded-xl border px-4 py-3 text-sm",
             feedback.type === "success"
               ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300"
               : "border-rose-500/20 bg-rose-500/10 text-rose-800 dark:text-rose-300",
@@ -1018,7 +1016,7 @@ export default function SiteAdminUsersWorkspace({
             ]}
           />
 
-          <label className="inline-flex h-11 items-center gap-3 rounded-2xl border border-black/10 bg-white px-3 text-sm font-medium text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70">
+          <label className="inline-flex h-9 items-center gap-3 rounded-2xl border border-black/10 bg-white px-3 text-sm font-medium text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70">
             <input
               type="checkbox"
               checked={includeDeleted}
@@ -1045,7 +1043,7 @@ export default function SiteAdminUsersWorkspace({
               setTenantIdFilter("");
               setPage(1);
             }}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-black/10 bg-white px-4 text-sm font-semibold text-neutral-800 dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
+            className="inline-flex h-9 items-center justify-center gap-2 rounded-2xl border border-black/10 bg-white px-4 text-sm font-semibold text-neutral-800 dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
           >
             <Filter className="h-4 w-4" />
             Reset Filters
@@ -1583,7 +1581,7 @@ export default function SiteAdminUsersWorkspace({
                     ]}
                     className="min-w-[180px]"
                   />
-                  <label className="inline-flex h-11 items-center gap-2 rounded-2xl border border-black/10 bg-white px-3 text-sm font-medium text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70">
+                  <label className="inline-flex h-9 items-center gap-2 rounded-2xl border border-black/10 bg-white px-3 text-sm font-medium text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70">
                     <input
                       type="checkbox"
                       checked={verificationActiveOnly}
@@ -1672,8 +1670,8 @@ export default function SiteAdminUsersWorkspace({
           <EmptyState title="No user selected" />
         ) : (
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-black/10 bg-white/80 p-4 dark:border-white/10 dark:bg-white/[0.03]">
-              <label className="inline-flex h-11 items-center gap-3 rounded-2xl border border-black/10 bg-white px-3 text-sm font-medium text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70">
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-black/10 bg-white/80 p-4 dark:border-white/10 dark:bg-white/[0.03]">
+              <label className="inline-flex h-9 items-center gap-3 rounded-2xl border border-black/10 bg-white px-3 text-sm font-medium text-neutral-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70">
                 <input
                   type="checkbox"
                   checked={activeSessionsOnly}
@@ -1697,7 +1695,7 @@ export default function SiteAdminUsersWorkspace({
                       "All user sessions revoked successfully.",
                     )
                   }
-                  className="inline-flex h-11 items-center gap-2 rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 text-sm font-semibold text-rose-700 dark:text-rose-300"
+                  className="inline-flex h-9 items-center gap-2 rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 text-sm font-semibold text-rose-700 dark:text-rose-300"
                 >
                   <AlertTriangle className="h-4 w-4" />
                   Revoke All Sessions
@@ -1718,7 +1716,7 @@ export default function SiteAdminUsersWorkspace({
                   {selectedUserSessionsQuery.data.items.map((session: RefreshTokenLite) => (
                     <div
                       key={session.id}
-                      className="rounded-[24px] border border-black/10 bg-white/80 p-4 dark:border-white/10 dark:bg-white/[0.03]"
+                      className="rounded-xl border border-black/10 bg-white/80 p-4 dark:border-white/10 dark:bg-white/[0.03]"
                     >
                       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                         <div className="min-w-0">
@@ -1807,7 +1805,7 @@ export default function SiteAdminUsersWorkspace({
           <EmptyState title="No user selected" />
         ) : (
           <div className="space-y-4">
-            <div className="rounded-[24px] border border-black/10 bg-black/[0.02] p-4 dark:border-white/10 dark:bg-white/[0.03]">
+            <div className="rounded-xl border border-black/10 bg-black/[0.02] p-4 dark:border-white/10 dark:bg-white/[0.03]">
               <div className="text-sm font-semibold text-neutral-900 dark:text-white">
                 Target user
               </div>
@@ -1887,7 +1885,7 @@ export default function SiteAdminUsersWorkspace({
               <button
                 type="button"
                 onClick={() => setPasswordModalOpen(false)}
-                className="inline-flex h-11 items-center gap-2 rounded-2xl border border-black/10 bg-white px-4 text-sm font-semibold text-neutral-800 dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
+                className="inline-flex h-9 items-center gap-2 rounded-2xl border border-black/10 bg-white px-4 text-sm font-semibold text-neutral-800 dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
               >
                 Cancel
               </button>
@@ -1915,7 +1913,7 @@ export default function SiteAdminUsersWorkspace({
                     "Password issue resolved successfully.",
                   )
                 }
-                className="inline-flex h-11 items-center gap-2 rounded-2xl border border-black/10 bg-neutral-900 px-4 text-sm font-semibold text-white dark:border-white/10 dark:bg-white dark:text-neutral-900"
+                className="inline-flex h-9 items-center gap-2 rounded-2xl border border-black/10 bg-neutral-900 px-4 text-sm font-semibold text-white dark:border-white/10 dark:bg-white dark:text-neutral-900"
               >
                 {resolvePasswordMutation.isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

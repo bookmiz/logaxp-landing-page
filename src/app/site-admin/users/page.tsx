@@ -2,7 +2,7 @@ import SiteAdminUsersWorkspace from "@/logaxp/components/admin/site-admin-users/
 
 export default function SiteAdminUsersPage() {
   return (
-    <div className="p-4 sm:p-6 xl:p-8">
+    <div className="">
       <SiteAdminUsersWorkspace />
     </div>
   );

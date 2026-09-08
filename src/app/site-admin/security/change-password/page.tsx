@@ -6,9 +6,9 @@ export default function SiteAdminChangePasswordRoute() {
       areaLabel="Site Admin"
       title="Change Password"
       subtitle="Update your site admin password to secure platform-level access."
-      backHref="/site-admin/settings/security"
-      cancelHref="/site-admin/settings/security"
-      successRedirectHref="/site-admin/settings/security"
+      backHref="/site-admin/security"
+      cancelHref="/site-admin/security"
+      successRedirectHref="/site-admin/security"
     />
   );
 }

@@ -43,13 +43,13 @@ export default function SecurityPage() {
     <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-white via-neutral-50 to-lime-50/40 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950 p-4 sm:p-6">
       <div className="mx-auto max-w-5xl">
         {/* Header */}
-        <div className="mb-6 rounded-3xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur p-5 sm:p-6 shadow-sm">
+        <div className="admin-page-heading">
           <div className="flex items-start gap-3">
             <div className="rounded-2xl bg-[#a3d900]/15 p-2.5">
               <Lock className="h-5 w-5 text-[#88b800]" />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-neutral-900 dark:text-white">
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white">
                 Security Settings
               </h1>
               <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300">

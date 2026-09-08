@@ -2,9 +2,12 @@
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ArrowUp } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 gsap.registerPlugin(ScrollToPlugin);
 export default function BackToTop() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/site-admin")) return null;
   return (
     <button
       type="button"

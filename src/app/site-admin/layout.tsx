@@ -77,7 +77,7 @@ export default function SiteAdminLayout({
     }
   }, [isHydrated, accessToken, isSiteAdmin, router]);
 
-  if (!isHydrated) return null;
+  if (!isHydrated) return <div role="status" className="grid min-h-dvh place-items-center bg-[#f5f7f6] text-sm text-[#53675b]">Loading your admin console…</div>;
   if (!accessToken) return null;
   if (!isSiteAdmin) return null;
 

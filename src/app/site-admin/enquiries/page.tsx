@@ -1,8 +1,19 @@
 "use client";
-import { useQuery } from '@tanstack/react-query';
-import { api } from '@/logaxp/lib/api/apiClient';
-type Enquiry={id:string;name:string;email:string;company:string;teamSize:string;interest:string;message:string;createdAt:string};
-export default function Enquiries(){
- const query=useQuery({queryKey:['sales-enquiries'],queryFn:async()=>(await api.get<Enquiry[]>('/sales-enquiries')).data});
- return <main className="p-6"><h1 className="text-3xl font-bold">Sales enquiries</h1><p className="my-3">Latest 100 website enquiries. Contact details are visible only to site administrators.</p><button onClick={()=>query.refetch()} className="rounded border px-4 py-2">Refresh inbox</button>{query.isPending?<p role="status">Loading enquiries…</p>:query.isError?<p role="alert">Could not load enquiries. Please retry.</p>:query.data?.length?query.data.map(e=><article key={e.id} className="my-4 rounded-xl border p-5"><h2 className="text-xl font-bold">{e.company} — {e.interest}</h2><p>{e.name} · <a className="underline" href={`mailto:${e.email}`}>{e.email}</a> · {e.teamSize}</p><time>{new Date(e.createdAt).toLocaleString()}</time><p className="mt-3 whitespace-pre-wrap">{e.message}</p></article>):<p className="my-5">No enquiries yet.</p>}</main>;
+import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Inbox, Search, RefreshCw, ArrowUpRight, Building2 } from "lucide-react";
+import { api } from "@/logaxp/lib/api/apiClient";
+type Enquiry = { id: string; name: string; email: string; company: string; teamSize: string; interest: string; message: string; createdAt: string };
+export default function Enquiries() {
+ const [search, setSearch] = useState("");
+ const query = useQuery({queryKey:["sales-enquiries"],queryFn:async()=>(await api.get<Enquiry[]>("/sales-enquiries")).data});
+ const enquiries = useMemo(() => (query.data || []).filter(e => [e.name,e.email,e.company,e.interest,e.message].join(" ").toLowerCase().includes(search.toLowerCase())), [query.data,search]);
+ return <div className="space-y-5">
+  <div className="admin-page-heading flex flex-wrap items-end justify-between gap-4"><div><div className="admin-kicker">Website / Conversations</div><h1>Sales enquiries</h1><p className="mt-2 text-sm text-slate-500">Your next customer conversation starts here.</p></div><button onClick={()=>query.refetch()} disabled={query.isFetching} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs dark:bg-white/5"><RefreshCw size={14} className={query.isFetching?"animate-spin":""}/>Refresh inbox</button></div>
+  <div className="flex flex-wrap items-center justify-between gap-3"><p className="text-xs text-slate-500">{query.data?.length ?? 0} {query.data?.length === 1 ? "enquiry" : "enquiries"} · latest 100 submissions</p><label className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 dark:bg-white/5"><Search size={15}/><input aria-label="Search enquiries" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search conversations…" className="h-9 border-0 bg-transparent outline-none"/></label></div>
+  {query.isPending?<p role="status" className="rounded-xl border border-slate-200 bg-white p-8 text-sm">Loading enquiries…</p>:query.isError?<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-5 text-red-800">Could not load enquiries. Use Refresh inbox to try again.</div>:enquiries.length?<div className="grid gap-4 lg:grid-cols-2">{enquiries.map(e=><article key={e.id} className="rounded-xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-white/5">
+   <div className="flex items-start justify-between gap-3"><div className="flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-lg bg-[#edf3e8] text-[#4f7144]"><Building2 size={17}/></span><div><h2 className="text-sm font-semibold">{e.company}</h2><p className="text-xs text-slate-500">{e.name} · {e.teamSize} people</p></div></div><time className="text-[11px] text-slate-400" dateTime={e.createdAt}>{new Date(e.createdAt).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}</time></div>
+   <span className="mt-4 inline-block rounded bg-slate-100 px-2 py-1 text-[10px] font-medium text-slate-600">{e.interest}</span><p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-slate-600 dark:text-slate-300">{e.message}</p><a className="mt-5 flex items-center justify-between gap-2 border-t border-slate-100 pt-3 text-xs font-medium" href={`mailto:${e.email}`}><span className="truncate">{e.email}</span><ArrowUpRight size={15}/></a>
+  </article>)}</div>:<div className="rounded-xl border border-slate-200 bg-white px-6 py-16 text-center dark:border-white/10 dark:bg-white/5"><Inbox size={28} className="mx-auto text-[#8ca17e]"/><h2 className="mt-4 text-base font-semibold">{search?"No matching enquiries":"A quiet inbox, for now"}</h2><p className="mt-2 text-sm text-slate-500">{search?"Try a different name, company or keyword.":"Website contact submissions will appear here, ready for your team to follow up."}</p></div>}
+ </div>;
 }

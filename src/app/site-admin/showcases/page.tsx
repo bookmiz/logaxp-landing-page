@@ -240,7 +240,7 @@ function SectionTitle({
   right?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div className="admin-page-heading flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">
           {title}
@@ -1514,8 +1514,8 @@ export default function SiteAdminShowcasePage() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        title="Showcase Manager"
-        subtitle="Create, publish, archive, tag, categorize, and manage media for all public-facing showcase projects."
+        title="Publishing"
+        subtitle="Manage articles, product stories and the media that brings them to life."
         right={
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" onClick={() => listQ.refetch()} disabled={busy}>

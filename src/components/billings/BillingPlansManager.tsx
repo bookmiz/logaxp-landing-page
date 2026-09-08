@@ -125,9 +125,9 @@ export function BillingPlansManager() {
   };
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-5 pb-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+      <div className="admin-page-heading flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-1.5">
             <div className="rounded-lg bg-primary/10 p-2 text-primary">
