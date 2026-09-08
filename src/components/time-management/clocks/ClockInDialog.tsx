@@ -16,7 +16,13 @@ type Props = {
   onClockIn: (dto: ClockInDto) => void | Promise<void>;
 };
 
-export function ClockInDialog({ open, onOpenChange, defaultEmployeeId, busy, onClockIn }: Props) {
+export function ClockInDialog({
+  open,
+  onOpenChange,
+  defaultEmployeeId,
+  busy,
+  onClockIn,
+}: Props) {
   const [employeeId, setEmployeeId] = React.useState(defaultEmployeeId ?? "");
   const [locationId, setLocationId] = React.useState("");
   const [notes, setNotes] = React.useState("");
@@ -58,7 +64,11 @@ export function ClockInDialog({ open, onOpenChange, defaultEmployeeId, busy, onC
       widthClassName="max-w-2xl"
       footer={
         <>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={busy}
+          >
             Cancel
           </Button>
           <Button onClick={submit} disabled={busy}>
@@ -75,7 +85,7 @@ export function ClockInDialog({ open, onOpenChange, defaultEmployeeId, busy, onC
             Attendance
           </Badge>
           <div className="text-xs text-slate-500 dark:text-slate-400">
-            If you leave timestamp empty, backend should use “now”.
+            Leave the time empty to clock in now.
           </div>
         </div>
 
@@ -87,7 +97,9 @@ export function ClockInDialog({ open, onOpenChange, defaultEmployeeId, busy, onC
 
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Employee ID</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Employee ID
+            </div>
             <input
               value={employeeId}
               onChange={(e) => setEmployeeId(e.target.value)}
@@ -97,7 +109,9 @@ export function ClockInDialog({ open, onOpenChange, defaultEmployeeId, busy, onC
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Location ID (optional)</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Location ID (optional)
+            </div>
             <input
               value={locationId}
               onChange={(e) => setLocationId(e.target.value)}
@@ -107,7 +121,9 @@ export function ClockInDialog({ open, onOpenChange, defaultEmployeeId, busy, onC
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Clock-in time (optional)</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Clock-in time (optional)
+            </div>
             <input
               type="datetime-local"
               value={clockInLocal}
@@ -117,7 +133,9 @@ export function ClockInDialog({ open, onOpenChange, defaultEmployeeId, busy, onC
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Notes (optional)</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Notes (optional)
+            </div>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

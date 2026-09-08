@@ -3,7 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { OFFICES } from "@/logaxp/config/offices";
-import { ArrowRight, Check, CheckCircle2, Loader2, Mail, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  Loader2,
+  Mail,
+  ShieldCheck,
+} from "lucide-react";
 
 type FormState = {
   name: string;
@@ -33,8 +40,16 @@ const outcomes = [
 ];
 
 const routeOptions = [
-  { label: "HR Suite", href: "/hr", text: "Hiring, records, training, leave, attendance, and approvals." },
-  { label: "Workspace access", href: "/admin/signup", text: "Create a tenant workspace and invite your admin team." },
+  {
+    label: "HR Suite",
+    href: "/hr",
+    text: "Hiring, records, training, leave, attendance, and approvals.",
+  },
+  {
+    label: "Workspace access",
+    href: "/admin/signup",
+    text: "Create a tenant workspace and invite your admin team.",
+  },
 ];
 
 export default function ContactPage() {
@@ -56,21 +71,28 @@ export default function ContactPage() {
     if (!canSubmit || status === "submitting") return;
 
     setStatus("submitting");
-    await new Promise((resolve) => setTimeout(resolve, 650));
+    const subject = encodeURIComponent(`LogaXP enquiry: ${form.company}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\nTeam size: ${form.teamSize}\nInterest: ${form.interest}\n\n${form.message}`,
+    );
+    window.location.href = `mailto:sales@logaxp.com?subject=${subject}&body=${body}`;
     setStatus("sent");
-    setForm(initialForm);
   }
 
   return (
     <main className="bg-white text-slate-950">
       <section className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-10 md:px-8 md:pb-20 md:pt-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
         <div className="lg:pt-6">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#5f8700]">Contact sales</p>
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#5f8700]">
+            Contact sales
+          </p>
           <h1 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-0.05em] text-slate-950 md:text-6xl">
             Plan the right LogaXP rollout.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 md:text-lg">
-            Share your team size, current HR workflow, and implementation goals. We will help you map the right modules, access model, and next steps.
+            Share your team size, current HR workflow, and implementation goals.
+            We will help you map the right modules, access model, and next
+            steps.
           </p>
 
           <div className="mt-8 space-y-4 border-y border-slate-200 py-6">
@@ -84,12 +106,24 @@ export default function ContactPage() {
             ))}
           </div>
 
-          <section aria-label="Our offices" className="mt-7 grid gap-4 sm:grid-cols-2">
+          <section
+            aria-label="Our offices"
+            className="mt-7 grid gap-4 sm:grid-cols-2"
+          >
             {OFFICES.map((office) => (
-              <div key={office.name} className="rounded-2xl border border-slate-200 p-4">
-                <h2 className="text-sm font-bold text-slate-950">{office.name}</h2>
+              <div
+                key={office.name}
+                className="rounded-2xl border border-slate-200 p-4"
+              >
+                <h2 className="text-sm font-bold text-slate-950">
+                  {office.name}
+                </h2>
                 <address className="mt-2 text-sm not-italic leading-6 text-slate-600">
-                  {office.lines.map((line) => <span key={line} className="block">{line}</span>)}
+                  {office.lines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
                 </address>
               </div>
             ))}
@@ -103,8 +137,12 @@ export default function ContactPage() {
                 className="group flex items-center justify-between gap-4 rounded-2xl border border-slate-200 px-4 py-4 transition hover:border-slate-300 hover:bg-slate-50"
               >
                 <span>
-                  <span className="block text-sm font-bold text-slate-950">{item.label}</span>
-                  <span className="mt-1 block text-sm leading-5 text-slate-500">{item.text}</span>
+                  <span className="block text-sm font-bold text-slate-950">
+                    {item.label}
+                  </span>
+                  <span className="mt-1 block text-sm leading-5 text-slate-500">
+                    {item.text}
+                  </span>
                 </span>
                 <ArrowRight className="h-4 w-4 shrink-0 text-[#5f8700] transition group-hover:translate-x-0.5" />
               </Link>
@@ -130,9 +168,13 @@ export default function ContactPage() {
               <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[#a3d900]/20 text-[#5f8700]">
                 <CheckCircle2 className="h-7 w-7" />
               </div>
-              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em]">Message received.</h2>
+              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em]">
+                Finish in your email app.
+              </h2>
               <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-slate-600">
-                Thanks for reaching out. Our team will review your request and follow up with the right next step.
+                Your message has not been sent from this website. Review and
+                send the prepared draft in your email app, or email
+                sales@logaxp.com directly.
               </p>
               <button
                 type="button"
@@ -145,9 +187,12 @@ export default function ContactPage() {
           ) : (
             <form onSubmit={onSubmit} className="space-y-5">
               <div>
-                <h2 className="text-2xl font-semibold tracking-[-0.035em]">Tell us what you need.</h2>
+                <h2 className="text-2xl font-semibold tracking-[-0.035em]">
+                  Tell us what you need.
+                </h2>
                 <p className="mt-2 text-sm leading-6 text-slate-500">
-                  A few details help us prepare a useful conversation instead of a generic demo.
+                  A few details help us prepare a useful conversation instead of
+                  a generic demo.
                 </p>
               </div>
 
@@ -188,7 +233,9 @@ export default function ContactPage() {
                 <Field label="Team size">
                   <select
                     value={form.teamSize}
-                    onChange={(event) => setField("teamSize", event.target.value)}
+                    onChange={(event) =>
+                      setField("teamSize", event.target.value)
+                    }
                     className={inputClassName}
                   >
                     <option>1-10</option>
@@ -202,7 +249,9 @@ export default function ContactPage() {
                 <Field label="Interest">
                   <select
                     value={form.interest}
-                    onChange={(event) => setField("interest", event.target.value)}
+                    onChange={(event) =>
+                      setField("interest", event.target.value)
+                    }
                     className={inputClassName}
                   >
                     <option>HR Suite</option>
@@ -230,13 +279,17 @@ export default function ContactPage() {
                 disabled={!canSubmit || status === "submitting"}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#a3d900] px-6 py-3.5 text-sm font-bold text-black transition hover:brightness-95 disabled:pointer-events-none disabled:opacity-50"
               >
-                {status === "submitting" ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                {status === "submitting" ? "Sending" : "Send message"}
-                {status !== "submitting" ? <ArrowRight className="h-4 w-4" /> : null}
+                {status === "submitting" ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : null}
+                {status === "submitting" ? "Sending" : "Open email draft"}
+                {status !== "submitting" ? (
+                  <ArrowRight className="h-4 w-4" />
+                ) : null}
               </button>
 
               <p className="text-center text-xs leading-5 text-slate-500">
-                By submitting, you agree to be contacted about LogaXP. No spam.
+                This opens your email app. Review the message and send it there.
               </p>
             </form>
           )}
@@ -246,7 +299,15 @@ export default function ContactPage() {
   );
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function Field({
+  label,
+  required,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block">
       <span className="text-sm font-semibold text-slate-800">

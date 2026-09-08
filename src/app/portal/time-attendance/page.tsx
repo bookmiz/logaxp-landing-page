@@ -17,7 +17,10 @@ import { TimeRecentActivity } from "@/logaxp/components/time-management/TimeRece
 
 import { useTimeRange } from "@/logaxp/hooks/time-management/useTimeRange";
 import { useAuthStore } from "@/logaxp/stores/useAuthStore";
-import { toIsoStart, toIsoEnd } from "@/logaxp/components/time-management/time.ui";
+import {
+  toIsoStart,
+  toIsoEnd,
+} from "@/logaxp/components/time-management/time.ui";
 
 import {
   useOpenTimeClock,
@@ -48,12 +51,18 @@ export default function PortalTimeAttendancePage() {
   // ---------- Queries (Hub) ----------
   const statsQ = useTimeEntriesStats(
     { from: fromIso!, to: toIso!, membershipId: membershipId ?? undefined },
-    rangeOk
+    rangeOk,
   );
 
   const summaryQ = useTimeClockSummary(
-    { from: fromIso!, to: toIso!, employeeId: undefined, includeOpen: true, groupBy: "day" },
-    rangeOk
+    {
+      from: fromIso!,
+      to: toIso!,
+      employeeId: undefined,
+      includeOpen: true,
+      groupBy: "day",
+    },
+    rangeOk,
   );
 
   // ✅ gate properly
@@ -61,18 +70,36 @@ export default function PortalTimeAttendancePage() {
   const openClockQ = useOpenTimeClock(employeeId, Boolean(employeeId));
 
   const recentEntriesQ = useTimeEntriesPreview(
-    { from: fromIso!, to: toIso!, page: 1, pageSize: 5, membershipId: membershipId ?? undefined },
-    rangeOk
+    {
+      from: fromIso!,
+      to: toIso!,
+      page: 1,
+      pageSize: 5,
+      membershipId: membershipId ?? undefined,
+    },
+    rangeOk,
   );
 
   const recentClocksQ = useTimeClocksPreview(
-    { from: fromIso!, to: toIso!, page: 1, pageSize: 5, employeeId: employeeId ?? undefined },
-    rangeOk
+    {
+      from: fromIso!,
+      to: toIso!,
+      page: 1,
+      pageSize: 5,
+      employeeId: employeeId ?? undefined,
+    },
+    rangeOk,
   );
 
   const recentTimersQ = useTimerHistoryPreview(
-    { from: fromIso!, to: toIso!, page: 1, pageSize: 5, membershipId: membershipId ?? undefined },
-    Boolean(membershipId) && rangeOk
+    {
+      from: fromIso!,
+      to: toIso!,
+      page: 1,
+      pageSize: 5,
+      membershipId: membershipId ?? undefined,
+    },
+    Boolean(membershipId) && rangeOk,
   );
 
   const hubLoading =
@@ -136,27 +163,14 @@ export default function PortalTimeAttendancePage() {
 
           <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950 lg:col-span-2">
             <CardContent className="p-6">
-              <div className="text-sm font-medium text-slate-900 dark:text-slate-50">Operational Notes</div>
-              <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                This hub is already running on real API calls:
-                <ul className="mt-2 list-disc pl-5 text-sm">
-                  <li>
-                    <span className="font-medium">Entries stats</span> via <code>/time-entries/stats</code>
-                  </li>
-                  <li>
-                    <span className="font-medium">Clock summary</span> via <code>/time-clocks/summary</code>
-                  </li>
-                  <li>
-                    <span className="font-medium">Running timer</span> via <code>/timers/running/:membershipId</code>
-                  </li>
-                  <li>
-                    <span className="font-medium">Recent activity</span> via list/history endpoints
-                  </li>
-                </ul>
-                <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-                  Stage 3 will turn “Add time entry” into a real create dialog + approvals-ready table.
-                </div>
+              <div className="text-sm font-medium text-slate-900 dark:text-slate-50">
+                Review your time
               </div>
+              <p className="mt-2 text-sm text-slate-600">
+                Use the date filters to review recorded work, attendance and
+                recent activity. Open Time entries to add or correct a record
+                before submitting your timesheet.
+              </p>
             </CardContent>
           </Card>
         </div>

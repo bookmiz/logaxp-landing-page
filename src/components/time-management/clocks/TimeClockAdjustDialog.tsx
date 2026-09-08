@@ -5,7 +5,11 @@ import { ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/logaxp/components/ui/button";
 import { Badge } from "@/logaxp/components/ui/badge";
 import { Modal } from "@/logaxp/components/time-management/dialogs/Modal";
-import type { TimeClock, TimeClockAdjustDto, TimeClockStatus } from "@/logaxp/lib/time-management/timeManagement.types";
+import type {
+  TimeClock,
+  TimeClockAdjustDto,
+  TimeClockStatus,
+} from "@/logaxp/lib/time-management/timeManagement.types";
 import { toIsoFromDateTimeLocal, toDateTimeLocalFromIso } from "./clock.utils";
 
 type Props = {
@@ -16,7 +20,13 @@ type Props = {
   onAdjust: (clockId: string, dto: TimeClockAdjustDto) => void | Promise<void>;
 };
 
-export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjust }: Props) {
+export function TimeClockAdjustDialog({
+  open,
+  onOpenChange,
+  clock,
+  busy,
+  onAdjust,
+}: Props) {
   const [status, setStatus] = React.useState<TimeClockStatus | "">("");
   const [clockInLocal, setClockInLocal] = React.useState("");
   const [clockOutLocal, setClockOutLocal] = React.useState("");
@@ -31,7 +41,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
     setStatus((clock?.status as any) ?? "");
     setClockInLocal(toDateTimeLocalFromIso(clock?.clockInAt ?? null));
     setClockOutLocal(toDateTimeLocalFromIso(clock?.clockOutAt ?? null));
-    setBreakMinutes(clock?.breakMinutes != null ? String(clock.breakMinutes) : "");
+    setBreakMinutes(
+      clock?.breakMinutes != null ? String(clock.breakMinutes) : "",
+    );
     setLocationId(String(clock?.locationId ?? ""));
     setNotes(String(clock?.notes ?? ""));
     setErr("");
@@ -53,7 +65,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
     const dto: TimeClockAdjustDto = {
       status: (status || undefined) as any,
       clockInAt: toIsoFromDateTimeLocal(clockInLocal) || undefined,
-      clockOutAt: clockOutLocal ? toIsoFromDateTimeLocal(clockOutLocal) : undefined,
+      clockOutAt: clockOutLocal
+        ? toIsoFromDateTimeLocal(clockOutLocal)
+        : undefined,
       breakMinutes: br,
       locationId: locationId.trim() ? locationId.trim() : undefined,
       notes: notes.trim() ? notes.trim() : undefined,
@@ -72,7 +86,11 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
       widthClassName="max-w-3xl"
       footer={
         <>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={busy}
+          >
             Cancel
           </Button>
           <Button onClick={submit} disabled={busy}>
@@ -89,7 +107,8 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
             Adjustment
           </Badge>
           <div className="text-xs text-slate-500 dark:text-slate-400">
-            Use carefully — Stage 6 can add audit logging and approval workflows.
+            Review the corrected times before saving. Locked pay periods cannot
+            be changed.
           </div>
         </div>
 
@@ -101,7 +120,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
 
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Status</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Status
+            </div>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as any)}
@@ -115,7 +136,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Location ID</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Location ID
+            </div>
             <input
               value={locationId}
               onChange={(e) => setLocationId(e.target.value)}
@@ -125,7 +148,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Clock-in time</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Clock-in time
+            </div>
             <input
               type="datetime-local"
               value={clockInLocal}
@@ -135,7 +160,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Clock-out time</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Clock-out time
+            </div>
             <input
               type="datetime-local"
               value={clockOutLocal}
@@ -145,7 +172,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Break minutes</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Break minutes
+            </div>
             <input
               type="number"
               min={0}
@@ -157,7 +186,9 @@ export function TimeClockAdjustDialog({ open, onOpenChange, clock, busy, onAdjus
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">Notes</div>
+            <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
+              Notes
+            </div>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

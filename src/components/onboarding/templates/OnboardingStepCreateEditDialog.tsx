@@ -35,7 +35,9 @@ function parseJsonObject(text: string, label: string) {
     }
     return parsed as Record<string, unknown>;
   } catch (e) {
-    throw new Error(e instanceof Error ? e.message : `${label} contains invalid JSON`);
+    throw new Error(
+      e instanceof Error ? e.message : `${label} contains invalid JSON`,
+    );
   }
 }
 
@@ -74,9 +76,17 @@ function clampInt(n: number, min: number, max: number) {
 
 const STEP_KIND_PRESETS = [
   { value: "TASK", label: "Task", desc: "A general task to complete" },
-  { value: "DOCUMENT_REQUEST", label: "Document Request", desc: "Request & attach documents" },
+  {
+    value: "DOCUMENT_REQUEST",
+    label: "Document Request",
+    desc: "Request & attach documents",
+  },
   { value: "FORM", label: "Form", desc: "Complete a form or questionnaire" },
-  { value: "POLICY_ACK", label: "Policy Acknowledgement", desc: "Acknowledge a policy" },
+  {
+    value: "POLICY_ACK",
+    label: "Policy Acknowledgement",
+    desc: "Acknowledge a policy",
+  },
 ] as const;
 
 const DUE_DAY_PRESETS = [
@@ -123,7 +133,9 @@ export function OnboardingStepCreateEditDialog({
   const [required, setRequired] = React.useState(true);
 
   // Due days (backend calls it dueDaysFromStart)
-  const [dueDaysMode, setDueDaysMode] = React.useState<"none" | "preset" | "custom">("none");
+  const [dueDaysMode, setDueDaysMode] = React.useState<
+    "none" | "preset" | "custom"
+  >("none");
   const [dueDaysPreset, setDueDaysPreset] = React.useState<string>("3");
   const [dueDaysCustom, setDueDaysCustom] = React.useState<string>("");
 
@@ -137,10 +149,10 @@ export function OnboardingStepCreateEditDialog({
   React.useEffect(() => {
     if (!open) return;
 
-    const initialTitle = String((step)?.title ?? (step)?.name ?? "");
-    const initialDesc = String((step)?.description ?? "");
-    const initialKind = String((step)?.kind ?? (step)?.type ?? "TASK");
-    const initialRequired = Boolean((step)?.required ?? true);
+    const initialTitle = String(step?.title ?? step?.name ?? "");
+    const initialDesc = String(step?.description ?? "");
+    const initialKind = String(step?.kind ?? step?.type ?? "TASK");
+    const initialRequired = Boolean(step?.required ?? true);
 
     setTitle(initialTitle);
     setDescription(initialDesc);
@@ -148,18 +160,18 @@ export function OnboardingStepCreateEditDialog({
     setRequired(initialRequired);
 
     // ✅ backend requires key/order on create
-    const existingKey = String((step)?.key ?? "");
-    const existingOrder = (step)?.order;
+    const existingKey = String(step?.key ?? "");
+    const existingOrder = step?.order;
 
     keyTouchedRef.current = false;
     setKey(existingKey || slugToKey(initialTitle) || "step");
     setOrder(
       Number.isFinite(Number(existingOrder))
         ? Number(existingOrder)
-        : clampInt(Number(suggestedOrder ?? 0), 0, 99999)
+        : clampInt(Number(suggestedOrder ?? 0), 0, 99999),
     );
 
-    const dd = (step)?.dueDaysFromStart ?? (step)?.dueDays ?? null;
+    const dd = step?.dueDaysFromStart ?? step?.dueDays ?? null;
     if (typeof dd === "number" && Number.isFinite(dd)) {
       const ddStr = String(dd);
       const isPreset = DUE_DAY_PRESETS.some((p) => p.value === ddStr);
@@ -172,7 +184,7 @@ export function OnboardingStepCreateEditDialog({
       setDueDaysCustom("");
     }
 
-    const meta = pretty((step)?.metadata ?? null);
+    const meta = pretty(step?.metadata ?? null);
     setMetadataText(meta);
 
     setAdvancedOpen(Boolean(meta.trim()));
@@ -188,7 +200,9 @@ export function OnboardingStepCreateEditDialog({
     if (next && next !== key) setKey(next);
   }, [title, open, isEdit]); // intentionally not depending on key to avoid loops
 
-  const kindPreset = STEP_KIND_PRESETS.find((k) => k.value === kind.trim().toUpperCase());
+  const kindPreset = STEP_KIND_PRESETS.find(
+    (k) => k.value === kind.trim().toUpperCase(),
+  );
 
   const keyError = React.useMemo(() => {
     const v = key.trim();
@@ -207,7 +221,9 @@ export function OnboardingStepCreateEditDialog({
   const dueDaysValue = React.useMemo(() => {
     if (dueDaysMode === "none") return null;
 
-    const raw = (dueDaysMode === "preset" ? dueDaysPreset : dueDaysCustom).trim();
+    const raw = (
+      dueDaysMode === "preset" ? dueDaysPreset : dueDaysCustom
+    ).trim();
     if (!raw) return null;
 
     const n = Number(raw);
@@ -247,7 +263,10 @@ export function OnboardingStepCreateEditDialog({
       return;
     }
 
-    if (dueDaysMode !== "none" && (dueDaysValue === null || Number.isNaN(dueDaysValue))) {
+    if (
+      dueDaysMode !== "none" &&
+      (dueDaysValue === null || Number.isNaN(dueDaysValue))
+    ) {
       toast.error("Due days must be a valid whole number");
       return;
     }
@@ -292,12 +311,16 @@ export function OnboardingStepCreateEditDialog({
             <div className="min-w-0">
               <DialogTitle className="flex items-center gap-2">
                 {isEdit ? "Edit Step" : "Add Step"}
-                <Badge variant={required ? "success" : "muted"} className="h-5 px-2 text-[10px]">
+                <Badge
+                  variant={required ? "success" : "muted"}
+                  className="h-5 px-2 text-[10px]"
+                >
                   {required ? "REQUIRED" : "OPTIONAL"}
                 </Badge>
               </DialogTitle>
               <DialogDescription className="text-xs">
-                Backend requires <span className="font-mono">key</span> and <span className="font-mono">order</span> for steps.
+                Give this step a unique reference and choose its position in the
+                checklist.
               </DialogDescription>
             </div>
 
@@ -319,7 +342,9 @@ export function OnboardingStepCreateEditDialog({
             {/* Basics */}
             <section className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-950">
               <div className="mb-2 flex items-center justify-between">
-                <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">Basics</div>
+                <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+                  Basics
+                </div>
                 <label className="inline-flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
                   <input
                     type="checkbox"
@@ -350,7 +375,9 @@ export function OnboardingStepCreateEditDialog({
                 />
 
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Kind</label>
+                  <label className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                    Kind
+                  </label>
                   <select
                     value={kind}
                     onChange={(e) => setKind(e.target.value)}
@@ -363,7 +390,8 @@ export function OnboardingStepCreateEditDialog({
                     ))}
                   </select>
                   <div className="text-[11px] text-slate-500">
-                    {kindPreset?.desc ?? "Enum must match backend OnboardingStepKind."}
+                    {kindPreset?.desc ??
+                      "Choose the type of onboarding activity."}
                   </div>
                 </div>
               </div>
@@ -371,7 +399,9 @@ export function OnboardingStepCreateEditDialog({
 
             {/* Key + Order + Due */}
             <section className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-950">
-              <div className="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-50">Scheduling</div>
+              <div className="mb-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
+                Scheduling
+              </div>
 
               <div className="space-y-2">
                 <Input
@@ -383,7 +413,7 @@ export function OnboardingStepCreateEditDialog({
                   }}
                   placeholder="collect_id_document"
                   error={keyError ?? undefined}
-                  hint="Stable identifier used by backend workflows."
+                  hint="A unique reference for this step."
                 />
 
                 <Input
@@ -402,9 +432,14 @@ export function OnboardingStepCreateEditDialog({
 
                 {/* Due date picker */}
                 <div className="mt-2">
-                  <div className="text-xs font-medium text-slate-700 dark:text-slate-300">Due Days From Start</div>
+                  <div className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                    Due Days From Start
+                  </div>
                   <div className="mt-2 flex flex-wrap gap-2">
-                    <Chip active={dueDaysMode === "none"} onClick={() => setDueDaysMode("none")}>
+                    <Chip
+                      active={dueDaysMode === "none"}
+                      onClick={() => setDueDaysMode("none")}
+                    >
                       None
                     </Chip>
                     <Chip
@@ -438,11 +473,13 @@ export function OnboardingStepCreateEditDialog({
                         onChange={(e) => setDueDaysPreset(e.target.value)}
                         className="h-9 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-slate-200 dark:border-slate-800 dark:bg-slate-950 dark:focus:ring-slate-800"
                       >
-                        {DUE_DAY_PRESETS.filter((p) => p.value !== "").map((p) => (
-                          <option key={p.value} value={p.value}>
-                            {p.label}
-                          </option>
-                        ))}
+                        {DUE_DAY_PRESETS.filter((p) => p.value !== "").map(
+                          (p) => (
+                            <option key={p.value} value={p.value}>
+                              {p.label}
+                            </option>
+                          ),
+                        )}
                       </select>
                     ) : (
                       <Input
@@ -467,8 +504,15 @@ export function OnboardingStepCreateEditDialog({
               onClick={() => setAdvancedOpen((v) => !v)}
               className="flex w-full items-center justify-between"
             >
-              <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">Advanced</div>
-              <ChevronDown className={["h-4 w-4 transition", advancedOpen ? "rotate-180" : ""].join(" ")} />
+              <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+                Advanced
+              </div>
+              <ChevronDown
+                className={[
+                  "h-4 w-4 transition",
+                  advancedOpen ? "rotate-180" : "",
+                ].join(" ")}
+              />
             </button>
 
             {advancedOpen ? (
@@ -484,17 +528,25 @@ export function OnboardingStepCreateEditDialog({
               </div>
             ) : (
               <div className="mt-2 text-[11px] text-slate-500">
-                Optional metadata for UI hints, tags, analytics. (Backend DTO does not include config.)
+                Optional labels and additional details for this step.
               </div>
             )}
           </section>
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={saving}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={saving}
+          >
             Cancel
           </Button>
-          <Button onClick={() => void submit()} loading={saving} disabled={!canSave}>
+          <Button
+            onClick={() => void submit()}
+            loading={saving}
+            disabled={!canSave}
+          >
             <Save className="h-4 w-4" />
             {isEdit ? "Save" : "Create"}
           </Button>

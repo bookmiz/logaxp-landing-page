@@ -17,14 +17,24 @@ import { PayrollRunHeaderCard } from "@/logaxp/components/time-management/payrol
 import { PayrollRunTable } from "@/logaxp/components/time-management/payroll/PayrollRunTable";
 import { PayrollExportMenu } from "@/logaxp/components/time-management/payroll/PayrollExportMenu";
 
-import { useTimesheets, usePayPeriods } from "@/logaxp/hooks/time-management/useTimePayroll";
+import {
+  useTimesheets,
+  usePayPeriods,
+} from "@/logaxp/hooks/time-management/useTimePayroll";
 import type { Timesheet } from "@/logaxp/lib/time-management/timePayroll.types";
 import { normalizeList } from "@/logaxp/lib/time-management/timePayroll.types";
 
-import { toCsv, downloadCsv, type CsvColumn } from "@/logaxp/components/time-management/export/exportCsv";
+import {
+  toCsv,
+  downloadCsv,
+  type CsvColumn,
+} from "@/logaxp/components/time-management/export/exportCsv";
 import { fetchAllPages } from "@/logaxp/components/time-management/export/exportFetchAll";
 import { timePayrollService } from "@/logaxp/lib/time-management/timePayrollService";
-import { formatIsoDateTime, shortId } from "@/logaxp/components/time-management/time.ui";
+import {
+  formatIsoDateTime,
+  shortId,
+} from "@/logaxp/components/time-management/time.ui";
 import { TimeBanner } from "@/logaxp/components/time-management/feedback/TimeBanner";
 
 function cn(...c: Array<string | false | null | undefined>) {
@@ -63,7 +73,7 @@ export default function PayrollRunPage() {
       payPeriodId: payPeriodId ?? undefined,
       status: payPeriodId ? ("APPROVED" as any) : undefined,
     },
-    Boolean(payPeriodId)
+    Boolean(payPeriodId),
   );
 
   const { items } = normalizeList(listQ.data ?? null);
@@ -82,7 +92,7 @@ export default function PayrollRunPage() {
     if (!payPeriodId) return;
     downloadCsv(
       `payroll_${shortId(payPeriodId)}_APPROVED_page.csv`,
-      toCsv(rows, PAYROLL_COLUMNS)
+      toCsv(rows, PAYROLL_COLUMNS),
     );
   };
 
@@ -108,10 +118,11 @@ export default function PayrollRunPage() {
 
       downloadCsv(
         `payroll_${shortId(payPeriodId)}_APPROVED_ALL.csv`,
-        toCsv(all, PAYROLL_COLUMNS)
+        toCsv(all, PAYROLL_COLUMNS),
       );
 
-      if (truncated) setExportNote("Export truncated at 5,000 rows. Narrow filters.");
+      if (truncated)
+        setExportNote("Export truncated at 5,000 rows. Narrow filters.");
     } finally {
       setExportBusy(false);
     }
@@ -119,13 +130,19 @@ export default function PayrollRunPage() {
 
   return (
     <TimeShell
-      title="Payroll Run"
+      title="Approved hours export"
       subtitle="Select pay period → export approved time (regular + OT + DT)."
       pill="Time • Payroll • Run"
       actions={
         <>
-          <Button variant="outline" onClick={refresh} disabled={busy || exportBusy}>
-            <RefreshCcw className={cn("h-4 w-4", (busy || exportBusy) && "animate-spin")} />
+          <Button
+            variant="outline"
+            onClick={refresh}
+            disabled={busy || exportBusy}
+          >
+            <RefreshCcw
+              className={cn("h-4 w-4", (busy || exportBusy) && "animate-spin")}
+            />
             Refresh
           </Button>
 
@@ -147,7 +164,10 @@ export default function PayrollRunPage() {
           </TimeBanner>
         ) : null}
 
-        <TimeHeroCard title="Payroll" description="This is your payroll-ready export surface." />
+        <TimeHeroCard
+          title="Payroll"
+          description="Export approved regular, overtime and double-time hours for your payroll provider. This export does not calculate wages, taxes or deductions, or make payments."
+        />
         <PayrollNavCards />
 
         <PayrollRunHeaderCard
@@ -156,7 +176,11 @@ export default function PayrollRunPage() {
               <div className="text-xs font-medium text-slate-700 dark:text-slate-200">
                 Pay Period
               </div>
-              <PayPeriodPicker valueId={payPeriodId} onPick={setPayPeriodId} allowClear />
+              <PayPeriodPicker
+                valueId={payPeriodId}
+                onPick={setPayPeriodId}
+                allowClear
+              />
             </div>
           }
           right={
@@ -164,10 +188,14 @@ export default function PayrollRunPage() {
               <div className="text-xs text-slate-500 dark:text-slate-400">
                 Window:{" "}
                 <span className="font-medium">
-                  {formatIsoDateTime(activePeriod.startAt)} → {formatIsoDateTime(activePeriod.endAt)}
+                  {formatIsoDateTime(activePeriod.startAt)} →{" "}
+                  {formatIsoDateTime(activePeriod.endAt)}
                 </span>
                 <div className="mt-1">
-                  Status: <span className="font-medium">{String(activePeriod.status ?? "OPEN")}</span>
+                  Status:{" "}
+                  <span className="font-medium">
+                    {String(activePeriod.status ?? "OPEN")}
+                  </span>
                 </div>
               </div>
             ) : (

@@ -1,7 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { UserPlus, CheckCircle2, SkipForward, Ban, ShieldCheck, UploadCloud } from "lucide-react";
+import { uploadFileWithProgress } from "@/logaxp/lib/uploads/cloudinary.client";
+import { api } from "@/logaxp/lib/api/apiClient";
+import { unwrapApi } from "@/logaxp/lib/api/unwrap";
+import {
+  UserPlus,
+  CheckCircle2,
+  SkipForward,
+  Ban,
+  ShieldCheck,
+  UploadCloud,
+} from "lucide-react";
 
 import { useOnboarding } from "@/logaxp/hooks/useOnboarding";
 import type { OnboardingStepInstance } from "@/logaxp/lib/onboarding/onboarding.types";
@@ -21,7 +31,14 @@ import {
   DialogFooter,
 } from "@/logaxp/components/ui/dialog";
 
-type ActionKey = "assign" | "complete" | "skip" | "block" | "unblock" | "upload" | null;
+type ActionKey =
+  | "assign"
+  | "complete"
+  | "skip"
+  | "block"
+  | "unblock"
+  | "upload"
+  | null;
 
 function upper(v: unknown) {
   return String(v ?? "").toUpperCase();
@@ -54,7 +71,8 @@ export function StepInstanceActionDialogs({
 
   // ---- Submitting state
   const [submitting, setSubmitting] = React.useState(false);
-  const [submittingAction, setSubmittingAction] = React.useState<ActionKey>(null);
+  const [submittingAction, setSubmittingAction] =
+    React.useState<ActionKey>(null);
 
   // ---- Assign form
   const [assignedToUserId, setAssignedToUserId] = React.useState("");
@@ -72,6 +90,8 @@ export function StepInstanceActionDialogs({
 
   // ---- Upload form (fileId from your file system)
   const [fileId, setFileId] = React.useState("");
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const submittingRef = React.useRef(false);
   const [title, setTitle] = React.useState("");
 
   const hardDisabled = Boolean(busy) || submitting;
@@ -89,6 +109,8 @@ export function StepInstanceActionDialogs({
   const canAttachDoc = canUpload && !isTerminal; // allow attaching docs while active
 
   const run = async (action: ActionKey, fn: () => Promise<void>) => {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     try {
       setSubmitting(true);
       setSubmittingAction(action);
@@ -96,8 +118,11 @@ export function StepInstanceActionDialogs({
       await onDone();
     } catch (e) {
       console.error(e);
-      toast.error("Action failed");
+      toast.error(
+        e instanceof Error ? e.message : "Unable to save. Please try again.",
+      );
     } finally {
+      submittingRef.current = false;
       setSubmitting(false);
       setSubmittingAction(null);
     }
@@ -110,7 +135,9 @@ export function StepInstanceActionDialogs({
         variant="outline"
         size="sm"
         disabled={hardDisabled || !canAssign}
-        title={!canAssign ? "You don't have access to assign this step." : undefined}
+        title={
+          !canAssign ? "You don't have access to assign this step." : undefined
+        }
         onClick={() => setAssignOpen(true)}
       >
         <UserPlus className="h-4 w-4" />
@@ -177,7 +204,9 @@ export function StepInstanceActionDialogs({
           variant="outline"
           size="sm"
           disabled={hardDisabled || !canUnblock}
-          title={!canUnblock ? "You don't have access to unblock steps." : undefined}
+          title={
+            !canUnblock ? "You don't have access to unblock steps." : undefined
+          }
           loading={submittingAction === "unblock"}
           onClick={() =>
             void run("unblock", async () => {
@@ -239,7 +268,11 @@ export function StepInstanceActionDialogs({
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setAssignOpen(false)} disabled={submitting}>
+            <Button
+              variant="outline"
+              onClick={() => setAssignOpen(false)}
+              disabled={submitting}
+            >
               Cancel
             </Button>
             <Button
@@ -271,7 +304,8 @@ export function StepInstanceActionDialogs({
           <DialogHeader>
             <DialogTitle>Complete Step</DialogTitle>
             <DialogDescription>
-              Mark this step as completed and optionally attach notes / JSON data.
+              Mark this step as completed and optionally attach notes / JSON
+              data.
             </DialogDescription>
           </DialogHeader>
 
@@ -298,7 +332,11 @@ export function StepInstanceActionDialogs({
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setCompleteOpen(false)} disabled={submitting}>
+            <Button
+              variant="outline"
+              onClick={() => setCompleteOpen(false)}
+              disabled={submitting}
+            >
               Cancel
             </Button>
             <Button
@@ -341,7 +379,9 @@ export function StepInstanceActionDialogs({
         <DialogContent className="sm:max-w-[720px]">
           <DialogHeader>
             <DialogTitle>Skip Step</DialogTitle>
-            <DialogDescription>Skip this step (optionally provide a reason for audit).</DialogDescription>
+            <DialogDescription>
+              Skip this step (optionally provide a reason for audit).
+            </DialogDescription>
           </DialogHeader>
 
           <Textarea
@@ -355,7 +395,11 @@ export function StepInstanceActionDialogs({
           />
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setSkipOpen(false)} disabled={submitting}>
+            <Button
+              variant="outline"
+              onClick={() => setSkipOpen(false)}
+              disabled={submitting}
+            >
               Cancel
             </Button>
             <Button
@@ -363,7 +407,9 @@ export function StepInstanceActionDialogs({
               loading={submittingAction === "skip"}
               onClick={() =>
                 void run("skip", async () => {
-                  await stepInstances.skip(stepInstance.id, { reason: skipReason.trim() || null });
+                  await stepInstances.skip(stepInstance.id, {
+                    reason: skipReason.trim() || null,
+                  });
                   toast.success("Step skipped");
                   setSkipOpen(false);
                   setSkipReason("");
@@ -381,7 +427,9 @@ export function StepInstanceActionDialogs({
         <DialogContent className="sm:max-w-[720px]">
           <DialogHeader>
             <DialogTitle>Block Step</DialogTitle>
-            <DialogDescription>Block this step (must provide a reason).</DialogDescription>
+            <DialogDescription>
+              Block this step (must provide a reason).
+            </DialogDescription>
           </DialogHeader>
 
           <Textarea
@@ -395,7 +443,11 @@ export function StepInstanceActionDialogs({
           />
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setBlockOpen(false)} disabled={submitting}>
+            <Button
+              variant="outline"
+              onClick={() => setBlockOpen(false)}
+              disabled={submitting}
+            >
               Cancel
             </Button>
             <Button
@@ -408,7 +460,9 @@ export function StepInstanceActionDialogs({
                     toast.error("Reason is required");
                     return;
                   }
-                  await stepInstances.block(stepInstance.id, { reason: blockReason.trim() });
+                  await stepInstances.block(stepInstance.id, {
+                    reason: blockReason.trim(),
+                  });
                   toast.success("Step blocked");
                   setBlockOpen(false);
                   setBlockReason("");
@@ -427,17 +481,20 @@ export function StepInstanceActionDialogs({
           <DialogHeader>
             <DialogTitle>Attach Step Document</DialogTitle>
             <DialogDescription>
-              Provide a backend-managed <span className="font-mono text-xs">fileId</span>.
-              (Wire this to your file uploader / FileObject creation.)
+              Choose a PDF or image to attach to this onboarding task. Maximum
+              size: 10 MB.
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
             <Input
-              label="fileId"
-              value={fileId}
-              onChange={(e) => setFileId(e.target.value)}
-              placeholder="fileId..."
+              label="Document"
+              type="file"
+              accept="application/pdf,image/png,image/jpeg"
+              onChange={(event) => {
+                setSelectedFile(event.target.files?.[0] ?? null);
+                setFileId("");
+              }}
               disabled={hardDisabled || !canAttachDoc}
             />
             <Input
@@ -450,7 +507,11 @@ export function StepInstanceActionDialogs({
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setUploadOpen(false)} disabled={submitting}>
+            <Button
+              variant="outline"
+              onClick={() => setUploadOpen(false)}
+              disabled={submitting}
+            >
               Cancel
             </Button>
             <Button
@@ -458,17 +519,49 @@ export function StepInstanceActionDialogs({
               loading={submittingAction === "upload"}
               onClick={() =>
                 void run("upload", async () => {
-                  if (!fileId.trim()) {
-                    toast.error("fileId is required");
+                  let attachmentId = fileId;
+                  if (!attachmentId && selectedFile) {
+                    if (
+                      selectedFile.size > 10 * 1024 * 1024 ||
+                      !["application/pdf", "image/png", "image/jpeg"].includes(
+                        selectedFile.type,
+                      )
+                    )
+                      throw new Error(
+                        "Choose a PDF, PNG or JPEG no larger than 10 MB.",
+                      );
+                    const uploaded = await uploadFileWithProgress(selectedFile);
+                    const registered = unwrapApi<{ id: string }>(
+                      (
+                        await api.post("/files", {
+                          provider: "CLOUDINARY",
+                          url: uploaded.secure_url,
+                          cloudinaryPublicId: uploaded.public_id,
+                          mimeType: selectedFile.type,
+                          sizeBytes: selectedFile.size,
+                          originalName: selectedFile.name,
+                        })
+                      ).data,
+                    );
+                    if (!registered?.id)
+                      throw new Error(
+                        "The file could not be saved. Please try again.",
+                      );
+                    attachmentId = registered.id;
+                    setFileId(attachmentId);
+                  }
+                  if (!attachmentId) {
+                    toast.error("Choose a document first.");
                     return;
                   }
                   await stepInstances.upload(stepInstance.id, {
-                    fileId: fileId.trim(),
+                    fileId: attachmentId,
                     title: title.trim() || null,
                   });
                   toast.success("Document attached to step");
                   setUploadOpen(false);
                   setFileId("");
+                  setSelectedFile(null);
                   setTitle("");
                 })
               }

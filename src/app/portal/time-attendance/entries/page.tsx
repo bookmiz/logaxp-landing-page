@@ -7,13 +7,23 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/logaxp/components/ui/button";
 import { Badge } from "@/logaxp/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/logaxp/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/logaxp/components/ui/card";
 import { EmptyState } from "@/logaxp/components/ui/empty-state";
 
 import { TimeShell } from "@/logaxp/components/time-management/TimeShell";
 import { useTimeRange } from "@/logaxp/hooks/time-management/useTimeRange";
 
-import { TimeEntryFilters, type BillableFilter, type ScopeFilter } from "@/logaxp/components/time-management/entries/TimeEntryFilters";
+import {
+  TimeEntryFilters,
+  type BillableFilter,
+  type ScopeFilter,
+} from "@/logaxp/components/time-management/entries/TimeEntryFilters";
 import { TimeEntriesTable } from "@/logaxp/components/time-management/entries/TimeEntriesTable";
 import { TimeEntryCreateEditDialog } from "@/logaxp/components/time-management/entries/TimeEntryCreateEditDialog";
 import { ConfirmDialog } from "@/logaxp/components/time-management/dialogs/ConfirmDialog";
@@ -35,12 +45,19 @@ import {
 
 import { useAuthStore } from "@/logaxp/stores/useAuthStore";
 import type { TimeEntry } from "@/logaxp/lib/time-management/timeManagement.types";
-import { useTimeEntriesDailySummary, useTimeEntriesStats } from "@/logaxp/hooks/time-management/useTimeHubQueries";
+import {
+  useTimeEntriesDailySummary,
+  useTimeEntriesStats,
+} from "@/logaxp/hooks/time-management/useTimeHubQueries";
 import { TimeEntryStatsStrip } from "@/logaxp/components/time-management/entries/TimeEntryStatsStrip";
 import { TimeEntryDailySummaryCard } from "@/logaxp/components/time-management/entries/TimeEntryDailySummaryCard";
 
 import { ExportMenu } from "@/logaxp/components/time-management/export/ExportMenu";
-import { toCsv, downloadCsv, type CsvColumn } from "@/logaxp/components/time-management/export/exportCsv";
+import {
+  toCsv,
+  downloadCsv,
+  type CsvColumn,
+} from "@/logaxp/components/time-management/export/exportCsv";
 import { fetchAllPages } from "@/logaxp/components/time-management/export/exportFetchAll";
 import { timeManagementService } from "@/logaxp/lib/time-management/timeManagementService";
 import { TimeBanner } from "@/logaxp/components/time-management/feedback/TimeBanner";
@@ -116,7 +133,8 @@ export default function PortalTimeEntriesPage() {
   // URL sync
   React.useEffect(() => {
     const next = new URLSearchParams(sp.toString());
-    const setOrDel = (k: string, v: string) => (v ? next.set(k, v) : next.delete(k));
+    const setOrDel = (k: string, v: string) =>
+      v ? next.set(k, v) : next.delete(k);
 
     setOrDel("q", q.trim());
     next.set("page", String(page));
@@ -130,11 +148,34 @@ export default function PortalTimeEntriesPage() {
 
     const nextQs = next.toString();
     if (nextQs !== sp.toString()) router.replace(`${pathname}?${nextQs}`);
-  }, [q, page, pageSize, includeDeleted, billable, source, scope, projectId, workItemId, pathname, router, sp]);
+  }, [
+    q,
+    page,
+    pageSize,
+    includeDeleted,
+    billable,
+    source,
+    scope,
+    projectId,
+    workItemId,
+    pathname,
+    router,
+    sp,
+  ]);
 
   React.useEffect(() => {
     setPage(1);
-  }, [q, includeDeleted, billable, source, scope, projectId, workItemId, fromIso, toIso]);
+  }, [
+    q,
+    includeDeleted,
+    billable,
+    source,
+    scope,
+    projectId,
+    workItemId,
+    fromIso,
+    toIso,
+  ]);
 
   const apiBillable = billable === "any" ? undefined : billable === "billable";
   const apiEmployeeId = scope === "me" && employeeId ? employeeId : undefined;
@@ -156,7 +197,7 @@ export default function PortalTimeEntriesPage() {
           pageSize,
         }
       : undefined,
-    rangeOk
+    rangeOk,
   );
 
   const statsQ = useTimeEntriesStats(
@@ -172,12 +213,14 @@ export default function PortalTimeEntriesPage() {
           to: toIso,
         }
       : undefined,
-    rangeOk
+    rangeOk,
   );
 
   const dailyQ = useTimeEntriesDailySummary(
-    rangeOk && fromIso && toIso ? { from: fromIso, to: toIso, groupBy: "day" } : undefined,
-    rangeOk
+    rangeOk && fromIso && toIso
+      ? { from: fromIso, to: toIso, groupBy: "day" }
+      : undefined,
+    rangeOk,
   );
 
   const { items, meta } = normalizeTimeList<TimeEntry>(listQ.data ?? null);
@@ -185,7 +228,7 @@ export default function PortalTimeEntriesPage() {
   const rows = React.useMemo(() => {
     const needle = q.trim().toLowerCase();
     const base = [...items].sort((a, b) =>
-      String(b.createdAt ?? "").localeCompare(String(a.createdAt ?? ""))
+      String(b.createdAt ?? "").localeCompare(String(a.createdAt ?? "")),
     );
     if (!needle) return base;
 
@@ -254,7 +297,10 @@ export default function PortalTimeEntriesPage() {
   const exportPage = async () => {
     setExportNote("");
     const csv = toCsv(rows, ENTRY_COLUMNS);
-    downloadCsv(`time-entries_page-${page}_${range.from}_to_${range.to}.csv`, csv);
+    downloadCsv(
+      `time-entries_page-${page}_${range.from}_to_${range.to}.csv`,
+      csv,
+    );
   };
 
   const exportAll = async () => {
@@ -287,7 +333,9 @@ export default function PortalTimeEntriesPage() {
       downloadCsv(`time-entries_ALL_${range.from}_to_${range.to}.csv`, csv);
 
       if (truncated) {
-        setExportNote("Export limited to 5,000 rows. Narrow filters/date range for full export.");
+        setExportNote(
+          "Export limited to 5,000 rows. Narrow filters/date range for full export.",
+        );
       }
     } finally {
       setExportBusy(false);
@@ -303,7 +351,13 @@ export default function PortalTimeEntriesPage() {
       pill="Time & Leave • Entries"
       actions={
         <div className="flex flex-wrap items-center gap-3">
-          <Button variant="outline" size="sm" onClick={refresh} disabled={busy} className="gap-1.5">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={refresh}
+            disabled={busy}
+            className="gap-1.5"
+          >
             <RefreshCw className={cn("h-4 w-4", busy && "animate-spin")} />
             Refresh
           </Button>
@@ -316,7 +370,12 @@ export default function PortalTimeEntriesPage() {
             hint="Current filters applied. All export capped at 5,000 rows."
           />
 
-          <Button size="sm" onClick={() => setCreateOpen(true)} disabled={busy} className="gap-1.5 shadow-sm">
+          <Button
+            size="sm"
+            onClick={() => setCreateOpen(true)}
+            disabled={busy}
+            className="gap-1.5 shadow-sm"
+          >
             <Plus className="h-4 w-4" />
             New Entry
           </Button>
@@ -326,12 +385,17 @@ export default function PortalTimeEntriesPage() {
     >
       <div className="space-y-6">
         {/* Export notice banner */}
-        {exportNote && <TimeBanner tone="info" title="Export Info">{exportNote}</TimeBanner>}
+        {exportNote && (
+          <TimeBanner tone="info" title="Export Info">
+            {exportNote}
+          </TimeBanner>
+        )}
 
         {/* Scope warning for "me" mode without employee */}
         {scope === "me" && !employeeId && (
           <TimeBanner tone="warning" title="Limited View">
-            No employee linked to your account. Showing workspace-wide entries instead.
+            No employee linked to your account. Showing workspace-wide entries
+            instead.
           </TimeBanner>
         )}
 
@@ -370,10 +434,16 @@ export default function PortalTimeEntriesPage() {
         {/* Stats & Daily Summary */}
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <TimeEntryStatsStrip stats={statsQ.data ?? null} loading={statsQ.isLoading} />
+            <TimeEntryStatsStrip
+              stats={statsQ.data ?? null}
+              loading={statsQ.isLoading}
+            />
           </div>
           <div>
-            <TimeEntryDailySummaryCard summary={dailyQ.data ?? null} loading={dailyQ.isLoading} />
+            <TimeEntryDailySummaryCard
+              summary={dailyQ.data ?? null}
+              loading={dailyQ.isLoading}
+            />
           </div>
         </div>
 
@@ -403,9 +473,13 @@ export default function PortalTimeEntriesPage() {
               setActive(r);
               setEditOpen(true);
             }}
-            onSoftDelete={(id) => setConfirm({ open: true, kind: "softDelete", id })}
+            onSoftDelete={(id) =>
+              setConfirm({ open: true, kind: "softDelete", id })
+            }
             onRestore={(id) => setConfirm({ open: true, kind: "restore", id })}
-            onHardDelete={(id) => setConfirm({ open: true, kind: "hardDelete", id })}
+            onHardDelete={(id) =>
+              setConfirm({ open: true, kind: "hardDelete", id })
+            }
           />
         ) : (
           <Card className="rounded-3xl border bg-card shadow-sm">
@@ -414,7 +488,11 @@ export default function PortalTimeEntriesPage() {
                 title="No time entries found"
                 description="Create your first entry or adjust filters/date range."
                 action={
-                  <Button onClick={() => setCreateOpen(true)} size="lg" className="gap-2">
+                  <Button
+                    onClick={() => setCreateOpen(true)}
+                    size="lg"
+                    className="gap-2"
+                  >
                     <Plus className="h-5 w-5" />
                     Create Time Entry
                   </Button>
@@ -428,7 +506,7 @@ export default function PortalTimeEntriesPage() {
         <Card className="rounded-3xl border bg-card/50 shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">Audit & Safety Rules</CardTitle>
-            <CardDescription>Stage 6 hardened behavior</CardDescription>
+            <CardDescription>Managing your time records</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-2">
             <li>Exports capped at 5,000 rows for performance</li>
@@ -475,28 +553,30 @@ export default function PortalTimeEntriesPage() {
             confirm.kind === "softDelete"
               ? "Soft Delete Entry?"
               : confirm.kind === "restore"
-              ? "Restore Entry?"
-              : "Permanently Delete Entry?"
+                ? "Restore Entry?"
+                : "Permanently Delete Entry?"
           }
           description={
             confirm.kind === "softDelete"
               ? "This entry will be soft-deleted and can be restored later."
               : confirm.kind === "restore"
-              ? "This will restore the entry to active status."
-              : "This action is permanent and cannot be undone."
+                ? "This will restore the entry to active status."
+                : "This action is permanent and cannot be undone."
           }
           destructive={confirm.kind !== "restore"}
           confirmText={
             confirm.kind === "softDelete"
               ? "Soft Delete"
               : confirm.kind === "restore"
-              ? "Restore"
-              : "Hard Delete"
+                ? "Restore"
+                : "Hard Delete"
           }
           busy={busy}
           onConfirm={async () => {
-            if (confirm.kind === "softDelete") await softDeleteM.mutateAsync(confirm.id);
-            else if (confirm.kind === "restore") await restoreM.mutateAsync(confirm.id);
+            if (confirm.kind === "softDelete")
+              await softDeleteM.mutateAsync(confirm.id);
+            else if (confirm.kind === "restore")
+              await restoreM.mutateAsync(confirm.id);
             else await hardDeleteM.mutateAsync(confirm.id);
             await refresh();
           }}

@@ -51,7 +51,7 @@ export default function TimesheetsPage() {
   // permissions -> role-aware actions
   const perms = React.useMemo(() => getPermissions(membership), [membership]);
   const canSubmit = perms.includes("time.write");
-  const canDecide = perms.includes("time.admin") || perms.includes("time.clock.admin");
+  const canDecide = perms.includes("time.admin");
 
   // URL filters
   const q0 = sp.get("q") ?? "";

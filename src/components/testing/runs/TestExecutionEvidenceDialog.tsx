@@ -1,7 +1,10 @@
 "use client";
 
 import * as React from "react";
-import type { AddExecutionEvidenceDto, TestExecution } from "@/logaxp/lib/testing/testing.types";
+import type {
+  AddExecutionEvidenceDto,
+  TestExecution,
+} from "@/logaxp/lib/testing/testing.types";
 
 import {
   Dialog,
@@ -55,7 +58,9 @@ export function TestExecutionEvidenceDialog({
       <DialogContent className="sm:max-w-[760px]">
         <DialogHeader>
           <DialogTitle>Add Evidence</DialogTitle>
-          <DialogDescription>Attach a URL or a fileId (depending on your backend workflow).</DialogDescription>
+          <DialogDescription>
+            Attach a supporting link or select a previously uploaded file.
+          </DialogDescription>
         </DialogHeader>
 
         {!execution ? (
@@ -93,7 +98,7 @@ export function TestExecutionEvidenceDialog({
                     ...(fileId.trim() ? { fileId: fileId.trim() } : {}),
                   },
                   null,
-                  2
+                  2,
                 )}
               </pre>
             </div>
@@ -101,10 +106,18 @@ export function TestExecutionEvidenceDialog({
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={busy}
+          >
             Cancel
           </Button>
-          <Button onClick={() => void submit()} loading={busy} disabled={!canSubmit}>
+          <Button
+            onClick={() => void submit()}
+            loading={busy}
+            disabled={!canSubmit}
+          >
             Add evidence
           </Button>
         </DialogFooter>

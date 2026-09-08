@@ -2,7 +2,13 @@
 
 import * as React from "react";
 import { Clock, Sparkles } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/logaxp/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/logaxp/components/ui/card";
 import { Badge } from "@/logaxp/components/ui/badge";
 
 type Props = {
@@ -13,7 +19,7 @@ type Props = {
 
 export function TimeHeroCard({
   title = "Time & Attendance",
-  description = "Track time entries, attendance clocks, and focused work timers — scoped by tenant.",
+  description = "Track attendance, time entries, and focused work in your workspace.",
   right,
 }: Props) {
   return (
@@ -39,7 +45,7 @@ export function TimeHeroCard({
 
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="muted" className="rounded-full">
-              Stage 1
+              Attendance
             </Badge>
             {right}
           </div>
@@ -49,7 +55,7 @@ export function TimeHeroCard({
       <CardContent className="relative pt-0">
         <div className="mt-1 h-px w-full bg-slate-100 dark:bg-slate-800" />
         <div className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">
-          Tip: Stage 2 will add overview analytics and quick actions.
+          Review attendance and recorded time for the selected dates.
         </div>
       </CardContent>
     </Card>

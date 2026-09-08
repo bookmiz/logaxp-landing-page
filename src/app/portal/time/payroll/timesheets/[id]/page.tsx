@@ -34,7 +34,7 @@ export default function TimesheetDetailPage() {
 
   const membership = useAuthStore((s) => s.membership);
   const perms = React.useMemo(() => getPermissions(membership), [membership]);
-  const canDecide = perms.includes("time.admin") || perms.includes("time.clock.admin");
+  const canDecide = perms.includes("time.admin");
 
   const q = useTimesheet(id, true);
   const busy = q.isFetching;

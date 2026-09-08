@@ -29,7 +29,7 @@ function assertCloudinaryConfigured() {
   const { cloudName, uploadPreset } = getCloudinaryConfig();
   if (!cloudName || !uploadPreset) {
     throw new Error(
-      "Cloudinary is not configured. Set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME and NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET."
+      "File uploads are not available in this workspace yet. Contact your administrator.",
     );
   }
   return { cloudName, uploadPreset };
@@ -40,7 +40,7 @@ function uploadWithProgress(
   resourceType: CloudinaryResourceType,
   options?: Omit<CloudinaryUploadOptions, "resourceType">,
   onProgress?: (pct: number) => void,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<CloudinaryUploadResult> {
   const { cloudName, uploadPreset } = assertCloudinaryConfigured();
   const { folder, tags } = options || {};
@@ -101,7 +101,8 @@ function uploadWithProgress(
     formData.append("upload_preset", uploadPreset);
 
     if (folder) formData.append("folder", folder);
-    if (tags) formData.append("tags", Array.isArray(tags) ? tags.join(",") : tags);
+    if (tags)
+      formData.append("tags", Array.isArray(tags) ? tags.join(",") : tags);
 
     xhr.send(formData);
   });
@@ -114,10 +115,11 @@ export function uploadFileWithProgress(
   file: File,
   options?: CloudinaryUploadOptions,
   onProgress?: (pct: number) => void,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<CloudinaryUploadResult> {
   const resourceType =
-    options?.resourceType ?? (file.type.startsWith("image/") ? "image" : "auto");
+    options?.resourceType ??
+    (file.type.startsWith("image/") ? "image" : "auto");
 
   return uploadWithProgress(
     file,
@@ -127,7 +129,7 @@ export function uploadFileWithProgress(
       tags: options?.tags,
     },
     onProgress,
-    signal
+    signal,
   );
 }
 
@@ -138,7 +140,7 @@ export function uploadImageWithProgress(
   file: File,
   options?: CloudinaryUploadOptions,
   onProgress?: (pct: number) => void,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<CloudinaryUploadResult> {
   return uploadWithProgress(
     file,
@@ -148,6 +150,6 @@ export function uploadImageWithProgress(
       tags: options?.tags,
     },
     onProgress,
-    signal
+    signal,
   );
 }

@@ -7,9 +7,11 @@ export function KanbanPlaceholder({ columns }: { columns: BoardColumn[] }) {
 
   return (
     <div className="space-y-2">
-      <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">Kanban</div>
+      <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+        Kanban
+      </div>
       <div className="text-xs text-slate-500 dark:text-slate-400">
-        Stage 4 will load real cards (work items). For now this shows the column layout.
+        Create work items and assign them to a board column.
       </div>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -35,7 +37,7 @@ export function KanbanPlaceholder({ columns }: { columns: BoardColumn[] }) {
             </div>
 
             <div className="mt-3 rounded-xl border border-dashed border-slate-200 p-3 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
-              Cards land here in Stage 4
+              No work items in this column.
             </div>
           </div>
         ))}

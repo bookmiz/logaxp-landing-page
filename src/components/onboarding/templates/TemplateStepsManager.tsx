@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { ArrowDown, ArrowUp, Plus, Pencil, Trash2, RefreshCcw } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  Plus,
+  Pencil,
+  Trash2,
+  RefreshCcw,
+} from "lucide-react";
 
 import { useOnboarding } from "@/logaxp/hooks/useOnboarding";
 import type { OnboardingStep } from "@/logaxp/lib/onboarding/onboarding.types";
@@ -12,7 +19,13 @@ import {
   pickStepTitle,
 } from "@/logaxp/components/onboarding/onboarding.utils";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/logaxp/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/logaxp/components/ui/card";
 import { Button } from "@/logaxp/components/ui/button";
 import { Badge } from "@/logaxp/components/ui/badge";
 import { toast } from "@/logaxp/components/ui/toast";
@@ -65,7 +78,9 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
   const [busyStepId, setBusyStepId] = React.useState<string | null>(null);
   const [busyAction, setBusyAction] = React.useState<BusyAction>(null);
 
-  const [removeTarget, setRemoveTarget] = React.useState<OnboardingStep | null>(null);
+  const [removeTarget, setRemoveTarget] = React.useState<OnboardingStep | null>(
+    null,
+  );
 
   const sortedRows = React.useMemo(() => sortSteps(rows), [rows]);
 
@@ -94,7 +109,7 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
         setBusyAction(null);
       }
     },
-    [steps, templateId]
+    [steps, templateId],
   );
 
   React.useEffect(() => {
@@ -161,11 +176,17 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <CardTitle className="text-base">Template Steps</CardTitle>
-            <CardDescription>Create, edit, reorder, and remove steps in this template.</CardDescription>
+            <CardDescription>
+              Create, edit, reorder, and remove steps in this template.
+            </CardDescription>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => void load()} disabled={busyAny}>
+            <Button
+              variant="outline"
+              onClick={() => void load()}
+              disabled={busyAny}
+            >
               <RefreshCcw className="h-4 w-4" />
               Refresh
             </Button>
@@ -185,7 +206,11 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
           <EmptyState
             title="No steps yet"
             description="Add your first step to begin building onboarding workflow."
-            action={<Button onClick={() => setCreateOpen(true)}>Add first step</Button>}
+            action={
+              <Button onClick={() => setCreateOpen(true)}>
+                Add first step
+              </Button>
+            }
           />
         ) : (
           <TableWrapper>
@@ -211,9 +236,7 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
                   const kind = String(stepData.kind ?? stepData.type ?? "—");
                   const required = Boolean(stepData.required ?? true);
                   const dueDays =
-                    stepData.dueDays ??
-                    stepData.dueDaysFromStart ??
-                    null;
+                    stepData.dueDays ?? stepData.dueDaysFromStart ?? null;
 
                   return (
                     <TableRow key={s.id}>
@@ -223,9 +246,13 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
 
                       <TableCell>
                         <div className="min-w-0">
-                          <div className="font-semibold truncate">{pickStepTitle(s)}</div>
+                          <div className="font-semibold truncate">
+                            {pickStepTitle(s)}
+                          </div>
                           {stepData.description ? (
-                            <div className="text-xs text-slate-500 truncate">{String(stepData.description)}</div>
+                            <div className="text-xs text-slate-500 truncate">
+                              {String(stepData.description)}
+                            </div>
                           ) : null}
                         </div>
                       </TableCell>
@@ -235,14 +262,25 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
                       </TableCell>
 
                       <TableCell>
-                        {required ? <Badge variant="success">REQUIRED</Badge> : <Badge variant="muted">OPTIONAL</Badge>}
+                        {required ? (
+                          <Badge variant="success">REQUIRED</Badge>
+                        ) : (
+                          <Badge variant="muted">OPTIONAL</Badge>
+                        )}
                       </TableCell>
 
                       <TableCell className="font-mono text-xs">
                         {typeof dueDays === "number" ? dueDays : "—"}
                       </TableCell>
 
-                      <TableCell>{safeIso((stepData.updatedAt ?? stepData.createdAt) as string | null | undefined)}</TableCell>
+                      <TableCell>
+                        {safeIso(
+                          (stepData.updatedAt ?? stepData.createdAt) as
+                            | string
+                            | null
+                            | undefined,
+                        )}
+                      </TableCell>
 
                       <TableCell className="text-right">
                         <div className="flex flex-wrap items-center justify-end gap-2">
@@ -262,9 +300,15 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
                             size="sm"
                             variant="outline"
                             onClick={() => void moveStep(s, "down")}
-                            disabled={busyAny || index === sortedRows.length - 1}
+                            disabled={
+                              busyAny || index === sortedRows.length - 1
+                            }
                             loading={busy && busyAction === "down"}
-                            title={index === sortedRows.length - 1 ? "Already at bottom" : undefined}
+                            title={
+                              index === sortedRows.length - 1
+                                ? "Already at bottom"
+                                : undefined
+                            }
                           >
                             <ArrowDown className="h-4 w-4" />
                             Down
@@ -327,21 +371,34 @@ export function TemplateStepsManager({ templateId }: { templateId: string }) {
       />
 
       {/* Delete confirm */}
-      <Dialog open={Boolean(removeTarget)} onOpenChange={(o) => !o && setRemoveTarget(null)}>
+      <Dialog
+        open={Boolean(removeTarget)}
+        onOpenChange={(o) => !o && setRemoveTarget(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete step</DialogTitle>
             <DialogDescription>
               This will permanently remove{" "}
-              <span className="font-semibold">{removeTarget ? pickStepTitle(removeTarget) : "this step"}</span>.
-              This can affect active onboarding instances depending on backend policy.
+              <span className="font-semibold">
+                {removeTarget ? pickStepTitle(removeTarget) : "this step"}
+              </span>
+              . Review the step before removing it from this template.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setRemoveTarget(null)} disabled={busyAny}>
+            <Button
+              variant="outline"
+              onClick={() => setRemoveTarget(null)}
+              disabled={busyAny}
+            >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={() => void remove()} loading={busyAction === "delete"}>
+            <Button
+              variant="destructive"
+              onClick={() => void remove()}
+              loading={busyAction === "delete"}
+            >
               Confirm delete
             </Button>
           </DialogFooter>
