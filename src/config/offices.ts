@@ -4,7 +4,7 @@ export const OFFICES = [
     lines: ["1108 Berry Street", "Old Hickory, Tennessee", "United States"],
   },
   {
-    name: "Nigeria Regional Head Office",
+    name: "Africa Regional Office",
     lines: [
       "No. 2, Chief Jimoh Adebiyi Street",
       "Agboyi Estate, Alapere, Ketu",

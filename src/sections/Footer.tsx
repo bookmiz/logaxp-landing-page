@@ -1,23 +1,12 @@
 import Image from "next/image";
  
 import Link from "next/link";
-import { OFFICES } from "@/logaxp/config/offices";
 
 
 export default function Footer() {
   return (
     <footer className="py-4 geist md:py-8 px-4 md:px-24 bg-[var(--background)] text-gray-500">
       <div className="container mx-auto py-12">
-        <section aria-label="Our offices" className="mb-10 grid gap-6 border-b border-gray-200 pb-8 dark:border-gray-700 md:grid-cols-2">
-          {OFFICES.map((office) => (
-            <div key={office.name}>
-              <h3 className="text-sm font-semibold text-[var(--foreground)]">{office.name}</h3>
-              <address className="mt-3 text-sm not-italic leading-6 text-gray-600 dark:text-gray-400">
-                {office.lines.map((line) => <span key={line} className="block">{line}</span>)}
-              </address>
-            </div>
-          ))}
-        </section>
         {/* Footer Content: Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: Brand Info */}
@@ -58,42 +47,42 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
-                <a
+                <Link 
                   href="/hr"
                   className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Features
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact"
                   className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Pricing
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact"
                   className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Discuss integrations
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/privacy"
                   className="hover:text-[#86BF00] text-[var(--foreground)]  transition-colors duration-200"
-                >Privacy information</a>
+                >Privacy information</Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/blog"
                   className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Articles
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -105,44 +94,44 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
-                <a
+                <Link 
                   href="/blog"
                   className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact"
                   className="hover:text-[#86BF00] text-[var(--foreground)]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Contact support
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact"
                   className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Technical enquiries
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact"
                   className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Support
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/demo"
                   className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Request a demo
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -154,45 +143,45 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
-                <a
+                <Link 
                   href="/about"
                   className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact"
                   className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Work with us
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact"
                   className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Media enquiries
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link 
                   href="/contact-us"
                   className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Contact Us
-                </a>
+                </Link>
               </li>
  <li>
-  <a
+  <Link 
               href="/admin/login"
               className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
             >
               
               Portal
-            </a>
+            </Link>
 </li>
 
             </ul>
