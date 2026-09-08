@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Phone, MapPin, Send, Calendar } from "lucide-react";
+import { Mail, MapPin, Send, Calendar } from "lucide-react";
+import { OFFICES } from "@/logaxp/config/offices";
 
 export default function ContactUsPage() {
   const [formData, setFormData] = useState({
@@ -47,21 +48,17 @@ export default function ContactUsPage() {
             <p className="text-gray-600 dark:text-gray-400 text-sm">support@logaxp.com</p>
           </div>
 
-          <div className="bg-[var(--background)] p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-[#a3d900] transition-all duration-200">
-            <div className="w-12 h-12 bg-[#a3d900]/10 rounded-lg flex items-center justify-center mb-4">
-              <Phone className="w-6 h-6 text-[#a3d900]" />
-            </div>
-            <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">Phone</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">+1 (555) 123-4567</p>
-          </div>
-
-          <div className="bg-[var(--background)] p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-[#a3d900] transition-all duration-200">
+          {OFFICES.map((office) => (
+          <div key={office.name} className="bg-[var(--background)] p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-[#a3d900] transition-all duration-200">
             <div className="w-12 h-12 bg-[#a3d900]/10 rounded-lg flex items-center justify-center mb-4">
               <MapPin className="w-6 h-6 text-[#a3d900]" />
             </div>
-            <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">Office</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">123 Business St, Suite 100</p>
+            <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">{office.name}</h3>
+            <address className="text-gray-600 dark:text-gray-400 text-sm not-italic leading-6">
+              {office.lines.map((line) => <span key={line} className="block">{line}</span>)}
+            </address>
           </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

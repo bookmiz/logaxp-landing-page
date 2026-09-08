@@ -1,9 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "../../../store/useAuthStore";
-import Layout from "../Layout";
+import React from "react";
 import { LineChart, Line, BarChart, Bar, AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface RevenueData {
@@ -202,30 +199,5 @@ const AnalyticsContent = () => {
 
 // Main Analytics Page Component
 export default function AnalyticsPage() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [activeLink, setActiveLink] = useState<string>("Analytics");
-
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
-
-  const { accessToken } = useAuthStore();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!accessToken) {
-      router.push("/admin/login");
-    }
-  }, [accessToken, router]);
-
-  return (
-    <div className={theme === "dark" ? "dark" : ""}>
-      <Layout
-        theme={theme}
-        toggleTheme={toggleTheme}
-        activeLink={activeLink}
-        setActiveLink={setActiveLink}
-      >
-        <AnalyticsContent />
-      </Layout>
-    </div>
-  );
+  return <AnalyticsContent />;
 }

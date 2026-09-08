@@ -1,12 +1,23 @@
 import Image from "next/image";
  
 import Link from "next/link";
+import { OFFICES } from "@/logaxp/config/offices";
 
 
 export default function Footer() {
   return (
     <footer className="py-4 geist md:py-8 px-4 md:px-24 bg-[var(--background)] text-gray-500">
       <div className="container mx-auto py-12">
+        <section aria-label="Our offices" className="mb-10 grid gap-6 border-b border-gray-200 pb-8 dark:border-gray-700 md:grid-cols-2">
+          {OFFICES.map((office) => (
+            <div key={office.name}>
+              <h3 className="text-sm font-semibold text-[var(--foreground)]">{office.name}</h3>
+              <address className="mt-3 text-sm not-italic leading-6 text-gray-600 dark:text-gray-400">
+                {office.lines.map((line) => <span key={line} className="block">{line}</span>)}
+              </address>
+            </div>
+          ))}
+        </section>
         {/* Footer Content: Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: Brand Info */}
@@ -35,7 +46,7 @@ export default function Footer() {
             </div>
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               Experience elevated analytics and insights. Loga
-              <span className="text-[#89E101]">XP</span> provides the tools you
+              <span className="text-[#86BF00]">XP</span> provides the tools you
               need to grow your business with confidence.
             </p>
           </div>
@@ -49,7 +60,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Features
                 </a>
@@ -57,7 +68,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Pricing
                 </a>
@@ -65,7 +76,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Integrations
                 </a>
@@ -73,7 +84,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)]  transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)]  transition-colors duration-200"
                 >
                   Security
                 </a>
@@ -81,7 +92,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Changelog
                 </a>
@@ -98,7 +109,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   Blog
                 </a>
@@ -106,7 +117,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)]  text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Help Center
                 </a>
@@ -114,7 +125,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   API Documentation
                 </a>
@@ -122,7 +133,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101] text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00] text-[var(--foreground)] transition-colors duration-200"
                 >
                   System Status
                 </a>
@@ -130,7 +141,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   FAQ
                 </a>
@@ -147,7 +158,7 @@ export default function Footer() {
               <li>
                 <a
                   href="/about"
-                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   About Us
                 </a>
@@ -155,7 +166,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Careers
                 </a>
@@ -163,7 +174,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Press
                 </a>
@@ -171,7 +182,7 @@ export default function Footer() {
               <li>
                 <a
                   href="/contact-us"
-                  className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
+                  className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
                 >
                   Contact Us
                 </a>
@@ -179,7 +190,7 @@ export default function Footer() {
  <li>
   <a
               href="/admin/login"
-              className="hover:text-[#89E101]  text-[var(--foreground)] transition-colors duration-200"
+              className="hover:text-[#86BF00]  text-[var(--foreground)] transition-colors duration-200"
             >
               
               Portal
@@ -194,16 +205,20 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between">
           <div className="flex items-center gap-3">
             <p className="text-sm text-center sm:text-left">
-              &copy; 2025 Loga<span className="text-[#89E101]">XP</span>, Inc. All
+              &copy; {new Date().getFullYear()} Loga<span className="text-[#86BF00]">XP</span>, Inc. All
               Rights Reserved.
             </p>
           
+          </div>
+          <div className="flex flex-wrap gap-4 mt-4 sm:mt-0 text-sm">
+            <Link href="/privacy" className="hover:text-[#86BF00]">Privacy</Link>
+            <Link href="/terms" className="hover:text-[#86BF00]">Terms</Link>
           </div>
           <div className="flex space-x-5 mt-4 sm:mt-0">
             {/* Social Icons */}
             <a
               href="#"
-              className="hover:text-[#89E101] transition-colors duration-200"
+              className="hover:text-[#86BF00] transition-colors duration-200"
             >
               <span className="sr-only">X (formerly Twitter)</span>
               <svg
@@ -217,7 +232,7 @@ export default function Footer() {
             </a>
             <a
               href="#"
-              className="hover:text-[#89E101] transition-colors duration-200"
+              className="hover:text-[#86BF00] transition-colors duration-200"
             >
               <span className="sr-only">LinkedIn</span>
               <svg
@@ -231,7 +246,7 @@ export default function Footer() {
             </a>
             <a
               href="#"
-              className="hover:text-[#89E101] transition-colors duration-200"
+              className="hover:text-[#86BF00] transition-colors duration-200"
             >
               <span className="sr-only">GitHub</span>
               <svg

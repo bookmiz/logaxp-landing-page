@@ -1,12 +1,14 @@
 "use client";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import Image from "next/image";
+import { ArrowUp } from "lucide-react";
 
 gsap.registerPlugin(ScrollToPlugin);
 export default function BackToTop() {
   return (
-    <div
+    <button
+      type="button"
+      aria-label="Back to top"
       onClick={() => {
         gsap.to(window, {
           scrollTo: 0,
@@ -14,16 +16,9 @@ export default function BackToTop() {
           duration: 2,
         });
       }}
-      className="fixed bottom-4 z-50 right-4 md:bottom-10 md:right-10 flex flex-col items-center justify-center gap-2 cursor-pointer hover:scale-110 transition-transform"
+      className="fixed bottom-4 z-50 right-4 flex h-10 w-10 items-center justify-center rounded-full border border-current/20 bg-[var(--background)] text-[var(--foreground)] shadow-sm cursor-pointer hover:scale-105 transition-transform"
     >
-      <Image
-        src="/svg/1.svg"
-        className="-rotate-90"
-        alt="arrow"
-        width={40}
-        height={40}
-      />
-      <p className="mango font-bold tracking-wide">Back to top</p>
-    </div>
+      <ArrowUp aria-hidden="true" className="h-5 w-5" />
+    </button>
   );
 }

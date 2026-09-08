@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
 import "@/logaxp/utils/gsap";
-import { Geist } from "next/font/google";
 import CustomLenis, { BackToTop } from "../components";
 import RouteFXGate from "../components/RouteFXGate";
 import Cursor from "../components/Cursor";
 import ReactQueryProvider from "../providers/ReactQueryProvider"; 
 import PublicNavbarGate from "../components/PublicNavbarGate";
+import { Suspense } from "react";
 
 const mangoGrotesque = localFont({
   src: [
@@ -20,9 +20,8 @@ const mangoGrotesque = localFont({
   variable: "--font-mango",
 });
 
-const geist = Geist({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+const geist = localFont({
+  src: "../../public/fonts/geist/Geist-Variable.woff2",
   variable: "--font-geist",
 });
 
@@ -41,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReactQueryProvider>
           <RouteFXGate>
             <PublicNavbarGate />
-            {children}
+            <Suspense fallback={null}>{children}</Suspense>
             <BackToTop />
           </RouteFXGate>
         </ReactQueryProvider>

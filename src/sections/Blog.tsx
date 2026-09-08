@@ -22,13 +22,13 @@ export default function Blog() {
             ref={prevButtonRef}
             className="p-4 rounded-full bg-black dark:bg-neutral-900"
           >
-            <ChevronLeft color="#89E101" />
+            <ChevronLeft color="#86BF00" />
           </button>
           <button
             ref={nextButtonRef}
             className="p-4 rounded-full bg-black dark:bg-neutral-900"
           >
-            <ChevronRight color="#89E101" />
+            <ChevronRight color="#86BF00" />
           </button>
         </div>
       </div>

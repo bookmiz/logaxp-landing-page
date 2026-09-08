@@ -1,19 +1,18 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useAuthStore } from "../store/useAuthStore";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api-logaxp.onrender.com/api";
+import { api } from "@/logaxp/lib/api/apiClient";
+import { tokenStorage } from "@/logaxp/lib/auth/tokenStorage";
 
 export function useLogout() {
-  const { refreshToken, clearAuth } = useAuthStore();
+  const { clearAuth } = useAuthStore();
 
   return useMutation({
     mutationFn: async () => {
-      await axios.post(`${API_URL}/auth/revoke`, { refreshToken });
+      await api.post("/auth/logout");
     },
     onSuccess: () => {
-      // Clears everything when logged out
+      tokenStorage.clear();
       clearAuth();
     },
     onError: (error) => {

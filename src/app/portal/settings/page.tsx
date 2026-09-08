@@ -1,9 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "../../../store/useAuthStore";
-import Layout from "../Layout";
+import React, { useState } from "react";
 
 interface SettingsSectionProps {
   title: string;
@@ -204,30 +201,5 @@ const SettingsContent = () => {
 
 // Main Settings Page Component
 export default function SettingsPage() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [activeLink, setActiveLink] = useState<string>("Settings");
-
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
-
-  const { accessToken } = useAuthStore();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!accessToken) {
-      router.push("/admin/login");
-    }
-  }, [accessToken, router]);
-
-  return (
-    <div className={theme === "dark" ? "dark" : ""}>
-      <Layout
-        theme={theme}
-        toggleTheme={toggleTheme}
-        activeLink={activeLink}
-        setActiveLink={setActiveLink}
-      >
-        <SettingsContent />
-      </Layout>
-    </div>
-  );
+  return <SettingsContent />;
 }

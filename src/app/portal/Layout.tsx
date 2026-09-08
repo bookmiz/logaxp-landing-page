@@ -1,69 +1,55 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import Navbar from "./Navbar";
-import Header from "./Header";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/logaxp/stores/useAuthStore";
+import PortalShell from "./PortalShell";
 
-type LayoutProps = {
-  children?: React.ReactNode;
-  theme: "light" | "dark";
-  toggleTheme: () => void;
-  activeLink: string;
-  setActiveLink: (link: string) => void;
-};
+export default function PortalLayout({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [activeLink, setActiveLink] = useState("Dashboard");
+  const router = useRouter();
 
-export default function Layout({
-  children,
-  activeLink,
-  setActiveLink,
-}: LayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);       // mobile drawer
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false); // desktop collapse
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isHydrated = useAuthStore((state) => state.isHydrated);
+  const user = useAuthStore((state) => state.user);
+  const tenant = useAuthStore((state) => state.tenant);
+  const membership = useAuthStore((state) => state.membership);
+  const requiresTenantSelection = useAuthStore((state) => state.requiresTenantSelection);
 
-  const headerTitle = useMemo(() => activeLink || "Dashboard", [activeLink]);
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    if (!accessToken) {
+      router.replace("/admin/login");
+      return;
+    }
+
+    if (!tenant && user?.isSiteAdmin) {
+      router.replace("/site-admin");
+      return;
+    }
+
+    if (requiresTenantSelection || !tenant || !membership) {
+      router.replace(requiresTenantSelection ? "/admin/login" : "/auth/no-workspace");
+    }
+  }, [accessToken, isHydrated, membership, requiresTenantSelection, router, tenant, user?.isSiteAdmin]);
+
+  if (!isHydrated) return null;
+  if (!accessToken) return null;
+  if (!tenant && user?.isSiteAdmin) return null;
+  if (requiresTenantSelection || !tenant || !membership) return null;
 
   return (
-    <div className="relative h-dvh bg-gray-100 dark:bg-gray-900">
-      {/* Header */}
-      <div className="sticky top-0 z-50">
-        <Header
-        
-         
-          title={headerTitle}
-          subtitle="Admin Console"
-          onOpenSidebar={() => setSidebarOpen(true)}
-        />
-      </div>
-
-      {/* Body */}
-      <div className="flex min-h-0 h-[calc(100dvh-64px)]">
-        {/* Desktop sidebar */}
-        <div className="hidden md:block h-full shrink-0">
-          <Navbar
-            activeLink={activeLink}
-            setActiveLink={setActiveLink}
-            collapsed={sidebarCollapsed}
-            onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
-            onNavigate={() => setSidebarOpen(false)}
-          />
-        </div>
-
-        {/* Main scroll container */}
-      <main className="flex-1 min-w-0 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar">
-          {children}
-        </main>
-      </div>
-
-      {/* Mobile drawer sidebar */}
-      <Navbar
-        mobileOpen={sidebarOpen}
-        onMobileClose={() => setSidebarOpen(false)}
+    <div className={theme === "dark" ? "dark" : ""}>
+      <PortalShell
+        theme={theme}
+        toggleTheme={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
         activeLink={activeLink}
         setActiveLink={setActiveLink}
-        collapsed={false}
-        onToggleCollapse={() => {}}
-        onNavigate={() => setSidebarOpen(false)}
-      />
+      >
+        {children}
+      </PortalShell>
     </div>
   );
 }

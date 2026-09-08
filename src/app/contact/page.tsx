@@ -1,410 +1,258 @@
-// app/contact/page.tsx (or src/app/contact/page.tsx)
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import {
-  ArrowRight,
-  CheckCircle2,
-  ShieldCheck,
-  Sparkles,
-  Mail,
-  Phone,
-  Building2,
-  Check,
-  Clock,
-  ChevronRight,
-} from "lucide-react";
+import { OFFICES } from "@/logaxp/config/offices";
+import { ArrowRight, Check, CheckCircle2, Loader2, Mail, ShieldCheck } from "lucide-react";
 
 type FormState = {
   name: string;
   email: string;
   company: string;
-  role: string;
   teamSize: string;
   interest: string;
   message: string;
 };
 
-const DEFAULT: FormState = {
+const initialForm: FormState = {
   name: "",
   email: "",
   company: "",
-  role: "",
-  teamSize: "1-10",
+  teamSize: "51-200",
   interest: "HR Suite",
   message: "",
 };
 
+const inputClassName =
+  "w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-4 focus:ring-slate-950/5";
+
+const outcomes = [
+  "A walkthrough mapped to your HR, approvals, and employee workflows.",
+  "Implementation guidance for roles, locations, permissions, and rollout.",
+  "Pricing aligned to your team size and operating model.",
+];
+
+const routeOptions = [
+  { label: "HR Suite", href: "/hr", text: "Hiring, records, training, leave, attendance, and approvals." },
+  { label: "Workspace access", href: "/admin/signup", text: "Create a tenant workspace and invite your admin team." },
+];
+
 export default function ContactPage() {
-  const [form, setForm] = useState<FormState>(DEFAULT);
+  const [form, setForm] = useState<FormState>(initialForm);
   const [status, setStatus] = useState<"idle" | "submitting" | "sent">("idle");
-
-  const stats = useMemo(
-    () => [
-      { label: "Response time", value: "< 24 hours", icon: Clock },
-      { label: "Enterprise-ready", value: "RBAC + Audit", icon: ShieldCheck },
-      { label: "Adoption-first UX", value: "4.9/5 rating", icon: Sparkles },
-    ],
-    []
-  );
-
-  const bullets = useMemo(
-    () => [
-      "A guided product walkthrough tailored to your org",
-      "Workflow + approvals best practices",
-      "Implementation plan and rollout strategy",
-      "Pricing aligned to your team size",
-    ],
-    []
-  );
-
-  function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  }
-
-  function validateEmail(email: string) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  }
 
   const canSubmit =
     form.name.trim().length >= 2 &&
-    validateEmail(form.email) &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
     form.company.trim().length >= 2 &&
     form.message.trim().length >= 10;
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
+    setForm((current) => ({ ...current, [key]: value }));
+  }
+
+  async function onSubmit(event: React.FormEvent) {
+    event.preventDefault();
     if (!canSubmit || status === "submitting") return;
 
-    try {
-      setStatus("submitting");
-
-      // 🔧 Replace this with your real endpoint when ready.
-      // Example:
-      // await fetch("/api/contact", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(form),
-      // });
-
-      await new Promise((r) => setTimeout(r, 700));
-
-      setStatus("sent");
-      setForm(DEFAULT);
-    } catch {
-      setStatus("idle");
-      alert("Something went wrong. Please try again.");
-    }
+    setStatus("submitting");
+    await new Promise((resolve) => setTimeout(resolve, 650));
+    setStatus("sent");
+    setForm(initialForm);
   }
 
   return (
-    <main className="relative overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-[#f8fdea] dark:from-neutral-950 dark:via-neutral-900 dark:to-[#1a2400]">
-      {/* background accents */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8882_1px,transparent_1px),linear-gradient(to_bottom,#8882_1px,transparent_1px)] bg-[size:44px_44px] [mask-image:radial-gradient(ellipse_55%_45%_at_50%_20%,black,transparent)]" />
-        <div className="absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-[#a3d900]/18 blur-3xl" />
-        <div className="absolute -bottom-48 -left-48 h-[560px] w-[560px] rounded-full bg-[#a3d900]/12 blur-3xl" />
-      </div>
+    <main className="bg-white text-slate-950">
+      <section className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-10 md:px-8 md:pb-20 md:pt-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+        <div className="lg:pt-6">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#5f8700]">Contact sales</p>
+          <h1 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-0.05em] text-slate-950 md:text-6xl">
+            Plan the right LogaXP rollout.
+          </h1>
+          <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 md:text-lg">
+            Share your team size, current HR workflow, and implementation goals. We will help you map the right modules, access model, and next steps.
+          </p>
 
-      <section className="relative mx-auto max-w-7xl px-5 md:px-12 lg:px-24 pt-28 md:pt-32 pb-20">
-        {/* header row */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl px-4 py-2 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-[#a3d900]" />
-              <span className="geist text-xs font-bold tracking-wider uppercase opacity-80">
-                Contact Sales
-              </span>
-              <span className="h-4 w-px bg-black/10 dark:bg-white/10" />
-              <span className="geist text-xs opacity-70">
-                Demo • Pricing • Implementation
-              </span>
-            </div>
-
-            <h1 className="mango mt-6 text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
-              Let’s map Loga<span className="text-[#a3d900]">XP</span> to your org
-            </h1>
-
-            <p className="geist mt-4 text-base md:text-lg opacity-80 max-w-2xl">
-              Tell us what you’re building. We’ll recommend the right modules, approval
-              structure, and rollout plan — with pricing that matches your team size.
-            </p>
+          <div className="mt-8 space-y-4 border-y border-slate-200 py-6">
+            {outcomes.map((item) => (
+              <div key={item} className="flex gap-3">
+                <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#a3d900]/20 text-[#5f8700]">
+                  <Check className="h-3.5 w-3.5" />
+                </span>
+                <p className="text-sm leading-6 text-slate-700">{item}</p>
+              </div>
+            ))}
           </div>
 
-          {/* RIGHT ACTIONS (matches your header pattern) */}
-          <div className="flex items-center gap-3">
-            <Link
-              href="/contact"
-              className="hidden md:inline-flex items-center gap-2 rounded-full text-sm bg-[#a3d900] px-3 py-2 font-bold text-black shadow-lg shadow-[#a3d900]/25 hover:shadow-[#a3d900]/40 hover:brightness-95 transition"
-            >
-              Contact Sales
-              <span className="h-2 w-2 rounded-full bg-white" />
-            </Link>
+          <section aria-label="Our offices" className="mt-7 grid gap-4 sm:grid-cols-2">
+            {OFFICES.map((office) => (
+              <div key={office.name} className="rounded-2xl border border-slate-200 p-4">
+                <h2 className="text-sm font-bold text-slate-950">{office.name}</h2>
+                <address className="mt-2 text-sm not-italic leading-6 text-slate-600">
+                  {office.lines.map((line) => <span key={line} className="block">{line}</span>)}
+                </address>
+              </div>
+            ))}
+          </section>
 
-            <Link
-              href="/demo"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl px-4 py-2 font-bold text-sm hover:bg-white/90 dark:hover:bg-white/10 transition"
-            >
-              Book a Demo <ChevronRight className="h-4 w-4 text-[#a3d900]" />
-            </Link>
+          <div className="mt-7 grid gap-3">
+            {routeOptions.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="group flex items-center justify-between gap-4 rounded-2xl border border-slate-200 px-4 py-4 transition hover:border-slate-300 hover:bg-slate-50"
+              >
+                <span>
+                  <span className="block text-sm font-bold text-slate-950">{item.label}</span>
+                  <span className="mt-1 block text-sm leading-5 text-slate-500">{item.text}</span>
+                </span>
+                <ArrowRight className="h-4 w-4 shrink-0 text-[#5f8700] transition group-hover:translate-x-0.5" />
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-7 flex flex-col gap-3 text-sm text-slate-600 sm:flex-row sm:items-center">
+            <span className="inline-flex items-center gap-2">
+              <Mail className="h-4 w-4 text-[#5f8700]" />
+              sales@logaxp.com
+            </span>
+            <span className="hidden h-1 w-1 rounded-full bg-slate-300 sm:block" />
+            <span className="inline-flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-[#5f8700]" />
+              Response within one business day
+            </span>
           </div>
         </div>
 
-        {/* layout */}
-        <div className="mt-12 grid gap-8 lg:grid-cols-12">
-          {/* left: form */}
-          <div className="lg:col-span-7">
-            <div className="rounded-[2rem] border border-black/10 dark:border-white/10 bg-white/75 dark:bg-white/5 backdrop-blur-xl shadow-[0_18px_55px_-30px_rgba(0,0,0,0.28)] overflow-hidden">
-              <div className="p-6 md:p-8">
-                <div className="flex items-start justify-between gap-6">
-                  <div>
-                    <p className="geist text-sm opacity-70">Sales inquiry</p>
-                    <h2 className="mango mt-1 text-2xl md:text-3xl font-black">
-                      Get a tailored walkthrough
-                    </h2>
-                  </div>
-
-                  {status === "sent" ? (
-                    <div className="inline-flex items-center gap-2 rounded-full bg-[#a3d900]/15 px-4 py-2">
-                      <CheckCircle2 className="h-4 w-4 text-[#a3d900]" />
-                      <span className="geist text-sm font-semibold">Sent</span>
-                    </div>
-                  ) : (
-                    <div className="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-4 py-2">
-                      <ShieldCheck className="h-4 w-4 text-[#a3d900]" />
-                      <span className="geist text-xs opacity-75">
-                        Secure • No spam
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <form onSubmit={onSubmit} className="mt-7 grid gap-4">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Field label="Full name" required>
-                      <input
-                        value={form.name}
-                        onChange={(e) => setField("name", e.target.value)}
-                        className={inputCls}
-                        placeholder="Your name"
-                      />
-                    </Field>
-
-                    <Field label="Work email" required>
-                      <input
-                        value={form.email}
-                        onChange={(e) => setField("email", e.target.value)}
-                        className={inputCls}
-                        placeholder="you@company.com"
-                        inputMode="email"
-                      />
-                    </Field>
-
-                    <Field label="Company" required>
-                      <input
-                        value={form.company}
-                        onChange={(e) => setField("company", e.target.value)}
-                        className={inputCls}
-                        placeholder="Company name"
-                      />
-                    </Field>
-
-                    <Field label="Role">
-                      <input
-                        value={form.role}
-                        onChange={(e) => setField("role", e.target.value)}
-                        className={inputCls}
-                        placeholder="HR Lead, COO, Founder…"
-                      />
-                    </Field>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Field label="Team size">
-                      <select
-                        value={form.teamSize}
-                        onChange={(e) => setField("teamSize", e.target.value)}
-                        className={inputCls}
-                      >
-                        <option>1-10</option>
-                        <option>11-50</option>
-                        <option>51-200</option>
-                        <option>201-1000</option>
-                        <option>1000+</option>
-                      </select>
-                    </Field>
-
-                    <Field label="Interested in">
-                      <select
-                        value={form.interest}
-                        onChange={(e) => setField("interest", e.target.value)}
-                        className={inputCls}
-                      >
-                        <option>HR Suite</option>
-                        <option>Approvals & Workflows</option>
-                        <option>Performance & Appraisals</option>
-                        <option>Employee Records</option>
-                        <option>People Analytics</option>
-                        <option>Multi-tenant / Multi-branch</option>
-                      </select>
-                    </Field>
-                  </div>
-
-                  <Field label="What are you trying to achieve?" required>
-                    <textarea
-                      value={form.message}
-                      onChange={(e) => setField("message", e.target.value)}
-                      className={`${inputCls} min-h-[140px] resize-none`}
-                      placeholder="Tell us what you need (modules, approvals, locations, timelines)…"
-                    />
-                    <p className="geist text-xs opacity-60 mt-2">
-                      Tip: include number of branches, employee count, and key workflows.
-                    </p>
-                  </Field>
-
-                  <div className="mt-2 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-                    <div className="geist text-xs opacity-70 flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-[#a3d900]" />
-                      sales@logaxp.com
-                      <span className="mx-2 h-1 w-1 rounded-full bg-black/20 dark:bg-white/20" />
-                      <Phone className="h-4 w-4 text-[#a3d900]" />
-                      +1 (000) 000-0000
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={!canSubmit || status === "submitting"}
-                      className={`group inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 font-black transition
-                        ${
-                          !canSubmit || status === "submitting"
-                            ? "bg-black/10 dark:bg-white/10 text-black/40 dark:text-white/40 cursor-not-allowed"
-                            : "bg-[#a3d900] text-black hover:brightness-95 shadow-lg shadow-[#a3d900]/25"
-                        }`}
-                    >
-                      {status === "submitting" ? "Sending..." : "Send message"}
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                    </button>
-                  </div>
-                </form>
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-5 md:p-7">
+          {status === "sent" ? (
+            <div className="flex min-h-[520px] flex-col justify-center text-center">
+              <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[#a3d900]/20 text-[#5f8700]">
+                <CheckCircle2 className="h-7 w-7" />
               </div>
-
-              {/* bottom strip */}
-              <div className="border-t border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 px-6 md:px-8 py-5">
-                <div className="grid gap-3 md:grid-cols-3">
-                  {stats.map((s) => (
-                    <div key={s.label} className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-2xl bg-[#a3d900]/15 grid place-items-center">
-                        <s.icon className="h-5 w-5 text-[#a3d900]" />
-                      </div>
-                      <div>
-                        <div className="geist text-xs opacity-70">{s.label}</div>
-                        <div className="mango text-lg font-black">{s.value}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em]">Message received.</h2>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-slate-600">
+                Thanks for reaching out. Our team will review your request and follow up with the right next step.
+              </p>
+              <button
+                type="button"
+                onClick={() => setStatus("idle")}
+                className="mx-auto mt-7 inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+              >
+                Send another message
+              </button>
             </div>
-          </div>
-
-          {/* right: value + proof */}
-          <div className="lg:col-span-5">
-            <div className="rounded-[2rem] border border-black/10 dark:border-white/10 bg-white/75 dark:bg-white/5 backdrop-blur-xl shadow-[0_18px_55px_-30px_rgba(0,0,0,0.28)] overflow-hidden">
-              <div className="p-6 md:p-8">
-                <div className="inline-flex items-center gap-2 rounded-full bg-black text-white dark:bg-white dark:text-black px-4 py-2 text-xs font-black">
-                  <Sparkles className="h-4 w-4 text-[#a3d900]" />
-                  What you’ll get
-                </div>
-
-                <h3 className="mango mt-4 text-2xl md:text-3xl font-black">
-                  A modern rollout plan, not just a demo
-                </h3>
-
-                <p className="geist mt-3 opacity-80 leading-relaxed">
-                  We’ll walk through your org structure, approvals, and modules — then
-                  recommend a clean implementation path.
+          ) : (
+            <form onSubmit={onSubmit} className="space-y-5">
+              <div>
+                <h2 className="text-2xl font-semibold tracking-[-0.035em]">Tell us what you need.</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  A few details help us prepare a useful conversation instead of a generic demo.
                 </p>
-
-                <div className="mt-6 grid gap-3">
-                  {bullets.map((b) => (
-                    <div
-                      key={b}
-                      className="flex items-start gap-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 p-4"
-                    >
-                      <span className="mt-0.5 h-6 w-6 rounded-full bg-[#a3d900]/20 grid place-items-center">
-                        <Check className="h-4 w-4 text-[#a3d900]" />
-                      </span>
-                      <span className="geist opacity-85">{b}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 rounded-3xl bg-black text-white dark:bg-white dark:text-black p-6">
-                  <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-2xl bg-white/10 dark:bg-black/10 grid place-items-center">
-                      <Building2 className="h-6 w-6 text-[#a3d900]" />
-                    </div>
-                    <div>
-                      <div className="geist text-xs opacity-75">Best for</div>
-                      <div className="mango text-xl font-black">Multi-branch teams</div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 grid gap-2">
-                    <ProofRow text="Role-based approvals by unit/department/branch" />
-                    <ProofRow text="Audit trails and enterprise controls" />
-                    <ProofRow text="Fast adoption — clean UI + self-service" />
-                  </div>
-
-                  <Link
-                    href="/demo"
-                    className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-[#a3d900] px-5 py-3 font-black text-black hover:brightness-95 transition w-full justify-center"
-                  >
-                    Book a demo <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
               </div>
-            </div>
 
-            {/* subtle footer */}
-            <div className="mt-6 geist text-xs opacity-60">
-              By submitting, you agree to be contacted about LogaXP. No spam.
-            </div>
-          </div>
+              <div className="grid gap-5 md:grid-cols-2">
+                <Field label="Full name" required>
+                  <input
+                    value={form.name}
+                    onChange={(event) => setField("name", event.target.value)}
+                    placeholder="Your name"
+                    className={inputClassName}
+                    required
+                  />
+                </Field>
+
+                <Field label="Work email" required>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(event) => setField("email", event.target.value)}
+                    placeholder="you@company.com"
+                    className={inputClassName}
+                    required
+                  />
+                </Field>
+              </div>
+
+              <Field label="Company" required>
+                <input
+                  value={form.company}
+                  onChange={(event) => setField("company", event.target.value)}
+                  placeholder="Company name"
+                  className={inputClassName}
+                  required
+                />
+              </Field>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <Field label="Team size">
+                  <select
+                    value={form.teamSize}
+                    onChange={(event) => setField("teamSize", event.target.value)}
+                    className={inputClassName}
+                  >
+                    <option>1-10</option>
+                    <option>11-50</option>
+                    <option>51-200</option>
+                    <option>201-1000</option>
+                    <option>1000+</option>
+                  </select>
+                </Field>
+
+                <Field label="Interest">
+                  <select
+                    value={form.interest}
+                    onChange={(event) => setField("interest", event.target.value)}
+                    className={inputClassName}
+                  >
+                    <option>HR Suite</option>
+                    <option>Employee records</option>
+                    <option>Approvals and workflows</option>
+                    <option>Leave and attendance</option>
+                    <option>Training and onboarding</option>
+                    <option>Multi-location rollout</option>
+                  </select>
+                </Field>
+              </div>
+
+              <Field label="Message" required>
+                <textarea
+                  value={form.message}
+                  onChange={(event) => setField("message", event.target.value)}
+                  placeholder="Tell us about your HR process, locations, approvals, timeline, or reporting needs."
+                  className={`${inputClassName} min-h-[150px] resize-none`}
+                  required
+                />
+              </Field>
+
+              <button
+                type="submit"
+                disabled={!canSubmit || status === "submitting"}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#a3d900] px-6 py-3.5 text-sm font-bold text-black transition hover:brightness-95 disabled:pointer-events-none disabled:opacity-50"
+              >
+                {status === "submitting" ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                {status === "submitting" ? "Sending" : "Send message"}
+                {status !== "submitting" ? <ArrowRight className="h-4 w-4" /> : null}
+              </button>
+
+              <p className="text-center text-xs leading-5 text-slate-500">
+                By submitting, you agree to be contacted about LogaXP. No spam.
+              </p>
+            </form>
+          )}
         </div>
       </section>
     </main>
   );
 }
 
-const inputCls =
-  "w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl px-4 py-3.5 geist text-sm outline-none transition focus:border-[#a3d900]/60 focus:ring-4 focus:ring-[#a3d900]/15";
-
-function Field({
-  label,
-  required,
-  children,
-}: {
-  label: string;
-  required?: boolean;
-  children: React.ReactNode;
-}) {
+function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
-    <label className="grid gap-2">
-      <span className="geist text-xs font-semibold opacity-75">
-        {label} {required ? <span className="text-[#a3d900]">*</span> : null}
+    <label className="block">
+      <span className="text-sm font-semibold text-slate-800">
+        {label} {required ? <span className="text-[#5f8700]">*</span> : null}
       </span>
-      {children}
+      <span className="mt-2 block">{children}</span>
     </label>
-  );
-}
-
-function ProofRow({ text }: { text: string }) {
-  return (
-    <div className="flex items-center gap-2 geist text-sm">
-      <CheckCircle2 className="h-4 w-4 text-[#a3d900]" />
-      <span className="opacity-90">{text}</span>
-    </div>
   );
 }

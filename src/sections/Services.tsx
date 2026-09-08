@@ -30,7 +30,7 @@ export default function Services() {
             className="md:text-center leading-[1.08] tracking-tight text-3xl md:text-7xl mango font-black "
           >
             <span>We build </span>
-            <span className="text-[#a3d900] opacity-100">secure</span>
+            <span className="text-[#86BF00] opacity-100">secure</span>
             <span> software for </span>
 
             <span className="inline-block align-middle px-1 opacity-100">
@@ -45,11 +45,11 @@ export default function Services() {
             </span>
 
             <span> modern teams — </span>
-            <span className="text-[#a3d900] opacity-100">SaaS</span>
+            <span className="text-[#86BF00] opacity-100">SaaS</span>
             <span>, </span>
-            <span className="text-[#a3d900] opacity-100">cybersecurity</span>
+            <span className="text-[#86BF00] opacity-100">cybersecurity</span>
             <span> & </span>
-            <span className="text-[#a3d900] opacity-100">platform engineering</span>
+            <span className="text-[#86BF00] opacity-100">platform engineering</span>
 
             <span className="inline-block align-middle px-1 opacity-100">
               <Image

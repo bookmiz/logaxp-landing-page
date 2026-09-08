@@ -45,16 +45,16 @@ export default function Service({ index, title, length }: ServiceProps) {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect x="69" y="138" width="69" height="69" fill="#89E101" />
-            <rect x="69" width="69" height="69" fill="#89E101" />
-            <rect y="69" width="69" height="69" fill="#89E101" />
+            <rect x="69" y="138" width="69" height="69" fill="#86BF00" />
+            <rect x="69" width="69" height="69" fill="#86BF00" />
+            <rect y="69" width="69" height="69" fill="#86BF00" />
             <rect
               x="138"
               y="138"
               width="69"
               height="69"
               transform="rotate(-90 138 138)"
-              fill="#89E101"
+              fill="#86BF00"
             />
           </svg>
         </div>

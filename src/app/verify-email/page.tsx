@@ -18,7 +18,7 @@ function VerifyEmailContent() {
 
     const verifyEmail = async () => {
       try {
-        await axios.post('/auth/verify-email', { token });
+        await axios.post('/auth/email/verify', { token });
         setStatus('success');
       } catch {
         setStatus('error');

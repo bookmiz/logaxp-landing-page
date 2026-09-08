@@ -1,9 +1,6 @@
  "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "../../../store/useAuthStore";
-import Layout from "../Layout";
+import React from "react";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface ReportData {
@@ -160,30 +157,5 @@ const ReportsContent = () => {
 
 // Main Reports Page Component
 export default function ReportsPage() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [activeLink, setActiveLink] = useState<string>("Reports");
-
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
-
-  const { accessToken } = useAuthStore();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!accessToken) {
-      router.push("/admin/login");
-    }
-  }, [accessToken, router]);
-
-  return (
-    <div className={theme === "dark" ? "dark" : ""}>
-      <Layout
-        theme={theme}
-        toggleTheme={toggleTheme}
-        activeLink={activeLink}
-        setActiveLink={setActiveLink}
-      >
-        <ReportsContent />
-      </Layout>
-    </div>
-  );
+  return <ReportsContent />;
 }

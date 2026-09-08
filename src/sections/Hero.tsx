@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { Users } from "lucide-react";
 import { useRef } from "react";
 import useTextReveal, { useRotateOnScroll } from "../hooks";
 import Link from "next/link";
@@ -15,28 +16,21 @@ export default function Hero() {
   return (
     <header
       id="home"
-      className="px-4 md:px-12 lg:px-24 pt-24 gap-18 flex flex-col items-center pb-10 md:pb-20"
+      className="px-4 md:px-12 lg:px-24 pt-12 md:pt-20 gap-12 flex flex-col items-center pb-10 md:pb-20"
     >
       <section className="lg:max-w-4xl">
         <div className="flex md:items-center lg:px-18 flex-col gap-2">
             <h1
               data-cursor="-inverse"
               ref={textRevealRef}
-              className="text-6xl mb-4 md:text-8xl overflow-hidden tracking-wide mango font-bold md:text-center"
+              className="text-5xl mb-4 md:text-7xl xl:text-8xl overflow-hidden tracking-wide mango font-bold md:text-center"
             >
               Enterprise Software{" "}
               <span>
-                <Image
-                  className="inline hero-gifs rounded-2xl md:rounded-3xl w-12 h-12 md:w-18 md:h-18"
-                  width={100}
-                  height={100}
-                  alt="mini"
-                  unoptimized
-                  src={"/gifs/management.gif"}
-                />
+                <Users aria-hidden="true" className="inline h-10 w-10 md:h-14 md:w-14 align-middle text-[#86BF00]" strokeWidth={1.75} />
               </span>{" "}
               Built to Power{" "}
-              <span className="block text-[#a3d900] opacity-100">People & Performance</span>
+              <span className="block text-[#86BF00] opacity-100">People & Performance</span>
             </h1>
 
             <p className="md:text-lg opacity-80 geist font-normal md:text-center max-w-2xl">
@@ -47,7 +41,7 @@ export default function Hero() {
       </section>
       <div ref={heroMediaRef} className="relative">
         <video
-          className="rounded-4xl w-full md:aspect-video"
+          className="rounded-3xl w-full aspect-video object-cover"
           src="/videos/2.mp4"
           loop
           muted
@@ -62,7 +56,7 @@ export default function Hero() {
         ></video>
         <Link
           href=""
-          className="absolute md:-top-[7%] md:-left-[8%] -top-[15%] -left-[15%] w-32 md:w-42 h-auto"
+          className="absolute md:-top-[7%] md:-left-[8%] -top-[10%] left-0 w-20 md:w-42 h-auto"
         >
           <Image
             ref={smileyStickerRef}

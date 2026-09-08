@@ -1,24 +1,21 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useAuthStore } from "../store/useAuthStore";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://your-api-url.com";
+import { api } from "@/logaxp/lib/api/apiClient";
+import { tokenStorage } from "@/logaxp/lib/auth/tokenStorage";
 
 export function useRefreshToken() {
-  const { refreshToken, setAccessToken, setRefreshToken } = useAuthStore();
+  const { setAccessToken, setRefreshToken } = useAuthStore();
 
   return useMutation({
     mutationFn: async () => {
-      const response = await axios.post(`${API_URL}/auth/refresh`, {
-        refreshToken,
-      });
+      const response = await api.post("/auth/refresh");
       return response.data;
     },
     onSuccess: (data) => {
-      // ✅ Update tokens in Zustand
+      tokenStorage.setTokens(data.accessToken, undefined);
       setAccessToken(data.accessToken);
-      setRefreshToken(data.refreshToken);
+      setRefreshToken(data.refreshToken ?? null);
     },
     onError: (error) => {
       console.error("Token refresh failed:", error);

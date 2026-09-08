@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
+import AuthSessionProvider from "./AuthSessionProvider";
 
 const queryClient = new QueryClient();
 
@@ -12,7 +13,7 @@ export default function ReactQueryProvider({
 }) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <AuthSessionProvider>{children}</AuthSessionProvider>
     </QueryClientProvider>
   );
 }

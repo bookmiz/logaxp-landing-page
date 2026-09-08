@@ -33,7 +33,7 @@ export default function NavLink({ title, link, onClick }: Props) {
           rotate: 0,
         });
       }}
-      className="md:text-9xl hover:text-[#89E101] text-8xl cursor-pointer mango font-black"
+      className="md:text-9xl hover:text-[#86BF00] text-8xl cursor-pointer mango font-black"
     >
       <Link
         className="flex items-center justify-between "

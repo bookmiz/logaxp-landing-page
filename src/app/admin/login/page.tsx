@@ -1,346 +1,264 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
-import { useLogin } from "../../../hooks/useLogin";
-import { useAuthStore } from "../../../store/useAuthStore";
-import { 
-  Eye, 
-  EyeOff, 
-  Lock, 
-  Mail, 
-  ArrowRight, 
-  ShieldCheck,
-  Key,
-  UserPlus,
-  AlertCircle,
-  Home
-} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import {
+  AlertCircle,
+  ArrowRight,
+  Building2,
+  Eye,
+  EyeOff,
+  Home,
+  Loader2,
+  Lock,
+  Mail,
+  ShieldCheck,
+} from "lucide-react";
+import { useAuth } from "@/logaxp/hooks/useAuth";
+
+const inputClassName =
+  "w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 pl-11 text-base text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:ring-4 focus:ring-slate-950/5";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const loginMutation = useLogin();
-  const { accessToken } = useAuthStore();
+  const {
+    accessToken,
+    user,
+    tenant,
+    membership,
+    requiresTenantSelection,
+    tenantChoices,
+    isHydrated,
+    loading,
+    error,
+    clearError,
+    login,
+  } = useAuth();
+
   const router = useRouter();
 
   useEffect(() => {
-    if (accessToken) router.push("/portal");
-  }, [accessToken, router]);
+    if (!isHydrated) return;
+    if (!accessToken) return;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    loginMutation.mutate({ email, password });
+    if (!tenant && user?.isSiteAdmin) {
+      router.replace("/site-admin");
+      return;
+    }
+
+    if (tenant && membership) {
+      router.replace("/portal");
+      return;
+    }
+
+    if (!requiresTenantSelection) {
+      router.replace("/auth/no-workspace");
+    }
+  }, [accessToken, isHydrated, membership, requiresTenantSelection, router, tenant, user?.isSiteAdmin]);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    clearError();
+    void login({ email, password }).catch(() => undefined);
+  };
+
+  const handleTenantSelect = (tenantSlug: string) => {
+    clearError();
+    void login({ email, password, tenantSlug }).catch(() => undefined);
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-[#f8fdea] dark:from-neutral-950 dark:via-neutral-900 dark:to-[#1a2400]">
-      {/* subtle grid */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:44px_44px] [mask-image:radial-gradient(ellipse_60%_55%_at_50%_35%,black,transparent)]" />
-
-      {/* Floating particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-[#a3d900] rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0, 0.3, 0],
-            }}
-            transition={{
-              duration: 5 + i,
-              repeat: Infinity,
-              delay: i * 0.8,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Home Button - Fixed Position */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2 }}
-        className="fixed top-6 left-6 z-20"
-      >
-        <Link
-          href="/"
-          className="group flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-xl px-4 py-2.5 shadow-lg hover:shadow-xl transition-all hover:scale-105"
-          aria-label="Go to homepage"
-        >
-          <motion.div
-            whileHover={{ rotate: -15 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          >
-            <Home className="h-5 w-5 text-[#a3d900]" />
-          </motion.div>
-          <span className="geist text-sm font-medium">Back to Home</span>
-          <motion.span
-            className="h-2 w-2 rounded-full bg-[#a3d900]"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
+    <main className="min-h-screen bg-white text-slate-950">
+      <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6 md:px-8">
+        <Link href="/" aria-label="LogaXP home">
+          <Image src="/logo-light.png" alt="LogaXP" width={126} height={36} priority className="h-auto w-[126px]" />
         </Link>
-      </motion.div>
 
-      <div className="relative z-10 flex min-h-screen items-center justify-center px-5 py-12">
-        <div className="w-full max-w-[460px]">
-         
-          {/* Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="relative overflow-hidden rounded-[1.6rem] border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl shadow-[0_20px_70px_-35px_rgba(0,0,0,0.35)]"
-          >
-            {/* inner glow */}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_260px_at_15%_0%,rgba(163,217,0,0.04),transparent_60%)]" />
+        <div className="flex items-center gap-3">
+          <Link href="/" className="hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-slate-500 transition hover:text-slate-950 sm:inline-flex">
+            <Home className="h-4 w-4" />
+            Home
+          </Link>
+          <Link href="/admin/signup" className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50">
+            Create workspace
+          </Link>
+        </div>
+      </header>
 
-            <div className="relative p-7 sm:p-8">
-              {/* Heading */}
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 px-4 py-2">
-                  <span className="h-2 w-2 rounded-full bg-[#a3d900]" />
-                  <span className="geist text-xs font-bold tracking-wide uppercase opacity-80">
-                    Secure Access
-                  </span>
-                </div>
+      <section className="mx-auto flex max-w-6xl justify-center px-5 pb-16 pt-6 md:px-8 md:pt-10">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.28 }}
+          className="w-full max-w-[460px]"
+        >
+          <div className="text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#5f8700]">Secure access</p>
+            <h1 className="mt-4 text-4xl font-semibold tracking-[-0.05em] md:text-5xl">Welcome back.</h1>
+            <p className="mx-auto mt-4 max-w-sm text-base leading-7 text-slate-600">
+              Sign in to continue to your LogaXP workspace.
+            </p>
+          </div>
 
-                <h1 className="mango mt-5 text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 dark:text-white">
-                  Welcome back
-                </h1>
-                <p className="geist mt-2 text-sm sm:text-base opacity-75">
-                  Sign in to manage your LogaXP platform.
-                </p>
-              </div>
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-                {/* Email */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="space-y-2"
-                >
-                  <label className="geist text-sm font-semibold opacity-80 flex items-center gap-1">
-                    <Mail className="h-4 w-4" />
-                    Email address
-                  </label>
-
+          <div className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-5 md:p-7">
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-5">
+                <Field label="Email address">
                   <div className="relative">
+                    <Mail className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                     <input
                       type="email"
-                      placeholder="admin@company.com"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="admin@company.com"
                       required
-                      className="
-                        w-full rounded-2xl border border-black/10 dark:border-white/10
-                        bg-white/80 dark:bg-white/5 backdrop-blur
-                        px-4 py-3.5 pl-11
-                        geist text-sm sm:text-base
-                        text-neutral-900 dark:text-white
-                        placeholder:text-black/35 dark:placeholder:text-white/35
-                        outline-none
-                        focus:ring-2 focus:ring-[#a3d900]/40 focus:border-[#a3d900]/40
-                        transition
-                      "
+                      className={inputClassName}
                     />
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-black/40 dark:text-white/40" />
                   </div>
-                </motion.div>
+                </Field>
 
-                {/* Password */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.25 }}
-                  className="space-y-2"
-                >
-                  <label className="geist text-sm font-semibold opacity-80 flex items-center gap-1">
-                    <Lock className="h-4 w-4" />
-                    Password
-                  </label>
-
+                <Field label="Password">
                   <div className="relative">
+                    <Lock className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                     <input
                       type={showPassword ? "text" : "password"}
-                      placeholder="••••••••"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(event) => setPassword(event.target.value)}
+                      placeholder="Enter your password"
                       required
-                      className="
-                        w-full rounded-2xl border border-black/10 dark:border-white/10
-                        bg-white/80 dark:bg-white/5 backdrop-blur
-                        px-4 pr-12 py-3.5 pl-11
-                        geist text-sm sm:text-base
-                        text-neutral-900 dark:text-white
-                        placeholder:text-black/35 dark:placeholder:text-white/35
-                        outline-none
-                        focus:ring-2 focus:ring-[#a3d900]/40 focus:border-[#a3d900]/40
-                        transition
-                      "
+                      className={`${inputClassName} pr-12`}
                     />
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-black/40 dark:text-white/40" />
-                    
                     <button
                       type="button"
-                      onClick={() => setShowPassword((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded-xl p-1.5 text-black/45 hover:text-black/70 dark:text-white/45 dark:hover:text-white/70 transition"
+                      onClick={() => setShowPassword((value) => !value)}
+                      className="absolute right-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-slate-400 transition hover:bg-slate-50 hover:text-slate-700"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
-                </motion.div>
-
-                {/* Links Row - Forgot Password & Need Access */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="flex items-center justify-between pt-2"
-                >
-                  {/* Forgot Password Link */}
-                  <Link
-                    href="/forgot-password"
-                    className="geist text-xs font-medium text-[#a3d900] hover:text-[#b2e619] transition flex items-center gap-1 group"
-                  >
-                    <Key className="h-3 w-3 group-hover:rotate-12 transition-transform" />
-                    Forgot password?
-                  </Link>
-
-                  {/* Need Access Link */}
-                  <Link
-                    href="/request-access"
-                    className="geist text-xs font-medium text-neutral-900 dark:text-white hover:opacity-80 transition flex items-center gap-1 group"
-                  >
-                    <UserPlus className="h-3 w-3 group-hover:scale-110 transition-transform" />
-                    Need access?
-                  </Link>
-                </motion.div>
-
-                {/* Security Badge */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.32 }}
-                  className="flex items-center justify-center gap-2 pt-1"
-                >
-                  <ShieldCheck className="h-3 w-3 text-[#a3d900]" />
-                  <span className="geist text-xs opacity-60">
-                    Protected by enterprise-grade security
-                  </span>
-                </motion.div>
-
-                {/* Submit */}
-                <motion.button
-                  type="submit"
-                  disabled={loginMutation.isPending}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35 }}
-                  className="
-                    group w-full mt-4
-                    inline-flex items-center justify-center gap-2
-                    rounded-2xl
-                    bg-[#a3d900] text-black
-                    px-5 py-4
-                    mango font-black text-base
-                    shadow-lg shadow-[#a3d900]/25
-                    hover:shadow-[#a3d900]/40 hover:brightness-95 hover:scale-[1.02]
-                    disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100
-                    transition-all
-                  "
-                >
-                  {loginMutation.isPending ? (
-                    <>
-                      <div className="h-5 w-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                      Signing in...
-                    </>
-                  ) : (
-                    <>
-                      Sign In
-                      <ArrowRight className="h-5 w-5 group-hover:translate-x-0.5 transition-transform" />
-                    </>
-                  )}
-                </motion.button>
-
-                {/* Error */}
-                {loginMutation.isError && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-3 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3"
-                  >
-                    <p className="geist text-sm text-red-700 dark:text-red-300 flex items-center gap-2">
-                      <AlertCircle className="h-4 w-4" />
-                      Login failed. Please check your credentials.
-                    </p>
-                  </motion.div>
-                )}
-              </form>
-            </div>
-
-            {/* bottom edge */}
-            <div className="h-px w-full bg-black/10 dark:bg-white/10" />
-            <div className="px-7 sm:px-8 py-4 flex items-center justify-between">
-              <p className="geist text-xs opacity-60">© {new Date().getFullYear()} LogaXP</p>
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-3 w-3 text-[#a3d900]" />
-                <p className="geist text-xs opacity-60">Secure • Audited</p>
+                </Field>
               </div>
-            </div>
-          </motion.div>
 
-          {/* small helper with links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mt-6 text-center geist text-xs opacity-60 flex items-center justify-center gap-2"
-          >
-            <span>By continuing, you agree to our</span>
-            <Link href="/terms" className="text-[#a3d900] hover:underline">
-              Terms
-            </Link>
-            <span>and</span>
-            <Link href="/privacy" className="text-[#a3d900] hover:underline">
-              Privacy Policy
-            </Link>
-          </motion.div>
+              <div className="mt-4 flex items-center justify-between gap-4 text-sm">
+                <Link href="/admin/password/forgot" className="font-semibold text-[#5f8700] transition hover:text-[#4d7100]">
+                  Forgot password?
+                </Link>
+                <Link href="/admin/signup" className="font-semibold text-slate-500 transition hover:text-slate-950">
+                  Need access?
+                </Link>
+              </div>
 
-          {/* Mobile Home Button (hidden on larger screens) */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-4 text-center md:hidden"
-          >
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition"
-            >
-              <Home className="h-4 w-4" />
-              Back to Home
-            </Link>
-          </motion.div>
+              <button
+                type="submit"
+                disabled={loading || requiresTenantSelection}
+                className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#a3d900] px-6 py-3.5 text-sm font-bold text-black transition hover:-translate-y-0.5 hover:brightness-95 disabled:pointer-events-none disabled:opacity-50"
+              >
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                {requiresTenantSelection ? "Choose a workspace below" : "Sign in"}
+                {!loading ? <ArrowRight className="h-4 w-4" /> : null}
+              </button>
+
+              {requiresTenantSelection && tenantChoices.length > 0 ? (
+                <WorkspacePicker
+                  choices={tenantChoices}
+                  loading={loading}
+                  onSelect={handleTenantSelect}
+                />
+              ) : null}
+
+              {error ? (
+                <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                  <div className="flex gap-2">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                </div>
+              ) : null}
+            </form>
+          </div>
+
+          <div className="mt-5 flex flex-col items-center justify-center gap-2 text-center text-xs text-slate-500 sm:flex-row">
+            <span className="inline-flex items-center gap-1.5">
+              <ShieldCheck className="h-3.5 w-3.5 text-[#5f8700]" />
+              Secure session
+            </span>
+            <span className="hidden h-1 w-1 rounded-full bg-slate-300 sm:block" />
+            <span>
+              By continuing, you agree to our{" "}
+              <Link href="/terms" className="font-semibold text-[#5f8700] hover:underline">
+                Terms
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="font-semibold text-[#5f8700] hover:underline">
+                Privacy Policy
+              </Link>
+              .
+            </span>
+          </div>
+        </motion.div>
+      </section>
+    </main>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="text-sm font-semibold text-slate-800">{label}</span>
+      <span className="mt-2 block">{children}</span>
+    </label>
+  );
+}
+
+function WorkspacePicker({
+  choices,
+  loading,
+  onSelect,
+}: {
+  choices: Array<{ tenantId: string; tenantSlug: string; tenantName: string }>;
+  loading: boolean;
+  onSelect: (tenantSlug: string) => void;
+}) {
+  return (
+    <div className="mt-6 rounded-3xl border border-slate-200 p-4">
+      <div className="flex items-start gap-3">
+        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#a3d900]/20 text-[#5f8700]">
+          <Building2 className="h-5 w-5" />
+        </div>
+        <div>
+          <h2 className="text-sm font-bold text-slate-950">Choose your workspace</h2>
+          <p className="mt-1 text-xs leading-5 text-slate-500">
+            This account belongs to more than one workspace.
+          </p>
         </div>
       </div>
 
-      {/* Decorative bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#a3d900]/5 to-transparent pointer-events-none" />
+      <div className="mt-4 space-y-2">
+        {choices.map((choice) => (
+          <button
+            key={choice.tenantId}
+            type="button"
+            disabled={loading}
+            onClick={() => onSelect(choice.tenantSlug)}
+            className="group flex w-full items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-left transition hover:border-slate-300 hover:bg-slate-50 disabled:pointer-events-none disabled:opacity-60"
+          >
+            <span>
+              <span className="block text-sm font-semibold text-slate-950">{choice.tenantName}</span>
+              <span className="mt-0.5 block text-xs text-slate-500">
+                {choice.tenantSlug === "__platform__" ? "Site administration" : `/${choice.tenantSlug}`}
+              </span>
+            </span>
+            <ArrowRight className="h-4 w-4 text-[#5f8700] transition group-hover:translate-x-0.5" />
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

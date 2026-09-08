@@ -10,7 +10,8 @@ export default function RouteFXGate({ children }: { children: React.ReactNode })
 
   const isPortal =
     pathname.startsWith("/portal") ||
-    pathname.startsWith("/admin"); // include admin routes too if you want
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/site-admin"); // include protected app routes too
 
   // ✅ Portal/Admin: NO Lenis, NO Cursor
   if (isPortal) return <>{children}</>;

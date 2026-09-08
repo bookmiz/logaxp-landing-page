@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import { Users, HeartHandshake, ChartNoAxesCombined, type LucideIcon } from "lucide-react";
+import HrFeaturePreview, { HrPreviewKind } from "../components/HrFeaturePreview";
 import Link from "next/link";
 import { useMemo, useRef } from "react";
 import useTextReveal from "../hooks";
@@ -58,8 +59,8 @@ const sheen: Variants = {
 type Feature = {
   title: string;
   description: string;
-  image: string;
-  icon: string;
+  preview: HrPreviewKind;
+  icon: LucideIcon;
   tag: string;
 };
 
@@ -88,25 +89,25 @@ export default function HR() {
         title: "Talent Acquisition",
         tag: "Hire smarter",
         description:
-          "AI-driven sourcing, smart screening, automated scheduling, and bias-reduced matching — all in one modern pipeline.",
-        image: "/images/hr-talent.png",
-        icon: "/gifs/sparkle.gif",
+          "Bring candidate details, hiring stages, and interview planning together in one organized pipeline.",
+        preview: "talent",
+        icon: Users,
       },
       {
         title: "Employee Engagement",
         tag: "Keep teams thriving",
         description:
-          "Pulse surveys, recognition walls, wellbeing check-ins, and personalized growth paths that actually get used.",
-        image: "/images/hr-engagement.png",
-        icon: "/gifs/management.gif",
+          "Create space for team feedback, recognition, wellbeing check-ins, and conversations about growth.",
+        preview: "engagement",
+        icon: HeartHandshake,
       },
       {
         title: "Performance & Growth",
         tag: "Ship excellence",
         description:
           "OKR alignment, 360° feedback, continuous coaching, career lattices — designed for today’s dynamic teams.",
-        image: "/images/hr-performance.png",
-        icon: "/gifs/chart-growth.gif",
+        preview: "performance",
+        icon: ChartNoAxesCombined,
       },
     ],
     []
@@ -140,10 +141,10 @@ export default function HR() {
               <motion.h2
                 ref={textRevealRef}
                 variants={fadeUp}
-                className="mt-5 mango tracking-tight font-black text-5xl md:text-8xl leading-[1.02] text-neutral-900 dark:text-white pb-8 md:pb-12"
+                className="mt-5 mango tracking-tight font-black text-5xl md:text-6xl xl:text-7xl leading-[1.02] text-neutral-900 dark:text-white pb-2 md:pb-4"
               >
                 Modern HR,
-                <span className="block text-[#a3d900] mask-b-to-indigo-500 ">
+                <span className="block text-[#86BF00] mask-b-to-indigo-500 ">
                   built for high-velocity teams.
                 </span>
               </motion.h2>
@@ -169,7 +170,7 @@ export default function HR() {
                       "hover:shadow-[0_22px_55px_rgba(163,217,0,0.42)]",
                       "transition overflow-hidden",
                       "ring-1 ring-black/10",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a3d900]/45",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#86BF00]/45",
                     ].join(" ")}
                   >
                     {/* animated glow backdrop */}
@@ -223,10 +224,10 @@ export default function HR() {
             <div className="lg:col-span-5">
               <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3 w-full">
                 {[
-                  { k: "↓ 38%", v: "time-to-hire" },
-                  { k: "↑ 22%", v: "retention uplift" },
-                  { k: "360°", v: "feedback loops" },
-                  { k: "OKRs", v: "aligned execution" },
+                  { k: "Organized hiring", v: "Keep candidates and next steps together" },
+                  { k: "Team connection", v: "Make room for regular check-ins" },
+                  { k: "Shared feedback", v: "Support ongoing conversations" },
+                  { k: "Clear goals", v: "Connect growth with team priorities" },
                 ].map((s) => (
                   <div
                     key={s.v}
@@ -245,7 +246,7 @@ export default function HR() {
           </div>
 
           {/* CARDS */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-9">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-7 lg:gap-9">
             {features.map((feature, i) => (
               <motion.div
                 key={feature.title}
@@ -257,7 +258,7 @@ export default function HR() {
                 whileHover="hover"
                 animate="rest"
                 className={[
-                  "group relative rounded-[28px] overflow-hidden",
+                  "group relative flex flex-col rounded-[28px] overflow-hidden",
                   "bg-white/75 dark:bg-neutral-900/50",
                   "backdrop-blur-xl",
                   "border border-black/10 dark:border-white/10",
@@ -280,49 +281,22 @@ export default function HR() {
                   className="pointer-events-none absolute inset-y-0 left-0 w-1/3 rotate-12 bg-gradient-to-r from-transparent via-white/30 to-transparent blur-md"
                 />
 
-                {/* Media */}
-                <div className="relative h-56">
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-[1.08]"
-                    priority={i === 0}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-
-                  {/* tag */}
-                  <div className="absolute top-4 left-4">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-black/55 text-white px-3 py-1.5 backdrop-blur">
-                      <span className="h-2 w-2 rounded-full bg-[#a3d900]" />
-                      <span className="geist text-[12px] font-semibold tracking-wide">
-                        {feature.tag}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                <HrFeaturePreview kind={feature.preview} tag={feature.tag} />
 
                 {/* Content */}
-                <div className="relative p-7 pb-10">
+                <div className="relative flex flex-1 flex-col p-6 xl:p-7 pb-8">
                   <div className="flex items-center gap-4 mb-4">
                     <motion.div
                       className={[
-                        "w-14 h-14 rounded-2xl",
+                        "w-12 h-12 shrink-0 rounded-2xl",
                         "bg-black/5 dark:bg-white/10",
                         "border border-black/10 dark:border-white/10",
                         "flex items-center justify-center",
                       ].join(" ")}
-                      whileHover={{ rotate: 360, scale: 1.12 }}
+                      whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.8 }}
                     >
-                      <Image
-                        src={feature.icon}
-                        alt=""
-                        width={32}
-                        height={32}
-                        className="w-8 h-8"
-                        unoptimized
-                      />
+                      <feature.icon aria-hidden="true" className="h-6 w-6 text-[#86BF00]" strokeWidth={1.75} />
                     </motion.div>
 
                     <div className="min-w-0">
@@ -335,15 +309,15 @@ export default function HR() {
                     </div>
                   </div>
 
-                  <p className="geist text-lg leading-relaxed text-black/70 dark:text-white/70">
+                  <p className="geist text-base leading-relaxed text-black/70 dark:text-white/70">
                     {feature.description}
                   </p>
 
                   {/* footer link */}
-                  <div className="mt-6">
+                  <div className="mt-auto pt-6">
                     <Link
                       href="/hr"
-                      className="inline-flex items-center gap-2 geist text-sm font-semibold text-neutral-900 dark:text-white hover:text-[#89E101] transition"
+                      className="inline-flex items-center gap-2 geist text-sm font-semibold text-neutral-900 dark:text-white hover:text-[#86BF00] transition"
                     >
                       Learn more
                       <span className="text-black/40 dark:text-white/40">→</span>
@@ -359,7 +333,7 @@ export default function HR() {
             variants={fadeUp}
             className="mt-14 md:mt-16 text-center md:text-xl geist max-w-3xl mx-auto text-black/70 dark:text-white/70"
           >
-            Loga<span className="text-[#a3d900] font-bold">XP</span> HR — where people science meets cutting-edge
+            Loga<span className="text-[#86BF00] font-bold">XP</span> HR — where people science meets cutting-edge
             technology.
           </motion.p>
         </motion.div>

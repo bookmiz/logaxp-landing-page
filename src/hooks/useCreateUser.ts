@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useAuthStore } from "../store/useAuthStore";
-
-const API_URL = "https://api-logaxp.onrender.com/api";
+import { api } from "@/logaxp/lib/api/apiClient";
 
 interface CreateUserData {
   email: string;
@@ -43,8 +42,8 @@ export const useCreateUser = () => {
         throw new Error("No access token available. Please login again.");
       }
 
-      const response = await axios.post<CreateUserResponse>(
-        `${API_URL}/auth/admin/create-user`,
+      const response = await api.post<CreateUserResponse>(
+        "/auth/register",
         userData,
         {
           headers: {

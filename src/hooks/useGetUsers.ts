@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useAuthStore } from "../store/useAuthStore";
-
-const API_URL = "https://api-logaxp.onrender.com/api";
+import { api } from "@/logaxp/lib/api/apiClient";
 
 interface User {
   _id: string;
@@ -51,8 +50,8 @@ export const useGetUsers = (params?: GetUsersParams) => {
         throw new Error("No access token available. Please login again.");
       }
 
-      const response = await axios.get<GetUsersResponse>(
-        `${API_URL}/users`,
+      const response = await api.get<GetUsersResponse>(
+        "/site-admin/users",
         {
           params: {
             ...params,
