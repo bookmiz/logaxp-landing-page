@@ -237,6 +237,8 @@ export default function SiteAdminSidebar({
             path: "/site-admin/showcases",
             matchPrefixes: ["/site-admin/system-health"],
           },
+          {name: "Articles", path: "/site-admin/articles"},
+          {name: "Sales enquiries", path: "/site-admin/enquiries"},
         ],
       },
 

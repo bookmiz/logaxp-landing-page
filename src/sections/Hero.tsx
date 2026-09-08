@@ -25,20 +25,21 @@ export default function Hero() {
               ref={textRevealRef}
               className="text-5xl mb-4 md:text-7xl xl:text-8xl overflow-hidden tracking-wide mango font-bold md:text-center"
             >
-              Enterprise Software{" "}
+              Software Agency{" "}
               <span>
                 <Users aria-hidden="true" className="inline h-10 w-10 md:h-14 md:w-14 align-middle text-[#86BF00]" strokeWidth={1.75} />
               </span>{" "}
-              Built to Power{" "}
-              <span className="block text-[#86BF00] opacity-100">People & Performance</span>
+              & Products for{" "}
+              <span className="block text-[#86BF00] opacity-100">People & Business</span>
             </h1>
 
             <p className="md:text-lg opacity-80 geist font-normal md:text-center max-w-2xl">
-              Hiring, cybersecurity to operations tools, we ship SaaS products teams depend on every day.
+              We design and build custom software, alongside products for people operations, bookings, events and delivery.
             </p>
 
           </div>
       </section>
+      <div className="flex flex-wrap justify-center gap-4"><Link href="/contact" className="rounded-full bg-[#86BF00] px-6 py-3 font-bold text-black">Discuss your project</Link><Link href="/#projects" className="rounded-full border px-6 py-3 font-bold">Explore our products</Link></div>
       <div ref={heroMediaRef} className="relative">
         <video
           className="rounded-3xl w-full aspect-video object-cover"
@@ -55,7 +56,7 @@ export default function Hero() {
           tabIndex={-1}
         ></video>
         <Link
-          href=""
+          href="/contact"
           className="absolute md:-top-[7%] md:-left-[8%] -top-[10%] left-0 w-20 md:w-42 h-auto"
         >
           <Image

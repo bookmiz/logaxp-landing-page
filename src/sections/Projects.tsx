@@ -3,11 +3,12 @@
 import Link from "next/link";
 import ProjectMotion from "../components/ProjectMotion";
 import { ProjectImage } from "../components";
-import { services } from "../utils/content";
+
 import projects from "../utils/content/projects";
 import { HashIcon } from "lucide-react";
 import { useState } from "react";
 
+const services = [{title:"GatherPlux"},{title:"BookMiz"},{title:"HireAFixer"},{title:"LogaDash"}];
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   return (
@@ -18,6 +19,8 @@ export default function Projects() {
         </h2>
         <div className="flex items-center flex-wrap md:justify-center lg:justify-start gap-3">
           <button
+            onClick={() => setSelectedCategory(null)}
+            aria-pressed={selectedCategory === null}
             className={
               "border text-xs font-bold text-[var(--foreground)] py-2 px-4 border-[var(--foreground)] rounded-full cursor-pointer transition-colors hover:text-[var(--background)] hover:bg-[var(--foreground)] hover:border-[var(--background)]"
             }
@@ -28,6 +31,8 @@ export default function Projects() {
             return (
               <button
                 key={index}
+                onClick={() => setSelectedCategory(service.title)}
+                aria-pressed={selectedCategory === service.title}
                 className="border whitespace-nowrap text-xs font-bold text-[var(--foreground)] py-2 px-4 border-[var(--foreground)] rounded-full cursor-pointer transition-colors hover:text-[var(--background)] hover:bg-[var(--foreground)] hover:border-[var(--background)]"
               >
                 {service.title}
@@ -37,12 +42,12 @@ export default function Projects() {
         </div>
       </div>
       <div className="mt-12 md:mt-20 flex items-start gap-16 md:gap-24 flex-col justify-between">
-        {projects.map((project, index) => {
+        {projects.filter(project=>!selectedCategory||project.title===selectedCategory).map((project, index) => {
           return (
             <Link
               className="cursor-pointer grid w-full grid-cols-1 xl:grid-cols-[minmax(0,1.28fr)_minmax(0,1fr)] xl:items-center gap-8"
               key={index}
-              href={project.link || project.links || "#"}
+              href={project.link || project.links || "/contact"}
               target={project.link || project.links ? "_blank" : undefined}
               rel={project.link || project.links ? "noopener noreferrer" : undefined}
             >

@@ -28,10 +28,10 @@ export default function AboutSection() {
               Building The Future of Business Technology
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-              Since 2021, LogaXP has been on a mission to revolutionize how businesses operate. We recognized the challenges organizations face in managing operations, optimizing workflows, and staying competitive in a rapidly evolving digital landscape.
+              LogaXP brings software agency services and business products together. We recognized the challenges organizations face in managing operations, optimizing workflows, and staying competitive in a rapidly evolving digital landscape.
             </p>
             <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-              What started as an innovative idea has evolved into a comprehensive platform trusted by businesses worldwide. We empower organizations to streamline operations, boost productivity, and achieve their goals with technology that works as hard as they do.
+              What started as an innovative idea has evolved into a collection of products and software services. We empower organizations to streamline operations, boost productivity, and achieve their goals with technology that works as hard as they do.
             </p>
             <div className="flex gap-4">
               <div className="flex items-center gap-2">

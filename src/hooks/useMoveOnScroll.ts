@@ -15,7 +15,7 @@ export default function useMoveOnScroll(
   options?: ScrollTrigger.Vars
 ) {
   useGSAP(() => {
-    if (!elementRef.current || !containerRef.current) return;
+    if (!elementRef.current || !containerRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (from) gsap.set(elementRef.current, { [direction]: from });
     gsap.to(elementRef.current, {
       [direction]: to,

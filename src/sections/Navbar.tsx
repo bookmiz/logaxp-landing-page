@@ -2,26 +2,31 @@
 
 import Link from "next/link";
 import { TextAlignJustifyIcon, XIcon, Users } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink } from "../components";
 import gsap from "gsap";
 import Image from "next/image";
 import { useLenis } from "lenis/react";
 
 const links = [
-  { name: "Home", href: "#home" },
-  { name: "Services", href: "#services" },
-  { name: "Projects", href: "#projects" },
-  { name: "Blog", href: "#blog" },
+  { name: "Home", href: "/#home" },
+  { name: "Services", href: "/#services" },
+  { name: "Projects", href: "/#projects" },
+  { name: "Blog", href: "/#blog" },
 ];
 
 export default function Navbar() {
+  const [open,setOpen]=useState(false);
+  const triggerRef=useRef<HTMLButtonElement>(null);
+  const closeRef=useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLUListElement | null>(null);
   const previousBodyOverflow = useRef("");
   const previousHtmlOverflow = useRef("");
   const lenis = useLenis();
 
   const showNavbar = () => {
+    setOpen(true);
+    setTimeout(()=>closeRef.current?.focus(),0);
     previousBodyOverflow.current = document.body.style.overflow;
     previousHtmlOverflow.current = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
@@ -29,18 +34,20 @@ export default function Navbar() {
     lenis?.stop();
     gsap.to(menuRef.current, {
       x: "0",
-      duration: 0.45,
+      duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 0.45,
       ease: "power3.out",
     });
   };
 
   const hideNavbar = useCallback(() => {
+    setOpen(false);
+    triggerRef.current?.focus();
     document.body.style.overflow = previousBodyOverflow.current;
     document.documentElement.style.overflow = previousHtmlOverflow.current;
     lenis?.start();
     gsap.to(menuRef.current, {
       x: "100%",
-      duration: 0.35,
+      duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 0.35,
       ease: "power3.inOut",
     });
   }, [lenis]);
@@ -102,7 +109,8 @@ export default function Navbar() {
 
                 <button
                   type="button"
-                  aria-label="Open menu"
+                  ref={triggerRef}
+                  aria-label="Open menu" aria-expanded={open} aria-controls="public-menu"
                   onClick={showNavbar}
                   className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-black/10 bg-white text-slate-900 transition hover:bg-black/[0.04] md:h-11 md:w-11"
                 >
@@ -115,16 +123,15 @@ export default function Navbar() {
       </header>
 
       <ul
+        id="public-menu" inert={!open} aria-hidden={!open}
+        onKeyDown={event=>{if(event.key==="Escape")hideNavbar(); if(event.key==="Tab"){const items=menuRef.current?.querySelectorAll<HTMLElement>("a[href],button");if(!items?.length)return;const first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}}}
         ref={menuRef}
         data-lenis-prevent
         onWheel={(event) => event.stopPropagation()}
         onTouchMove={(event) => event.stopPropagation()}
         className="z-[999] flex h-dvh flex-col gap-8 overflow-y-auto overscroll-contain translate-x-full md:w-2xl w-full px-8 pt-18 pb-10 fixed right-0 top-0 bg-[var(--background)]"
       >
-        <XIcon
-          onClick={hideNavbar}
-          className="top-8 right-8 cursor-pointer absolute"
-        />
+        <button ref={closeRef} aria-label="Close menu" onClick={hideNavbar} className="top-8 right-8 absolute rounded p-2"><XIcon/></button>
         <li className="mt-2">
           <Link
             href="/hr"
@@ -148,7 +155,7 @@ export default function Navbar() {
                   </span>
                 </div>
                 <p className="geist text-sm opacity-75 mt-1">
-                  Hiring • Engagement • Performance — in one system
+                  Records • Onboarding • Time and leave
                 </p>
               </div>
 
@@ -159,6 +166,7 @@ export default function Navbar() {
           </Link>
         </li>
 
+        <li><Link href="/admin/login" onClick={hideNavbar} className="text-xl font-bold">Login to your workspace</Link></li>
         <li className="h-px bg-black/10 dark:bg-white/10 my-2" />
 
         {links.map((link, index) => (
@@ -197,7 +205,7 @@ export default function Navbar() {
             </div>
 
             <div className="mt-4 geist text-xs opacity-60">
-              Enterprise-ready • Multi-tenant • Secure
+              Software projects • Products • Team workflows
             </div>
           </div>
         </div>

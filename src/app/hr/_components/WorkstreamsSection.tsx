@@ -17,7 +17,7 @@ export default function WorkstreamsSection() {
           <SectionHeader
             eyebrow="Lifecycle management"
             title="Connect every stage of the employee journey."
-            text="Hiring, records, training, leave, attendance, and approvals stay connected."
+            text="Records, onboarding, leave, attendance, and approvals stay connected."
           />
           <div className="hidden h-px bg-zinc-100 lg:block" />
         </div>

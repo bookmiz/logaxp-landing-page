@@ -1,55 +1,9 @@
-import { Calendar } from "lucide-react";
-
-export default function Project() {
-  return (
-    <main className="px-4 md:px-24">
-      <section className="md:mt-24 mt-16 items-center gap-12 flex flex-col justify-center">
-        <span className="border whitespace-nowrap text-xs font-bold text-[var(--foreground)] py-2 px-4 border-[var(--foreground)] rounded-full">
-          Web Design
-        </span>
-        <div>
-          <h1 className="text-center mango text-6xl md:text-8xl font-bold">
-            Behind the Scenes: How We Judge DEV Challenge Submissions
-          </h1>
-          <p className="align-middle text-white/50 md:text-base text-sm mt-4 text-center">
-            <Calendar className="inline" />
-            10/23/2024
-          </p>
-        </div>
-        <video
-          className="w-full aspect-square  md:aspect-11/6 rounded-4xl object-cover"
-          src="/videos/6.mp4"
-          autoPlay
-        ></video>
-      </section>
-      <section className="font-mango flex flex-col mt-12 items-center text-lg leading-loose">
-        <p className="lg:max-w-4xl">
-          This master class will look into the UX / UI design of the next
-          award-winning website. You will know what we aimed at, how the design
-          concept was created, and the difficulties we had during development.
-          The task seemed quite trivial - client&apos;s site had become
-          outdated, so agency’s main mission was to redesign it. But, not just a
-          redesign was needed here, but a complete rebranding, a new corporate
-          identity, and a fresh look at the Potion product. Potion is a simple
-          but effective sales tool for increasing conversions from cold leads
-          and emails. As for the development itself, it is based on the
-          lightweight Bona library (ex Evolve.js). We have been using an
-          excellent and productive solution from GreenSock as an animation
-          platform for several years. This library covers almost all cases with
-          animations on our projects. It allows you to easily and quickly
-          describe any animation in the form of a timeline, and use the
-          ScrollTrigger plugin to bind it to the scroll. To organise smooth
-          scrolling in the browser window, we use the SmoothScrollbar library,
-          and a special plugin is used to connect it with ScrollTrigger. When
-          creating the cursor effect, we used our previously announced Mouse
-          Follower library. The most difficult task was to make falling stickers
-          with text in the testimonials section, which should have physical
-          properties and respond to the user&apos;s mouse cursor. The 2D physics
-          engine Matter.js was chosen to solve this problem. The engine itself
-          calculated only the physical parameters. And getting the coordinates
-          and angles of these blocks was done using HTML/CSS.
-        </p>
-      </section>
-    </main>
-  );
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { getArticle } from '@/logaxp/lib/articles/server';
+export async function generateMetadata({params}:{params:Promise<{id:string}>}){const article=await getArticle((await params).id);return {title:article?.title??'Article not found',description:article?.shortDescription,alternates:{canonical:`/blog/${(await params).id}`}};}
+export default async function ArticlePage({params}:{params:Promise<{id:string}>}){
+ const article=await getArticle((await params).id); if(!article) notFound();
+ return <main className="px-4 md:px-24 pb-20"><section className="mt-16 flex flex-col items-center gap-8"><Link href="/blog" className="rounded-full border px-4 py-2 text-sm">All articles</Link><h1 className="text-center mango text-6xl md:text-8xl font-bold max-w-5xl">{article.title}</h1><time dateTime={article.publishedAt}>{new Date(article.publishedAt).toLocaleDateString('en-US',{dateStyle:'long',timeZone:'UTC'})}</time><Image src={article.heroUrl||'/images/4.png'} alt={article.title} width={1200} height={700} className="w-full rounded-3xl"/></section><article className="mx-auto mt-12 max-w-3xl space-y-6 text-lg leading-8">{article.description?.split(/\n\s*\n/).map((paragraph,index)=><p key={index} className="whitespace-pre-wrap">{paragraph}</p>)}</article><Link href="/contact" className="mx-auto mt-12 block w-fit rounded-full bg-[#86BF00] px-6 py-3 text-black font-bold">Discuss your project</Link></main>;
 }

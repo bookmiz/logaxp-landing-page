@@ -1,6 +1,7 @@
 "use client";
 
 import { MotionConfig } from "framer-motion";
+import ProductScreenshots from "./ProductScreenshots";
 import ControlLayerSection from "./ControlLayerSection";
 import CoverageSection from "./CoverageSection";
 import CtaSection from "./CtaSection";
@@ -16,6 +17,7 @@ export default function HRPageContent() {
         <HRProductHeader />
         <HeroSection />
         <WorkstreamsSection />
+        <ProductScreenshots />
         <ControlLayerSection />
         <CoverageSection />
         <PricingSection />

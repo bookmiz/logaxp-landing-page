@@ -10,7 +10,7 @@ export default function useRotateOnScroll(
   scrollTriggerOptions?: ScrollTrigger.Vars | undefined
 ) {
   useGSAP(() => {
-    if (!elementRef.current || !containerRef.current) return;
+    if (!elementRef.current || !containerRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     gsap.from(elementRef.current, {
       rotation,

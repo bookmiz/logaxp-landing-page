@@ -24,13 +24,13 @@ export default function HeroSection() {
               </motion.p>
 
               <motion.h1 variants={fadeUp} className="mt-7 max-w-2xl text-balance text-5xl font-semibold leading-[1.05] tracking-[-0.055em] text-zinc-950 md:text-6xl lg:text-[72px]">
-                HR + Payroll.
+                People + Operations.
                 <br />
-                Everywhere.
+                Connected.
               </motion.h1>
 
               <motion.p variants={fadeUp} className="mt-6 max-w-xl text-lg leading-8 text-zinc-600">
-                Hire, manage, train, approve, and pay teams from one secure HR platform built for growing operations.
+                Keep employee records, onboarding tasks, attendance and leave approvals connected in one workspace.
               </motion.p>
 
               <motion.div variants={fadeUp} className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -53,8 +53,8 @@ export default function HeroSection() {
 
             <motion.div variants={fadeUp} className="relative min-h-[360px] overflow-hidden rounded-[1.5rem] bg-white lg:-mr-12 lg:min-h-[520px]">
               <Image
-                src="/images/hr-dashboard-1.png"
-                alt="LogaXP HR dashboard with employee analytics, leave tracking, approvals, and payroll workflow cards"
+                src="/images/logaxp-live-dashboard.png"
+                alt="Actual LogaXP dashboard showing synthetic demo records"
                 fill
                 priority
                 sizes="(min-width: 1024px) 760px, 100vw"

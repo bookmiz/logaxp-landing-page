@@ -11,8 +11,8 @@ const plans = [
   {
     name: "HR Operations",
     label: "Most teams",
-    description: "For growing teams connecting hiring, onboarding, training, leave, and attendance.",
-    points: ["Recruiting workflow", "Training evidence", "Leave and attendance", "Role-based access"],
+    description: "For growing teams connecting employee records, onboarding, leave, and attendance.",
+    points: ["Onboarding tasks", "Manager reporting", "Leave and attendance", "Role-based access"],
     featured: true,
   },
   {

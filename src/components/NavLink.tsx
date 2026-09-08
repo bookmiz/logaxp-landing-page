@@ -3,7 +3,7 @@ import { useRef } from "react";
 import useTextReveal from "../hooks";
 import Link from "next/link";
 import gsap from "gsap";
-import { useLenis } from "lenis/react";
+
 
 type Props = {
   title: string;
@@ -14,7 +14,7 @@ type Props = {
 export default function NavLink({ title, link, onClick }: Props) {
   const linkRef = useRef<HTMLLIElement | null>(null);
   const iconRef = useRef<HTMLDivElement | null>(null);
-  const lenis = useLenis();
+
 
   useTextReveal(linkRef);
 
@@ -37,8 +37,8 @@ export default function NavLink({ title, link, onClick }: Props) {
     >
       <Link
         className="flex items-center justify-between "
-        href={""}
-        onClick={() => lenis?.scrollTo(`#${title.toLowerCase()}`)}
+        href={link} aria-label={title}
+        onClick={onClick}
       >
         {title}
         <div ref={iconRef} className="md:w-20 w-10 h-10 md:h-20">

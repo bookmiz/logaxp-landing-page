@@ -26,8 +26,8 @@ export type Workstream = ImagePanel & {
 
 export const lifecycle: LifecycleItem[] = [
   {
-    title: "Recruiting",
-    text: "Hiring flow",
+    title: "Onboarding",
+    text: "Task checklists",
     icon: BriefcaseBusiness,
   },
   {
@@ -41,8 +41,8 @@ export const lifecycle: LifecycleItem[] = [
     icon: CalendarCheck,
   },
   {
-    title: "Training",
-    text: "Learning records",
+    title: "Team operations",
+    text: "Manager reporting",
     icon: GraduationCap,
   },
 ];
@@ -56,15 +56,15 @@ export const heroPanels: ImagePanel[] = [
     alt: "HR representative helping an employee",
   },
   {
-    eyebrow: "Talent acquisition",
-    title: "Interview workflow",
-    text: "Stages, feedback, decisions.",
+    eyebrow: "Onboarding",
+    title: "Onboarding tasks",
+    text: "Owners, tasks, completion.",
     src: "/images/hr_interview.png",
     alt: "Structured HR interview session",
   },
   {
-    eyebrow: "Workforce development",
-    title: "Training programs",
+    eyebrow: "Attendance review",
+    title: "Team operations programs",
     text: "Assignments and evidence.",
     src: "/images/hr_training.png",
     alt: "HR training session",
@@ -81,17 +81,17 @@ export const workstreams: Workstream[] = [
     points: ["Employee file", "Document history"],
   },
   {
-    eyebrow: "Recruitment",
-    title: "Structured hiring workflows.",
-    text: "Track candidates, interview feedback, decisions, and onboarding handoff.",
+    eyebrow: "Onboarding",
+    title: "Onboarding with clear ownership.",
+    text: "Assign onboarding tasks, link employee accounts and track required steps.",
     src: "/images/hr_interview.png",
     alt: "HR interview session",
-    points: ["Interview stages", "Decision trail"],
+    points: ["Required tasks", "Completion status"],
   },
   {
-    eyebrow: "Training and development",
-    title: "Training records you can verify.",
-    text: "Assign training, capture attendance, and retain completion evidence.",
+    eyebrow: "Team operations and development",
+    title: "Team operations records you can verify.",
+    text: "Review attendance, breaks and timesheets before exporting approved hours.",
     src: "/images/hr_training.png",
     alt: "HR training session",
     points: ["Assignments", "Completion evidence"],
@@ -100,9 +100,8 @@ export const workstreams: Workstream[] = [
 
 export const coverage = [
   "Employee records",
-  "Recruiting",
   "Onboarding",
-  "Training",
+  "Team operations",
   "Leave",
   "Attendance",
   "Approvals",

@@ -12,12 +12,12 @@ const navGroups = [
       {
         label: "Overview",
         href: "#overview",
-        text: "HR, payroll, approvals, and employee operations in one suite.",
+        text: "Records, attendance, approvals, and employee operations.",
       },
       {
         label: "Lifecycle workflows",
         href: "#workflows",
-        text: "Recruiting, records, training, leave, attendance, and handoffs.",
+        text: "Records, onboarding, leave, attendance, and handoffs.",
       },
       {
         label: "Coverage",

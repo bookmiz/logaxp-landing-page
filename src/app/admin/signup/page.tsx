@@ -48,7 +48,7 @@ export default function SignupTenantPage() {
   const [ownerEmail, setOwnerEmail] = useState("");
   const [ownerPassword, setOwnerPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [success, setSuccess] = useState<null | { verifyToken?: string; organizationSlug?: string }>(null);
+  const [success, setSuccess] = useState<null | { organizationSlug?: string }>(null);
 
   useEffect(() => {
     if (!slugTouched) setTenantSlug(slugify(tenantName));
@@ -93,7 +93,6 @@ export default function SignupTenantPage() {
       });
 
       setSuccess({
-        verifyToken: res.verifyToken,
         organizationSlug: res.tenant?.slug ?? tenantSlug.trim(),
       });
 
@@ -174,7 +173,6 @@ export default function SignupTenantPage() {
           {success ? (
             <SuccessState
               slug={success.organizationSlug || tenantSlug}
-              verifyToken={success.verifyToken}
               onLogin={() => router.replace("/admin/login")}
               onCreateAnother={() => {
                 setSuccess(null);
@@ -427,12 +425,10 @@ function ReviewStep({
 
 function SuccessState({
   slug,
-  verifyToken,
   onLogin,
   onCreateAnother,
 }: {
   slug: string;
-  verifyToken?: string;
   onLogin: () => void;
   onCreateAnother: () => void;
 }) {
@@ -450,13 +446,6 @@ function SuccessState({
         <span className="text-slate-500">Workspace:</span>{" "}
         <span className="font-mono font-semibold text-slate-950">/{slug}</span>
       </div>
-
-      {verifyToken ? (
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-3 text-left">
-          <p className="text-xs font-semibold text-slate-500">Dev verify token</p>
-          <code className="mt-1 block break-all text-xs text-slate-800">{verifyToken}</code>
-        </div>
-      ) : null}
 
       <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
         <button

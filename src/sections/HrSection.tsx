@@ -1,7 +1,8 @@
 "use client";
 
 import { Users, HeartHandshake, ChartNoAxesCombined, type LucideIcon } from "lucide-react";
-import HrFeaturePreview, { HrPreviewKind } from "../components/HrFeaturePreview";
+import type { HrPreviewKind } from "../components/HrFeaturePreview";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useRef } from "react";
 import useTextReveal from "../hooks";
@@ -86,26 +87,26 @@ export default function HR() {
   const features: Feature[] = useMemo(
     () => [
       {
-        title: "Talent Acquisition",
-        tag: "Hire smarter",
+        title: "Employee Records",
+        tag: "Keep people connected",
         description:
-          "Bring candidate details, hiring stages, and interview planning together in one organized pipeline.",
+          "Keep employee profiles, assignments, managers and account access connected in one workspace.",
         preview: "talent",
         icon: Users,
       },
       {
-        title: "Employee Engagement",
-        tag: "Keep teams thriving",
+        title: "Onboarding & Leave",
+        tag: "Make next steps clear",
         description:
-          "Create space for team feedback, recognition, wellbeing check-ins, and conversations about growth.",
+          "Assign onboarding tasks, track completion and manage leave requests with clear ownership.",
         preview: "engagement",
         icon: HeartHandshake,
       },
       {
-        title: "Performance & Growth",
-        tag: "Ship excellence",
+        title: "Time & Reporting",
+        tag: "Review the work",
         description:
-          "OKR alignment, 360° feedback, continuous coaching, career lattices — designed for today’s dynamic teams.",
+          "Review attendance, breaks and timesheets, with manager reporting and approved-hours exports.",
         preview: "performance",
         icon: ChartNoAxesCombined,
       },
@@ -224,10 +225,10 @@ export default function HR() {
             <div className="lg:col-span-5">
               <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3 w-full">
                 {[
-                  { k: "Organized hiring", v: "Keep candidates and next steps together" },
-                  { k: "Team connection", v: "Make room for regular check-ins" },
-                  { k: "Shared feedback", v: "Support ongoing conversations" },
-                  { k: "Clear goals", v: "Connect growth with team priorities" },
+                  { k: "Employee records", v: "Keep profiles and assignments together" },
+                  { k: "Onboarding tasks", v: "Give each step a clear owner" },
+                  { k: "Leave approvals", v: "Track requests and decisions" },
+                  { k: "Attendance review", v: "Review clocks and approved hours" },
                 ].map((s) => (
                   <div
                     key={s.v}
@@ -281,7 +282,7 @@ export default function HR() {
                   className="pointer-events-none absolute inset-y-0 left-0 w-1/3 rotate-12 bg-gradient-to-r from-transparent via-white/30 to-transparent blur-md"
                 />
 
-                <HrFeaturePreview kind={feature.preview} tag={feature.tag} />
+                <div className="relative aspect-[1.45] overflow-hidden bg-slate-950"><Image src={feature.preview === "talent" ? "/images/logaxp-live-employees.png" : feature.preview === "engagement" ? "/images/logaxp-live-leave.png" : "/images/logaxp-live-dashboard.png"} alt={`${feature.title}: actual LogaXP demo workspace`} fill className="object-contain" sizes="(min-width:1024px) 33vw,100vw"/><span className="absolute bottom-2 left-3 rounded-full bg-black/80 px-3 py-1 text-xs text-white">Actual product · Demo data</span></div>
 
                 {/* Content */}
                 <div className="relative flex flex-1 flex-col p-6 xl:p-7 pb-8">
@@ -304,7 +305,7 @@ export default function HR() {
                         {feature.title}
                       </h3>
                       <div className="mt-1 geist text-[12px] font-semibold text-black/55 dark:text-white/55">
-                        Built for modern ops • Automations • Insights
+                        Employee workflows • Role-based access
                       </div>
                     </div>
                   </div>
@@ -333,8 +334,8 @@ export default function HR() {
             variants={fadeUp}
             className="mt-14 md:mt-16 text-center md:text-xl geist max-w-3xl mx-auto text-black/70 dark:text-white/70"
           >
-            Loga<span className="text-[#86BF00] font-bold">XP</span> HR — where people science meets cutting-edge
-            technology.
+            Loga<span className="text-[#86BF00] font-bold">XP</span> HR — employee records and everyday workflows in one
+            workspace.
           </motion.p>
         </motion.div>
       </section>

@@ -11,7 +11,7 @@ export default function useTextReveal(
   scrollTriggerOptions?: ScrollTrigger.Vars
 ) {
   useGSAP(() => {
-    if (!textRevealRef.current) return;
+    if (!textRevealRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const splitType = type ?? "chars";
     const splitText = SplitText.create(textRevealRef.current, {
       type: splitType,

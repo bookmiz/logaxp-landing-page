@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
+import { api } from "@/logaxp/lib/api/apiClient";
 import { OFFICES } from "@/logaxp/config/offices";
 import {
   ArrowRight,
@@ -43,7 +44,7 @@ const routeOptions = [
   {
     label: "HR Suite",
     href: "/hr",
-    text: "Hiring, records, training, leave, attendance, and approvals.",
+    text: "Employee records, onboarding, leave, attendance, and approvals.",
   },
   {
     label: "Workspace access",
@@ -55,6 +56,10 @@ const routeOptions = [
 export default function ContactPage() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [status, setStatus] = useState<"idle" | "submitting" | "sent">("idle");
+
+  const requestId = useRef<string | null>(null);
+  const submitting = useRef(false);
+  const [error, setError] = useState("");
 
   const canSubmit =
     form.name.trim().length >= 2 &&
@@ -70,13 +75,17 @@ export default function ContactPage() {
     event.preventDefault();
     if (!canSubmit || status === "submitting") return;
 
-    setStatus("submitting");
-    const subject = encodeURIComponent(`LogaXP enquiry: ${form.company}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\nTeam size: ${form.teamSize}\nInterest: ${form.interest}\n\n${form.message}`,
-    );
-    window.location.href = `mailto:sales@logaxp.com?subject=${subject}&body=${body}`;
-    setStatus("sent");
+    if (submitting.current) return;
+    submitting.current = true;
+    requestId.current ??= crypto.randomUUID();
+    setStatus("submitting"); setError("");
+    try {
+      await api.post("/sales-enquiries", { ...form, id: requestId.current }, { timeout: 15000 });
+      setStatus("sent");
+    } catch {
+      setStatus("idle");
+      setError("We could not confirm receipt. Your details are still here. Please retry, or email sales@logaxp.com. Retrying will not create a duplicate enquiry.");
+    } finally { submitting.current = false; }
   }
 
   return (
@@ -87,10 +96,10 @@ export default function ContactPage() {
             Contact sales
           </p>
           <h1 className="mt-4 max-w-xl text-4xl font-semibold tracking-[-0.05em] text-slate-950 md:text-6xl">
-            Plan the right LogaXP rollout.
+            Let’s build your next step.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 md:text-lg">
-            Share your team size, current HR workflow, and implementation goals.
+            Tell us about your software project, product interest, and implementation goals.
             We will help you map the right modules, access model, and next
             steps.
           </p>
@@ -157,7 +166,7 @@ export default function ContactPage() {
             <span className="hidden h-1 w-1 rounded-full bg-slate-300 sm:block" />
             <span className="inline-flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-[#5f8700]" />
-              Response within one business day
+              Enquiries reviewed by our team
             </span>
           </div>
         </div>
@@ -169,16 +178,14 @@ export default function ContactPage() {
                 <CheckCircle2 className="h-7 w-7" />
               </div>
               <h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em]">
-                Finish in your email app.
+                Your enquiry has been received.
               </h2>
               <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-slate-600">
-                Your message has not been sent from this website. Review and
-                send the prepared draft in your email app, or email
-                sales@logaxp.com directly.
+                Your enquiry is saved in our sales inbox. Our team will review your request and follow up using the email address you provided.
               </p>
               <button
                 type="button"
-                onClick={() => setStatus("idle")}
+                onClick={() => { requestId.current = null; setForm(initialForm); setStatus("idle"); }}
                 className="mx-auto mt-7 inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
               >
                 Send another message
@@ -186,6 +193,7 @@ export default function ContactPage() {
             </div>
           ) : (
             <form onSubmit={onSubmit} className="space-y-5">
+              {error && <p role="alert" className="rounded-xl bg-red-50 p-4 text-sm text-red-800">{error}</p>}
               <div>
                 <h2 className="text-2xl font-semibold tracking-[-0.035em]">
                   Tell us what you need.
@@ -254,7 +262,7 @@ export default function ContactPage() {
                     }
                     className={inputClassName}
                   >
-                    <option>HR Suite</option>
+                    <option>Custom software project</option><option>Product demonstration</option><option>HR Suite</option>
                     <option>Employee records</option>
                     <option>Approvals and workflows</option>
                     <option>Leave and attendance</option>
@@ -282,14 +290,14 @@ export default function ContactPage() {
                 {status === "submitting" ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : null}
-                {status === "submitting" ? "Sending" : "Open email draft"}
+                {status === "submitting" ? "Sending" : "Send enquiry"}
                 {status !== "submitting" ? (
                   <ArrowRight className="h-4 w-4" />
                 ) : null}
               </button>
 
               <p className="text-center text-xs leading-5 text-slate-500">
-                This opens your email app. Review the message and send it there.
+                We use these details to respond to your enquiry. Read our <Link href="/privacy" className="underline">Privacy notice</Link>.
               </p>
             </form>
           )}
