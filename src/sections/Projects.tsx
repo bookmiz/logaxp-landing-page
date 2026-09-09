@@ -13,7 +13,7 @@ export default function Projects({ showAll = false }: { showAll?: boolean }) {
   const visibleProjects = showAll ? projects : projects.slice(0, 4);
   const Heading = showAll ? "h1" : "h2";
   return (
-    <section id="projects" className="py-16 md:py-24 px-5 md:px-12 lg:px-24 min-h-screen">
+    <section id="projects" className={`${showAll ? "py-8 md:py-12" : "py-16 md:py-24"} px-5 md:px-12 lg:px-24 min-h-screen`}>
       <div className="flex gap-6 lg:flex-row flex-col md:items-center md:justify-between">
         <div>
           <Heading className="mango align-baseline tracking-wide font-bold text-5xl md:text-6xl">
@@ -46,7 +46,7 @@ export default function Projects({ showAll = false }: { showAll?: boolean }) {
           })}
         </div>
       </div>
-      <div className="mt-12 md:mt-20 flex items-start gap-16 md:gap-24 flex-col justify-between">
+      <div className={`${showAll ? "mt-10 md:mt-12" : "mt-12 md:mt-20"} flex items-start gap-16 md:gap-24 flex-col justify-between`}>
         {visibleProjects.filter(project=>!selectedCategory||project.title===selectedCategory).map((project, index) => {
           return (
             <Link

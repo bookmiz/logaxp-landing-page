@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
-  return <main className="pt-24"><Projects showAll /><Footer /></main>;
+  return <main><Projects showAll /><Footer /></main>;
 }
