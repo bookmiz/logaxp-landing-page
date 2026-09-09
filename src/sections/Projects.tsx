@@ -8,15 +8,20 @@ import projects from "../utils/content/projects";
 import { HashIcon } from "lucide-react";
 import { useState } from "react";
 
-const services = [{title:"GatherPlux"},{title:"BookMiz"},{title:"HireAFixer"},{title:"LogaDash"}];
-export default function Projects() {
+export default function Projects({ showAll = false }: { showAll?: boolean }) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const visibleProjects = showAll ? projects : projects.slice(0, 4);
+  const Heading = showAll ? "h1" : "h2";
   return (
     <section id="projects" className="py-16 md:py-24 px-5 md:px-12 lg:px-24 min-h-screen">
       <div className="flex gap-6 lg:flex-row flex-col md:items-center md:justify-between">
-        <h2 className="mango align-baseline tracking-wide font-bold text-6xl">
-          Showcases
-        </h2>
+        <div>
+          <Heading className="mango align-baseline tracking-wide font-bold text-5xl md:text-6xl">
+            {showAll ? "Our products" : "Showcases"}
+          </Heading>
+          {showAll ? <p className="mt-3 opacity-80">Explore the LogaXP product family.</p> :
+            <Link href="/products" className="mt-3 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4">View all products <span aria-hidden="true">↗</span></Link>}
+        </div>
         <div className="flex items-center flex-wrap md:justify-center lg:justify-start gap-3">
           <button
             onClick={() => setSelectedCategory(null)}
@@ -25,9 +30,9 @@ export default function Projects() {
               "border text-xs font-bold text-[var(--foreground)] py-2 px-4 border-[var(--foreground)] rounded-full cursor-pointer transition-colors hover:text-[var(--background)] hover:bg-[var(--foreground)] hover:border-[var(--background)]"
             }
           >
-            All
+            {showAll ? "All" : "Featured"}
           </button>
-          {services.map((service, index) => {
+          {visibleProjects.map((service, index) => {
             return (
               <button
                 key={index}
@@ -42,7 +47,7 @@ export default function Projects() {
         </div>
       </div>
       <div className="mt-12 md:mt-20 flex items-start gap-16 md:gap-24 flex-col justify-between">
-        {projects.filter(project=>!selectedCategory||project.title===selectedCategory).map((project, index) => {
+        {visibleProjects.filter(project=>!selectedCategory||project.title===selectedCategory).map((project, index) => {
           return (
             <Link
               className="cursor-pointer grid w-full grid-cols-1 xl:grid-cols-[minmax(0,1.28fr)_minmax(0,1fr)] xl:items-center gap-8"

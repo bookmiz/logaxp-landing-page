@@ -1,5 +1,18 @@
 const projects = [
   {
+    title: "Hearken",
+    motionStyle: "scripture" as const,
+    description: "Bring the Word into the room. Hearken connects scripture search, spoken-reference suggestions, live scenes and shared service preparation in a church media desk. Operators review passages privately and decide what appears on the congregation’s screen.",
+    categories: [],
+    link: "https://hearkenlive.com/",
+    tags: ["ChurchMedia", "ScriptureProjection", "ServicePreparation", "OperatorControl"],
+    scenes: [
+      { src: "/images/hearken-desk.png", alt: "Hearken desktop with scripture search, private preview and audience output" },
+      { src: "/images/hearken-royal.png", alt: "Royal scripture presentation from Hearken" },
+      { src: "/images/hearken-aurora.png", alt: "Aurora scripture presentation from Hearken" },
+    ],
+  },
+  {
     title: "GatherPlux",
     motionStyle: "events" as const,
     description:
@@ -63,6 +76,43 @@ const projects = [
       { src: "/images/logadash-customer.png", alt: "Customer ordering food with LogaDash" },
       { src: "/images/logadash-kitchen.png", alt: "Restaurant kitchen preparing an order" },
       { src: "/images/logadash-delivery.png", alt: "LogaDash rider delivering an order" },
+    ],
+  },
+  {
+    title: "Flospay",
+    motionStyle: "finance" as const,
+    description: "Save together. Pay simply. Flospay brings group savings (esusu), payments, transfers and shareable payment links into one app. Organize savings circles around shared goals and keep everyday money activity in view.",
+    categories: [],
+    link: "https://flospay.com/",
+    tags: ["GroupSavings", "Esusu", "Payments", "PaymentLinks"],
+    scenes: [
+      { src: "/images/flospay-dashboard.png", alt: "Dashboard preview featured on Flospay" },
+      { src: "/images/flospay-phone.png", alt: "Mobile app preview featured on Flospay" },
+      { src: "/images/flospay-map.png", alt: "Community payments illustration featured on Flospay" },
+    ],
+  },
+  {
+    title: "Patvero",
+    motionStyle: "collaboration" as const,
+    description: "Keep conversations connected to the work that follows. Patvero brings meetings, bookings, documents, project boards and team messaging into one collaboration workspace, with decisions and next steps close at hand.",
+    categories: [],
+    link: "https://www.patvero.com/",
+    tags: ["Meetings", "TeamCollaboration", "Bookings", "ProjectDelivery"],
+    scenes: [
+      { src: "/images/patvero-remote.webp", alt: "Remote collaboration imagery featured on Patvero" },
+      { src: "/images/patvero-decisions.webp", alt: "Team reviewing meeting outcomes, featured on Patvero" },
+      { src: "/images/patvero-team.webp", alt: "Leadership planning imagery featured on Patvero" },
+    ],
+  },
+  {
+    title: "OmoFlow",
+    motionStyle: "workspace" as const,
+    description: "Connect meetings with everyday team operations. OmoFlow brings task boards, attendance, approvals, payroll workflows and team communication into a shared workspace, helping teams follow work from discussion to delivery.",
+    categories: [],
+    link: "https://www.omoflow.com/",
+    tags: ["TeamOperations", "TaskBoards", "Attendance", "Approvals"],
+    scenes: [
+      { src: "/images/omoflow-workspace.webp", alt: "Workspace imagery featured on OmoFlow" },
     ],
   },
 ];
