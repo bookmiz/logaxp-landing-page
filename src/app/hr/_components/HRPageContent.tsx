@@ -1,7 +1,7 @@
 "use client";
 
 import { MotionConfig } from "framer-motion";
-import ProductScreenshots from "./ProductScreenshots";
+import "../hr-page.css";
 import ControlLayerSection from "./ControlLayerSection";
 import CoverageSection from "./CoverageSection";
 import CtaSection from "./CtaSection";
@@ -13,11 +13,10 @@ import WorkstreamsSection from "./WorkstreamsSection";
 export default function HRPageContent() {
   return (
     <MotionConfig reducedMotion="user">
-      <main className="geist flex min-h-screen flex-col bg-white text-black">
+      <main className="hr-page geist flex min-h-screen flex-col bg-white text-black">
         <HRProductHeader />
         <HeroSection />
         <WorkstreamsSection />
-        <ProductScreenshots />
         <ControlLayerSection />
         <CoverageSection />
         <PricingSection />

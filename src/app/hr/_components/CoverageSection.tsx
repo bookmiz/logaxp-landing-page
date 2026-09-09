@@ -1,28 +1,8 @@
-import { Check } from "lucide-react";
-import { coverage } from "../_content";
-import SectionHeader from "./SectionHeader";
-
-export default function CoverageSection() {
-  return (
-    <section id="coverage" className="scroll-mt-28 border-t border-zinc-100 bg-white px-5 py-16 md:px-12 md:py-20 lg:px-24">
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-        <SectionHeader
-          eyebrow="Coverage"
-          title="Core HR workflows in one suite."
-          text="Start with the modules your team needs, then expand as operations grow."
-        />
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          {coverage.map((item) => (
-            <div key={item} className="group flex items-center gap-3 rounded-2xl border border-zinc-100 bg-white px-4 py-4 shadow-sm transition hover:border-[#a3d900]/25 hover:bg-[#a3d900]/5 hover:shadow-md hover:shadow-zinc-950/5">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-[#a3d900]/10 text-[#5f8700] transition group-hover:bg-[#5f8700] group-hover:text-white">
-                <Check className="h-4 w-4" />
-              </span>
-              <span className="text-sm font-bold text-zinc-700">{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+import { ArrowUpRight, BriefcaseBusiness, UserRound, UsersRound } from "lucide-react";
+import Link from "next/link";
+const roles = [
+ {icon:BriefcaseBusiness,title:"For HR teams",text:"Keep the people side of the business organized.",points:["Maintain employee files", "Coordinate onboarding tasks", "Review requests and records"]},
+ {icon:UsersRound,title:"For managers",text:"Less chasing updates. More clarity for your team.",points:["Review team attendance", "Follow leave requests", "Check submitted timesheets"]},
+ {icon:UserRound,title:"For employees",text:"Make everyday essentials easier to find.",points:["Record time and attendance", "Submit leave requests", "Follow request status"]},
+];
+export default function CoverageSection(){return <section id="coverage" className="hr-audiences"><div className="hr-section-heading"><p className="hr-eyebrow">DESIGNED AROUND YOUR PEOPLE</p><h2>A better workday.<br />For everyone in it.</h2><p>Each role has its own responsibilities. Your workspace brings them together.</p></div><div className="hr-audience-grid">{roles.map(r=><article key={r.title}><r.icon size={30} strokeWidth={1.5}/><h3>{r.title}</h3><p>{r.text}</p><ul>{r.points.map(p=><li key={p}>{p}</li>)}</ul><Link href="/contact">Explore with us <ArrowUpRight size={16}/></Link></article>)}</div></section>}

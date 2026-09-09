@@ -10,7 +10,7 @@ const plans = [
   },
   {
     name: "HR Operations",
-    label: "Most teams",
+    label: "Connected",
     description: "For growing teams connecting employee records, onboarding, leave, and attendance.",
     points: ["Onboarding tasks", "Manager reporting", "Leave and attendance", "Role-based access"],
     featured: true,
@@ -29,13 +29,13 @@ export default function PricingSection() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#5f8700]">Pricing</p>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#5f8700]">Plans &amp; implementation</p>
             <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-[-0.045em] text-zinc-950 md:text-5xl">
               Build the HR suite around your rollout.
             </h2>
           </div>
           <p className="max-w-2xl text-base leading-7 text-zinc-600 lg:justify-self-end">
-            Start with the modules your team needs now, then expand as your HR operation grows across departments, locations, and approval policies.
+            Discuss your team size, required modules and rollout with sales for a tailored quote.
           </p>
         </div>
 
