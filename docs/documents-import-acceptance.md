@@ -4,7 +4,7 @@
 
 The owner included document uploads and employee CSV import/export in launch, selected DigitalOcean Spaces, and approved removal of unattached drafts after seven days while retaining attached documents until authorized removal.
 
-Implemented locally and tested using the real staging Spaces bucket. This is not a production rollout or acceptance of every onboarding variant.
+Initially implemented locally and tested using the real staging Spaces bucket. **Now deployed to production:** see [release evidence and rollback](documents-products-production-release.md). The remaining sections preserve the earlier local acceptance record; this does not accept every onboarding variant.
 
 ## Private documents
 

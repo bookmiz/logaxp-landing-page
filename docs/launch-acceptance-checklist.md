@@ -1,6 +1,6 @@
 # Launch acceptance — updated 8 September 2026
 
-Status: the three confirmed readiness defects are fixed and verified locally. Private document storage and basic employee CSV import/export are now implemented and have live local/staging-storage acceptance coverage; see [detailed evidence](documents-import-acceptance.md). Full launch acceptance remains open.
+Status: the three confirmed readiness fixes, private documents and basic employee CSV workflows are deployed. The eight-product catalog is also live. See [production verification and rollback](documents-products-production-release.md). Full launch acceptance remains open.
 
 ## Passed in this follow-up
 
@@ -26,7 +26,7 @@ Status: the three confirmed readiness defects are fixed and verified locally. Pr
 - [x] Verify private binary upload/download, authorization, request tokens and retention against the real staging Spaces bucket through the local API.
 - [x] Verify basic employee CSV round trip, invalid rows, duplicates and concurrent submissions.
 - [x] Automate local browser CSV file selection/import/export and private document upload/Save/download using synthetic records.
-- [ ] Complete browser file-selection/upload/import acceptance on staging and configure a separate production bucket/key before rollout.
+- [x] Verify hosted staging API workflows, configure separate production storage, and complete file-selection/upload/import browser acceptance on the deployed production revision with synthetic fixtures.
 - [ ] Verify timesheet lock races and edits across period boundaries.
 - [ ] Verify recurring/template schedules across DST and bulk reassignment.
 - [ ] Verify form/policy/storage onboarding variants, or exclude them.
@@ -52,7 +52,7 @@ Status: the three confirmed readiness defects are fixed and verified locally. Pr
 
 ## Limits and follow-up
 
-No production deployment was made in this follow-up. The broader live workflow and public-site suites were not rerun: local `.env` now selects Resend, so email-producing acceptance should first use an isolated capture provider or deliberate approved test recipients. The security suite and outage test did not send external messages.
+The initial local follow-up did not deploy production. That status is superseded by the linked production release report. Broader email-producing acceptance still needs an isolated capture provider or deliberate approved recipients; the document/product release checks did not send customer messages.
 
 The time overview remains a mixture of personally filtered entry data and the existing authorized attendance-summary scope; label or align this scope during role UAT. Recent clock/timer row duration presentation also merits review. These are not covered by the three fixes above.
 
