@@ -327,7 +327,7 @@ export function formatIsoDate(iso?: string | null) {
   if (!iso) return "—";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return String(iso);
-  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 }
 
 export function leaveEmployeeLabel(e?: BasicEmployee | null) {
@@ -350,4 +350,9 @@ export function isDecidable(status?: string) {
 export function isRestorable(status?: string) {
   const s = String(status || "").toUpperCase();
   return s === "CANCELED" || s === "REJECTED";
+}
+
+export function leaveCalendarDate(value: string): Date | null {
+  const date = new Date(`${value.slice(0, 10)}T12:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
 }

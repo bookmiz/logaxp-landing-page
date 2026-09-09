@@ -92,6 +92,7 @@ function Pagination({
           variant="outline"
           size="sm"
           disabled={busy || !canPrev}
+          aria-label="Previous page"
           onClick={() => canPrev && onPage(page - 1)}
           className="h-9 w-9 p-0"
         >
@@ -102,6 +103,7 @@ function Pagination({
           <span className="text-sm text-slate-600 dark:text-slate-400">Page</span>
           <Input
             type="number"
+            aria-label="Page number"
             min={1}
             max={totalPages}
             value={page}
@@ -119,6 +121,7 @@ function Pagination({
           variant="outline"
           size="sm"
           disabled={busy || !canNext}
+          aria-label="Next page"
           onClick={() => canNext && onPage(page + 1)}
           className="h-9 w-9 p-0"
         >

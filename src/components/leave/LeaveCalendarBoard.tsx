@@ -12,7 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/loga
 import { cn } from "@/logaxp/lib/cn";
 
 import type { LeaveRequest } from "@/logaxp/lib/leave/leave.types";
-import { formatIsoDate, leaveEmployeeLabel, shortId } from "@/logaxp/lib/leave/leave.types";
+import { formatIsoDate, leaveCalendarDate, leaveEmployeeLabel, shortId } from "@/logaxp/lib/leave/leave.types";
 import { LeaveTypeBadge } from "./LeaveTypeBadge";
 
 function dayKey(d: Date) {
@@ -20,8 +20,7 @@ function dayKey(d: Date) {
 }
 
 function parseToDate(s: string) {
-  const d = new Date(s);
-  return Number.isNaN(d.getTime()) ? null : d;
+  return leaveCalendarDate(s);
 }
 
 function eachDayInclusive(fromIso: string, toIso: string) {

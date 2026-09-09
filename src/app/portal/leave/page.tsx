@@ -241,7 +241,7 @@ const meta = {
   return (
     <LeaveShell
       title="Leave"
-      subtitle="Requests, approvals, and history — tenant-safe and audit-ready."
+      subtitle="Review time-off requests, approvals, and history."
       pill="Time & Leave • Leave"
       requiredAnyPermissions={["leave.read"]}
       actions={

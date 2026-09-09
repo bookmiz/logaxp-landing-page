@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test:exports": "node --experimental-strip-types --test tests/exports.test.mjs"
+    "test:exports": "node --experimental-strip-types --test tests/exports.test.mjs",
+    "test:readiness": "node --experimental-strip-types --test tests/readiness-regression.test.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

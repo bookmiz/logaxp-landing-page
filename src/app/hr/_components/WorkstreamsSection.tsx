@@ -13,8 +13,10 @@ export default function WorkstreamsSection() {
   const tabs = useRef<Array<HTMLButtonElement | null>>([]);
   const screen = screens[active];
   return <section id="workflows" className="hr-tour">
-    <div className="hr-section-heading"><p className="hr-eyebrow">ONE WORKSPACE. A CLEARER WORKDAY.</p><h2>The details connect.<br /><span>Your team moves forward.</span></h2><p>Explore the actual LogaXP experience. Choose a view to take a closer look.</p></div>
+    <div className="hr-tour-toolbar">
+      <h2>Explore the workspace</h2>
     <div className="hr-tour-tabs" role="tablist" aria-label="Product preview">{screens.map((s,i)=><button key={s.key} ref={el=>{tabs.current[i]=el;}} id={"hr-tab-"+s.key} role="tab" aria-selected={active===i} aria-controls={"hr-panel-"+s.key} tabIndex={active===i?0:-1} onClick={()=>setActive(i)} onKeyDown={e=>{let next=i;if(e.key==='ArrowRight')next=(i+1)%screens.length;else if(e.key==='ArrowLeft')next=(i+screens.length-1)%screens.length;else if(e.key==='Home')next=0;else if(e.key==='End')next=screens.length-1;else return;e.preventDefault();setActive(next);tabs.current[next]?.focus();}}><s.icon size={17}/>{s.label}</button>)}</div>
+    </div>
     <div className="hr-tour-panel" role="tabpanel" id={"hr-panel-"+screen.key} aria-labelledby={"hr-tab-"+screen.key} tabIndex={0}>
       <div className="hr-tour-copy"><span className="hr-tour-number">0{active+1} / THE PRODUCT TOUR</span><h3>{screen.title}</h3><p>{screen.text}</p><ul>{screen.points.map(p=><li key={p}><Check size={15}/>{p}</li>)}</ul><Link href="/contact">Talk through your workflow <ArrowUpRight size={16}/></Link></div>
       <figure className="hr-tour-screen"><div className="hr-preview-bar"><span className="hr-status-dot"/><strong>LogaXP</strong><span>{screen.label}</span></div><Link href={screen.src} target="_blank" rel="noopener noreferrer" aria-label={"View full-size "+screen.label+" screenshot"}><Image key={screen.src} src={screen.src} alt={screen.label+" in LogaXP, showing synthetic local demo records"} width={screen.width} height={screen.height} sizes="(min-width: 1024px) 850px, 100vw"/></Link><figcaption>Actual product screen · Synthetic demo records <ArrowUpRight size={13}/></figcaption></figure>

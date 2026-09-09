@@ -7,11 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/logaxp/components/ui
 import { Badge } from "@/logaxp/components/ui/badge";
 import type {
   ApiResponse,
-  TimeClockSummaryRow,
   TimeEntriesStatsResult,
   TimerRecord,
 } from "@/logaxp/lib/time-management/timeManagement.types";
-import { unwrapApi, normalizeTimeList, formatMinutes } from "./time.ui";
+import { unwrapApi, formatMinutes } from "./time.ui";
+import { clockSummaryMinutes } from "@/logaxp/lib/time-management/summaryMinutes";
 
 function cx(...c: Array<string | false | null | undefined>) {
   return c.filter(Boolean).join(" ");
@@ -25,12 +25,6 @@ type Props = {
   loading?: boolean;
 };
 
-function sumClockMinutes(summary?: ApiResponse<any> | null): number {
-  const raw = unwrapApi(summary as any);
-  const { items } = normalizeTimeList<TimeClockSummaryRow>(raw as any);
-  const rows = items.length ? items : (Array.isArray(raw) ? (raw as any) : []);
-  return rows.reduce((acc: number, r: any) => acc + Number(r?.totalMinutes ?? 0), 0);
-}
 
 function StatCard({
   title,
@@ -100,12 +94,12 @@ export function TimeOverviewStatsCards({
   const running = unwrapApi(runningTimer);
   const open = unwrapApi(openClock);
 
-  const totalEntries = Number(stats?.totalEntries ?? 0);
+  const totalEntries = stats?.totalEntries;
   const totalMinutes = Number(stats?.totalMinutes ?? 0);
   const billableMinutes = Number(stats?.billableMinutes ?? 0);
   const nonBillableMinutes = Number(stats?.nonBillableMinutes ?? 0);
 
-  const attendanceMinutes = sumClockMinutes(clockSummary);
+  const attendanceMinutes = clockSummaryMinutes(clockSummary);
 
   const hasRunning = Boolean(running?.id && (running as any)?.isRunning !== false && !running?.stoppedAt);
 
@@ -114,7 +108,7 @@ export function TimeOverviewStatsCards({
       <StatCard
         title="Tracked (Entries)"
         value={formatMinutes(totalMinutes)}
-        hint={`${totalEntries} entr${totalEntries === 1 ? "y" : "ies"} in range`}
+        hint={typeof totalEntries === "number" ? `${totalEntries} entr${totalEntries === 1 ? "y" : "ies"} in range` : "Entry count unavailable"}
         icon={<Activity className="h-4 w-4" />}
         tone="blue"
         loading={loading}

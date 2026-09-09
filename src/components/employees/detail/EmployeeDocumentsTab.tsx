@@ -17,7 +17,7 @@ import { Input } from "@/logaxp/components/ui/input";
 import { Textarea } from "@/logaxp/components/ui/textarea";
 import { EmptyState } from "@/logaxp/components/ui/empty-state";
 import { toast } from "@/logaxp/components/ui/toast";
-import { FileIdPicker } from "@/logaxp/components/file/FileIdPicker";
+import { PrivateDocumentPicker, downloadPrivateDocument } from "@/logaxp/components/file/PrivateDocumentPicker";
 import {
   Table,
   TableBody,
@@ -323,6 +323,7 @@ export function EmployeeDocumentsTab({
                             </TableCell>
                             <TableCell className="text-right">
                               <div className="flex flex-wrap justify-end gap-2">
+                                <Button size="sm" variant="outline" onClick={() => void downloadPrivateDocument(d.fileId).catch(() => toast.error('Document download failed. Please retry.'))}>Download</Button>
                                 <Button size="sm" variant="outline" onClick={() => setVerifyTarget(d)} disabled={busyAny}>
                                   Verify
                                 </Button>
@@ -532,16 +533,9 @@ function DocumentCreateDialog({
             placeholder="e.g. Passport Bio Page"
           />
 
-          <FileIdPicker
-            label="Document file"
+          <PrivateDocumentPicker
             value={fileId}
             onChange={setFileId}
-            enableCloudinaryUpload
-            cloudinaryOptions={{ folder: "logaxp/employees/documents", tags: ["employee-doc"] }}
-            accept=".pdf,image/*"
-            maxSizeMB={15}
-            density="compact"
-            showPreview
           />
 
           <div className="grid grid-cols-2 gap-3">

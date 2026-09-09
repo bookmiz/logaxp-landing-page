@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { EmployeeCsvActions } from './EmployeeCsvActions';
 import { useRouter } from "next/navigation";
 import {
   Plus,
@@ -331,6 +332,7 @@ export function EmployeesOverviewManager() {
       </div>
 
       {/* Stats */}
+      <EmployeeCsvActions onImported={() => void load()} />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <OverviewStatCard title="Total loaded" value={rows.length} subtitle="Current result set" icon={<Users className="h-5 w-5" />} />
         <OverviewStatCard title="Active" value={stats.active} subtitle="Currently active" icon={<UserCheck className="h-5 w-5" />} />

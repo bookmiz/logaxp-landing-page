@@ -108,6 +108,9 @@ export default function PortalTimeAttendancePage() {
     runningQ.isLoading ||
     (Boolean(employeeId) && openClockQ.isLoading);
 
+  const summaryError = statsQ.isError || summaryQ.isError || runningQ.isError || openClockQ.isError;
+  const activityError = recentEntriesQ.isError || recentClocksQ.isError || recentTimersQ.isError;
+
   const refreshAll = async () => {
     await qc.invalidateQueries({ queryKey: ["time"] as any });
   };
@@ -115,7 +118,7 @@ export default function PortalTimeAttendancePage() {
   return (
     <TimeShell
       title="Time & Attendance"
-      subtitle="Track entries, attendance, and focused work — enterprise-grade and tenant-scoped."
+      subtitle="Review recorded work, attendance, and focused time."
       pill="Time & Leave • Time"
       actions={
         <Button variant="outline" onClick={refreshAll} disabled={hubLoading}>
@@ -143,13 +146,13 @@ export default function PortalTimeAttendancePage() {
           }
         />
 
-        <TimeOverviewStatsCards
+        {summaryError ? <div role="alert" className="rounded-xl border border-red-400/40 p-4"><p>Time summary is unavailable. Your records have not been changed.</p><Button variant="outline" onClick={refreshAll} className="mt-2">Retry summary</Button></div> : <TimeOverviewStatsCards
           entriesStats={statsQ.data ?? null}
           clockSummary={summaryQ.data ?? null}
           runningTimer={runningQ.data ?? null}
           openClock={openClockQ.data ?? null}
           loading={hubLoading}
-        />
+        />}
 
         <div className="grid gap-3 lg:grid-cols-3">
           <div className="lg:col-span-1">
@@ -175,14 +178,14 @@ export default function PortalTimeAttendancePage() {
           </Card>
         </div>
 
-        <TimeRecentActivity
+        {activityError ? <div role="alert" className="rounded-xl border border-red-400/40 p-4"><p>Recent activity could not be loaded.</p><Button variant="outline" onClick={refreshAll} className="mt-2">Retry activity</Button></div> : <TimeRecentActivity
           entries={recentEntriesQ.data ?? null}
           clocks={recentClocksQ.data ?? null}
           timers={recentTimersQ.data ?? null}
           loadingEntries={recentEntriesQ.isLoading}
           loadingClocks={recentClocksQ.isLoading}
           loadingTimers={recentTimersQ.isLoading}
-        />
+        />}
       </div>
     </TimeShell>
   );

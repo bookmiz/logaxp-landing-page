@@ -23,7 +23,7 @@ import {
   type ApiResult,
   type PublicEmployeeDocumentRequest,
 } from "@/logaxp/lib/employee-management/employee-management.types";
-import { uploadFileWithProgress } from "@/logaxp/lib/uploads/cloudinary.client";
+import { api as httpApi } from "@/logaxp/lib/api/apiClient";
 
 function unwrapApi<T>(result: ApiResult<T>): T {
   if (
@@ -154,39 +154,16 @@ function PublicEmployeeDocumentRequestPageInner() {
     setUploadProgress(0);
 
     try {
-      const upload = await uploadFileWithProgress(
-        selectedFile,
-        {
-          folder: "logaxp/public/employee-document-requests",
-          tags: ["employee-document-request"],
-          resourceType: selectedFile.type.startsWith("image/") ? "image" : "auto",
-        },
-        (pct) => setUploadProgress(pct)
-      );
-
+      const form = new FormData();
+      form.append('file', selectedFile);
+      const uploadResponse = await httpApi.post('/files/document-request/' + encodeURIComponent(token), form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: event => setUploadProgress(Math.round(100 * event.loaded / (event.total || selectedFile.size))),
+      });
+      const upload = uploadResponse.data.data ?? uploadResponse.data;
       await api.documents.submitPublicRequest(token, {
-        title: title.trim() || undefined,
-        issuedAt: issuedAt || undefined,
-        expiresAt: expiresAt || undefined,
-        file: {
-          provider: "CLOUDINARY",
-          url: upload.secure_url,
-          cloudinaryPublicId: upload.public_id,
-          cloudinaryAssetId:
-            typeof upload.asset_id === "string" ? upload.asset_id : undefined,
-          cloudinaryResource:
-            typeof upload.resource_type === "string" ? upload.resource_type : undefined,
-          cloudinaryVersion:
-            upload.version === undefined ? undefined : String(upload.version),
-          mimeType: selectedFile.type || undefined,
-          sizeBytes: upload.bytes ?? selectedFile.size,
-          format: upload.format,
-          width: upload.width,
-          height: upload.height,
-          metadata: {
-            originalName: selectedFile.name,
-          },
-        },
+        title: title.trim() || undefined, issuedAt: issuedAt || undefined, expiresAt: expiresAt || undefined,
+        fileId: upload.id,
       });
 
       setSubmitted(true);
@@ -398,7 +375,7 @@ function PublicEmployeeDocumentRequestPageInner() {
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/50">
                   <input
                     type="file"
-                    accept=".pdf,image/*"
+                    accept="application/pdf,image/png,image/jpeg"
                     onChange={onFileChange}
                     disabled={submitting}
                     className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-slate-800 dark:text-slate-200 dark:file:bg-slate-100 dark:file:text-slate-900 dark:hover:file:bg-slate-200"

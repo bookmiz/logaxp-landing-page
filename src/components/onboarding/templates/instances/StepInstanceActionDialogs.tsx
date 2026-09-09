@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { uploadFileWithProgress } from "@/logaxp/lib/uploads/cloudinary.client";
+
 import { api } from "@/logaxp/lib/api/apiClient";
 import { unwrapApi } from "@/logaxp/lib/api/unwrap";
 import {
@@ -530,19 +530,10 @@ export function StepInstanceActionDialogs({
                       throw new Error(
                         "Choose a PDF, PNG or JPEG no larger than 10 MB.",
                       );
-                    const uploaded = await uploadFileWithProgress(selectedFile);
-                    const registered = unwrapApi<{ id: string }>(
-                      (
-                        await api.post("/files", {
-                          provider: "CLOUDINARY",
-                          url: uploaded.secure_url,
-                          cloudinaryPublicId: uploaded.public_id,
-                          mimeType: selectedFile.type,
-                          sizeBytes: selectedFile.size,
-                          originalName: selectedFile.name,
-                        })
-                      ).data,
-                    );
+                    const form = new FormData(); form.append('file', selectedFile);
+                    const registered = unwrapApi<{ id: string }>((await api.post('/files/private', form, {
+                      headers: { 'Content-Type': 'multipart/form-data' },
+                    })).data);
                     if (!registered?.id)
                       throw new Error(
                         "The file could not be saved. Please try again.",

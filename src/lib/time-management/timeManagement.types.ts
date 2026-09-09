@@ -300,6 +300,8 @@ export interface TimeEntriesDailySummaryRow {
 }
 
 export interface TimeClockSummaryRow {
+  workedMinutes?: number;
+  workedHours?: number;
   day?: string;
   date?: string;
   employeeId?: string;
