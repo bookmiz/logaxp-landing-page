@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   BadgeDollarSign,
   BarChart3,
@@ -155,7 +156,7 @@ function canSeeNavItem(item: PortalNavConfig | PortalChildNavConfig, membership:
   return hasAnyCapability(membership, item.requiredAnyCapabilities);
 }
 
-function iconFor(iconKey?: PortalNavIconKey, className = "h-5 w-5") {
+function iconFor(iconKey?: PortalNavIconKey, className = "h-4 w-4") {
   const Icon = iconKey ? ICONS[iconKey] : FileText;
   return <Icon className={className} strokeWidth={2.1} />;
 }
@@ -203,16 +204,18 @@ function TopNavButton({
       type="button"
       onClick={onClick}
       className={cx(
-        "group flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition",
+        "portal-nav-parent group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9bd80f]/35",
-        active ? "bg-[#9bd80f] text-black shadow-[0_14px_34px_rgba(155,216,15,0.24)]" : "text-white/72 hover:bg-white/[0.06] hover:text-white"
+        active ? "is-active" : "text-white/72 hover:bg-white/[0.06] hover:text-white"
       )}
+      aria-label={collapsed ? item.name : undefined}
+      aria-expanded={hasChildren && !collapsed ? open : undefined}
       title={collapsed ? item.name : undefined}
     >
       <span
         className={cx(
-          "grid h-10 w-10 shrink-0 place-items-center rounded-2xl border transition",
-          active ? "border-black/10 bg-black/10" : "border-white/10 bg-white/[0.04] group-hover:bg-white/[0.08]"
+          "portal-nav-icon grid h-5 w-5 shrink-0 place-items-center",
+          active ? "text-[#25422f]" : "text-[#a2b8ad]"
         )}
       >
         {iconFor(item.iconKey)}
@@ -220,7 +223,7 @@ function TopNavButton({
 
       {!collapsed && (
         <>
-          <span className="min-w-0 flex-1 text-[13px] font-bold tracking-wide">{item.name}</span>
+          <span className="min-w-0 flex-1 text-[13px] font-medium">{item.name}</span>
           {hasChildren ? (
             <ChevronDown className={cx("h-4 w-4 shrink-0 transition", open ? "rotate-180" : "rotate-0")} />
           ) : (
@@ -246,32 +249,19 @@ function ChildNavButton({
       type="button"
       onClick={onClick}
       className={cx(
-        "group ml-[31px] flex w-[calc(100%-31px)] items-center gap-3 rounded-xl px-3 py-2 text-left transition",
-        active ? "bg-white text-black" : "text-white/54 hover:bg-white/[0.06] hover:text-white"
+        "portal-nav-child group ml-[22px] flex w-[calc(100%-22px)] items-center gap-3 rounded-md px-3 py-2 text-left transition",
+        active ? "is-active" : "text-[#a8bcb0] hover:bg-white/[0.06] hover:text-white"
       )}
     >
       <span className={cx("h-1.5 w-1.5 shrink-0 rounded-full", active ? "bg-[#9bd80f]" : "bg-white/24 group-hover:bg-[#9bd80f]")} />
-      <span className="min-w-0 flex-1 truncate text-[12px] font-semibold">{child.name}</span>
+      <span className="min-w-0 flex-1 truncate text-[12px] font-normal">{child.name}</span>
       {child.iconKey ? <span className="opacity-55">{iconFor(child.iconKey, "h-3.5 w-3.5")}</span> : null}
     </button>
   );
 }
 
 function SidebarShell({ children, collapsed }: { children: React.ReactNode; collapsed?: boolean }) {
-  return (
-    <div
-      className={cx(
-        "relative h-full overflow-hidden rounded-[28px] border border-white/10",
-        "bg-[linear-gradient(180deg,#08101a_0%,#050b12_58%,#04080d_100%)]",
-        "shadow-[0_24px_70px_rgba(0,0,0,0.42)]",
-        collapsed ? "w-[96px]" : "w-[292px]"
-      )}
-    >
-      <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#9bd80f]/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-28 -right-28 h-64 w-64 rounded-full bg-[#9bd80f]/7 blur-3xl" />
-      <div className="relative flex h-full flex-col">{children}</div>
-    </div>
-  );
+ return <div className={"portal-sidebar " + (collapsed ? "is-collapsed" : "")}>{children}</div>;
 }
 
 export default function Navbar({
@@ -342,10 +332,10 @@ export default function Navbar({
 
   const SidebarContent = (
     <SidebarShell collapsed={collapsed}>
-      <div className={cx("px-4 pb-4 pt-5", collapsed ? "px-3" : "px-5")}>
-        <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#9bd80f] text-black shadow-[0_14px_34px_rgba(155,216,15,0.22)]">
-            <span className="text-lg font-black">L</span>
+      <div className={cx("portal-sidebar-brand", collapsed && "is-collapsed")}>
+        <div className={cx("flex items-center gap-2", collapsed && "flex-col")}>
+          <div className="portal-brand-avatar">
+            <span className="text-base font-semibold">L</span>
           </div>
 
           {!collapsed && (
@@ -360,7 +350,7 @@ export default function Navbar({
               type="button"
               onClick={onToggleCollapse}
               className={cx(
-                "ml-auto grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/70 transition hover:bg-white/[0.08] hover:text-white",
+                "ml-auto grid h-7 w-7 place-items-center rounded-md text-white/70 transition hover:bg-white/[0.08] hover:text-white",
                 collapsed && "ml-0"
               )}
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -371,10 +361,10 @@ export default function Navbar({
           ) : null}
         </div>
 
-        <div className="mt-4 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="mt-4 h-px w-full bg-white/10" />
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-3 no-scrollbar">
+      <div className="portal-nav-scroll min-h-0 flex-1 overflow-y-auto px-3 pb-3">
         <div className="space-y-1.5">
           {items.map((item) => {
             const groupOpen = openGroups.includes(item.name);
@@ -418,9 +408,9 @@ export default function Navbar({
         </div>
       </div>
 
-      <div className={cx("p-4", collapsed ? "p-3" : "p-4")}>
-        <div className="flex items-center gap-3 rounded-3xl border border-white/10 bg-white/[0.04] p-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/10 bg-gradient-to-br from-[#9bd80f]/22 to-transparent font-bold text-white">
+      <div className={cx("portal-sidebar-account", collapsed && "is-collapsed")}>
+        <div className={cx("flex items-center gap-2", collapsed && "flex-col")}>
+          <div className="portal-user-avatar">
             {initials}
           </div>
 
@@ -434,7 +424,7 @@ export default function Navbar({
           <button
             type="button"
             onClick={logout}
-            className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/70 transition hover:bg-white/[0.08] hover:text-white"
+            className="grid h-8 w-8 place-items-center rounded-md text-white/70 hover:bg-white/10"
             aria-label="Logout"
             title="Logout"
           >
@@ -446,34 +436,8 @@ export default function Navbar({
   );
 
   if (mobileOpen === undefined) {
-    return <aside className={cx("h-full p-4", collapsed ? "w-[120px]" : "w-[324px]")}>{SidebarContent}</aside>;
+    return <aside className={cx("h-full", collapsed ? "w-[72px]" : "w-[224px]")}>{SidebarContent}</aside>;
   }
 
-  return (
-    <AnimatePresence>
-      {mobileOpen ? (
-        <>
-          <motion.button
-            type="button"
-            aria-label="Close sidebar"
-            className="fixed inset-0 z-[60] bg-black/50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onMobileClose}
-          />
-
-          <motion.div
-            className="fixed left-0 top-0 z-[70] h-dvh p-4"
-            initial={{ x: -320 }}
-            animate={{ x: 0 }}
-            exit={{ x: -320 }}
-            transition={{ type: "spring", stiffness: 320, damping: 30 }}
-          >
-            {SidebarContent}
-          </motion.div>
-        </>
-      ) : null}
-    </AnimatePresence>
-  );
+ return <Dialog.Root open={mobileOpen} onOpenChange={open => {if(!open) onMobileClose?.();}}><Dialog.Portal><Dialog.Overlay className="portal-drawer-overlay"/><Dialog.Content className="portal-mobile-drawer" aria-describedby={undefined} onCloseAutoFocus={event=>{event.preventDefault();document.getElementById("portal-menu-trigger")?.focus();}}><Dialog.Title className="sr-only">Workspace navigation</Dialog.Title><Dialog.Close className="portal-drawer-close" aria-label="Close sidebar">×</Dialog.Close>{SidebarContent}</Dialog.Content></Dialog.Portal></Dialog.Root>;
 }

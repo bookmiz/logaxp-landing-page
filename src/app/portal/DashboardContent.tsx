@@ -45,10 +45,10 @@ export default function MainContent() {
   const data = query.data;
   return (
     <div className="space-y-6 p-4 sm:p-6 lg:p-8 text-slate-900 dark:text-white">
-      <div className="flex items-start justify-between gap-4">
+      <div className="portal-page-heading">
         <div>
-          <h1 className="text-2xl font-bold">
-            {tenant?.name ?? "Workspace"} overview
+          <div className="portal-kicker">Workspace overview</div><h1 className="text-2xl font-bold">
+            {tenant?.name ?? "Workspace"}
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             {data?.scope === "personal"
@@ -86,7 +86,7 @@ export default function MainContent() {
       {query.isPending && <p role="status">Loading workspace metrics…</p>}
       {data && (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
             {[
               {
                 title:
@@ -101,19 +101,19 @@ export default function MainContent() {
             ].map(({ title, value }) => (
               <section
                 key={title}
-                className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"
+                className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900"
               >
                 <h2 className="text-sm text-slate-500 dark:text-slate-400">
                   {title}
                 </h2>
-                <p className="mt-2 text-3xl font-bold tabular-nums">
+                <p className="mt-3 text-[28px] font-semibold tabular-nums">
                   {value.toLocaleString()}
                 </p>
               </section>
             ))}
           </div>
           <div className="grid gap-5 lg:grid-cols-3">
-            <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white p-5 dark:bg-slate-900">
+            <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white p-4 dark:bg-slate-900">
               <h2 className="font-semibold">Employee status</h2>
               {!data.distribution.length && (
                 <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
@@ -137,7 +137,7 @@ export default function MainContent() {
                 </div>
               ))}
             </section>
-            <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white p-5 dark:bg-slate-900 lg:col-span-2">
+            <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white p-4 dark:bg-slate-900 lg:col-span-2">
               <h2 className="font-semibold">Recent leave requests</h2>
               {!data.recentLeave.length && (
                 <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">

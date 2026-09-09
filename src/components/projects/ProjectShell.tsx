@@ -66,9 +66,9 @@ export function ProjectShell({
   const navProjectId = normalizeProjectId(projectId);
 
   return (
-    <div className={cn("min-h-screen bg-white pb-14 text-slate-950 dark:bg-slate-950 dark:text-slate-50", className)}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className={cn("py-8 md:py-10", headerClassName)}>
+    <div className={cn("min-h-0 text-slate-950 dark:text-slate-50", className)}>
+      <div className="w-full">
+        <header className={cn("portal-module-heading", headerClassName)}>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300">
@@ -76,12 +76,12 @@ export function ProjectShell({
                 {pill}
               </div>
 
-              <h1 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-slate-950 md:text-5xl dark:text-white">
+              <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 {title}
               </h1>
 
               {subtitle ? (
-                <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300">
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
                   {subtitle}
                 </p>
               ) : null}
@@ -90,7 +90,7 @@ export function ProjectShell({
             {actions ? <div className="flex flex-wrap items-center gap-2 lg:pt-2">{actions}</div> : null}
           </div>
 
-          <nav className="mt-7 overflow-x-auto rounded-[1.25rem] border border-slate-200 bg-slate-50/70 p-1.5 dark:border-slate-800 dark:bg-slate-900/40">
+          <nav className="mt-5 overflow-x-auto rounded-lg border border-slate-200 bg-slate-50/70 p-1.5 dark:border-slate-800 dark:bg-slate-900/40">
             <div className="flex min-w-max items-center gap-1.5">
               {workNav.map((item) => {
                 const Icon = item.icon;
@@ -121,7 +121,7 @@ export function ProjectShell({
           </nav>
         </header>
 
-        <section className={cn("rounded-[1.75rem] border border-slate-200 bg-white p-4 md:p-6 dark:border-slate-800 dark:bg-slate-950", contentClassName)}>
+        <section className={cn("rounded-xl border border-slate-200 bg-white p-4 md:p-6 dark:border-slate-800 dark:bg-slate-950", contentClassName)}>
           {children}
         </section>
       </div>

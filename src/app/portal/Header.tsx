@@ -47,7 +47,7 @@ export default function Header({
   });
   return (
     <header
-      className="relative border-b bg-white px-4 py-3 text-slate-900"
+      className="portal-topbar"
       onKeyDown={(event) => {
         if (event.key === "Escape") setPanel(null);
       }}
@@ -55,16 +55,17 @@ export default function Header({
       <div className="flex items-center gap-3">
         <button
           type="button"
-          className="rounded-lg border p-2 md:hidden"
+          id="portal-menu-trigger"
+          className="rounded-lg p-2 md:hidden"
           aria-label="Open sidebar"
           onClick={onOpenSidebar}
         >
           <Menu className="h-5 w-5" />
         </button>
-        <Link href="/portal" className="font-black">
+        <Link href="/portal" className="portal-header-brand">
           Loga<span className="text-lime-600">XP</span>
         </Link>
-        <div className="min-w-0 flex-1 border-l pl-3">
+        <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold">{title}</p>
           <p className="truncate text-xs text-slate-500">{tenant?.name}</p>
         </div>
@@ -76,7 +77,7 @@ export default function Header({
             onClick={() =>
               setPanel(panel === "notifications" ? null : "notifications")
             }
-            className="rounded-lg border p-2"
+            className="portal-header-action"
           >
             <Bell className="h-5 w-5" />
           </button>
@@ -86,7 +87,7 @@ export default function Header({
           aria-label="User menu"
           aria-expanded={panel === "account"}
           onClick={() => setPanel(panel === "account" ? null : "account")}
-          className="rounded-lg border p-2"
+          className="portal-header-action"
         >
           <UserRound className="h-5 w-5" />
         </button>
@@ -94,7 +95,7 @@ export default function Header({
       {panel && (
         <section
           aria-label={panel === "account" ? "Your account" : "Notifications"}
-          className="absolute right-3 top-full z-50 mt-2 max-h-[70vh] w-[min(24rem,calc(100vw-1.5rem))] overflow-y-auto rounded-2xl border bg-white p-4 shadow-xl"
+          className="portal-header-panel absolute right-3 top-full z-50 mt-2 max-h-[70vh] w-[min(24rem,calc(100vw-1.5rem))] overflow-y-auto rounded-xl border p-4 shadow-xl"
         >
           <button
             type="button"

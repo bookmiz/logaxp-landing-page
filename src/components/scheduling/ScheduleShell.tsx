@@ -79,18 +79,18 @@ export function ScheduleShell({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/30 pb-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full">
         {/* ─── Hero Header ───────────────────────────────────────────────────── */}
-        <div className="relative pt-12 pb-14 md:pt-16 md:pb-20">
+        <div className="portal-module-heading">
           {/* Subtle background glow */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 opacity-60 rounded-3xl -z-10 blur-xl" />
 
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             {/* Left: Title + Pill + Subtitle */}
-            <div className="space-y-5 max-w-3xl">
+            <div className="space-y-2 max-w-3xl">
               <Badge
                 variant="outline"
-                className="inline-flex items-center gap-2 rounded-full border-primary/30 bg-primary/5 px-5 py-2 text-sm font-medium text-primary shadow-sm backdrop-blur-sm"
+                className="inline-flex items-center gap-2 rounded-full border-primary/30 bg-primary/5 px-2 py-1 text-[10px] font-medium text-primary shadow-sm backdrop-blur-sm"
               >
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -99,12 +99,12 @@ export function ScheduleShell({
                 {pill}
               </Badge>
 
-              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                 {title}
               </h1>
 
               {subtitle && (
-                <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
                   {subtitle}
                 </p>
               )}
@@ -120,14 +120,14 @@ export function ScheduleShell({
         </div>
 
         {/* ─── Sticky Tabs with blur ─────────────────────────────────────────── */}
-        <div className="sticky top-0 z-30 -mx-4 bg-background/80 backdrop-blur-lg border-b border-border px-4 sm:px-6 lg:px-8">
-          <div className="py-5">
+        <div className="portal-module-tabs sticky top-0 z-30 border-b">
+          <div className="py-3">
             <ScheduleTabs />
           </div>
         </div>
 
         {/* ─── Guarded Content Area ──────────────────────────────────────────── */}
-        <div className="pt-10">
+        <div className="pt-5">
           {guard.state === "loading" ? (
             <div className="flex min-h-[60vh] items-center justify-center">
               <div className="flex flex-col items-center gap-6 text-center">

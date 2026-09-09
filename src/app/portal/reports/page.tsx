@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { ArrowUpRight, Clock3, CalendarDays, ClipboardList, Users, ChartNoAxesCombined, FileText } from "lucide-react";
 import { useAuthStore } from "@/logaxp/stores/useAuthStore";
 export default function ReportsPage() {
   const membership = useAuthStore((s) => s.membership);
@@ -35,27 +36,6 @@ export default function ReportsPage() {
       permission: "manager.summary.read",
     },
   ].filter((report) => membership?.permissions.includes(report.permission));
-  return (
-    <div className="space-y-5 p-6">
-      <h1 className="text-2xl font-bold">Reports</h1>
-      <p className="text-sm text-slate-500">
-        Open a report to choose a date range and review your workspace records.
-      </p>
-      <div className="grid gap-4 md:grid-cols-2">
-        {reports.map((report) => (
-          <Link
-            key={report.href}
-            href={report.href}
-            className="rounded-2xl border bg-white p-5 transition hover:border-lime-500"
-          >
-            <h2 className="font-semibold">{report.title}</h2>
-            <p className="mt-2 text-sm text-slate-500">{report.description}</p>
-          </Link>
-        ))}
-      </div>
-      {!reports.length && (
-        <p>No reports are available for your current role.</p>
-      )}
-    </div>
-  );
+  const icons: Record<string, typeof FileText> = { "Time entries": Clock3, "Attendance": CalendarDays, "Timesheets": ClipboardList, "Employee directory": Users, "Manager reports": ChartNoAxesCombined };
+  return <div><div className="portal-page-heading"><div><div className="portal-kicker">Workspace insights</div><h1>Reports</h1><p className="mt-2 text-sm text-slate-500">Find the records you need. Choose a report to review, filter and export.</p></div><span className="text-xs text-slate-500">{reports.length} available reports</span></div><div className="portal-report-list">{reports.map((report)=>{const Icon=icons[report.title] || FileText;return <Link key={report.href} href={report.href} className="portal-report-row"><span className="portal-report-icon"><Icon size={18}/></span><div><h2>{report.title}</h2><p>{report.description}</p></div><ArrowUpRight size={17} className="portal-report-arrow"/></Link>;})}</div>{!reports.length&&<p className="mt-5 text-sm text-slate-500">No reports are available for your current role.</p>}</div>;
 }

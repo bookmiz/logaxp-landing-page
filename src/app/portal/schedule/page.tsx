@@ -8,7 +8,7 @@ import { Button } from "@/logaxp/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/logaxp/components/ui/card";
 
 import { ScheduleShell } from "@/logaxp/components/scheduling/ScheduleShell";
-import { ScheduleHeroCard } from "@/logaxp/components/scheduling/ScheduleHeroCard";
+
 import { ScheduleBanner } from "@/logaxp/components/scheduling/feedback/ScheduleBanner";
 
 import { useScheduleSettings } from "@/logaxp/hooks/scheduling/useScheduleSettings";
@@ -38,7 +38,7 @@ export default function PortalScheduleHomePage() {
   return (
     <ScheduleShell
       title="Scheduling"
-      subtitle="Templates → assignments → shifts → publish, with conflict detection."
+      subtitle="Plan shifts, assign teams and check scheduling conflicts."
       pill="People • Scheduling"
       actions={
         <Button variant="outline" onClick={refresh} disabled={loading}>
@@ -49,11 +49,11 @@ export default function PortalScheduleHomePage() {
       requiredAnyCapabilities={["portal.schedule"]}
     >
       <div className="space-y-5">
-        <ScheduleHeroCard />
+
 
         {!settings ? (
           <ScheduleBanner tone="warning" title="Schedule settings not found">
-            Backend should auto-create settings on first GET. If this persists, check `/schedule/settings` route.
+            We could not load your scheduling settings. Refresh this page to try again.
           </ScheduleBanner>
         ) : null}
 

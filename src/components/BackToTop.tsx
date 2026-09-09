@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 gsap.registerPlugin(ScrollToPlugin);
 export default function BackToTop() {
   const pathname = usePathname();
-  if (pathname.startsWith("/site-admin")) return null;
+  if (pathname.startsWith("/site-admin") || pathname.startsWith("/portal")) return null;
   return (
     <button
       type="button"
