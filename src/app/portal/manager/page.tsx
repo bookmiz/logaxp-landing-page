@@ -68,21 +68,21 @@ function SummaryCard({
       ? "bg-emerald-50 border-emerald-200 text-emerald-700"
       : tone === "warning"
       ? "bg-amber-50 border-amber-200 text-amber-700"
-      : "bg-slate-50 border-slate-200 text-slate-700";
+      : "bg-slate-50 border-slate-200 text-slate-700 dark:text-slate-300";
 
   return (
     <Card className="rounded-3xl border shadow-sm">
-      <CardContent className="p-5">
+      <CardContent className="p-4">
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
               {title}
             </div>
-            <div className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+            <div className="mt-2 text-2xl font-bold tracking-tight text-slate-900">
               {value}
             </div>
           </div>
-          <div className={`rounded-2xl border p-3 ${toneClass}`}>{icon}</div>
+          <div className={`rounded-lg border p-2 ${toneClass}`}>{icon}</div>
         </div>
       </CardContent>
     </Card>
@@ -275,7 +275,7 @@ export default function ManagerHomePage() {
 
   return (
     <div className="space-y-6">
-      <div className="relative overflow-hidden rounded-[28px] border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-7 text-white shadow-sm">
+      <div className="relative overflow-hidden rounded-[28px] border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-4 py-4 text-white shadow-sm">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_30%)]" />
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3">
@@ -325,45 +325,45 @@ export default function ManagerHomePage() {
           <SummaryCard
             title="Total Managed"
             value={cards.totalManagedDistinctEmployees}
-            icon={<Users className="h-5 w-5" />}
+            icon={<Users className="h-4 w-4" />}
           />
           <SummaryCard
             title="Active Employees"
             value={cards.activeManagedEmployees}
-            icon={<UserCheck className="h-5 w-5" />}
+            icon={<UserCheck className="h-4 w-4" />}
             tone="success"
           />
           <SummaryCard
             title="Pending Leave"
             value={cards.pendingLeaveRequests}
-            icon={<FileClock className="h-5 w-5" />}
+            icon={<FileClock className="h-4 w-4" />}
             tone="warning"
           />
           <SummaryCard
             title="Pending Timesheets"
             value={cards.pendingTimesheets}
-            icon={<ClipboardList className="h-5 w-5" />}
+            icon={<ClipboardList className="h-4 w-4" />}
             tone="warning"
           />
           <SummaryCard
             title="Open Time Clocks"
             value={cards.openTimeClocks}
-            icon={<TimerReset className="h-5 w-5" />}
+            icon={<TimerReset className="h-4 w-4" />}
           />
           <SummaryCard
             title="Managed Org Units"
             value={cards.managedOrgUnits}
-            icon={<Building2 className="h-5 w-5" />}
+            icon={<Building2 className="h-4 w-4" />}
           />
           <SummaryCard
             title="Managed Locations"
             value={cards.managedLocations}
-            icon={<MapPin className="h-5 w-5" />}
+            icon={<MapPin className="h-4 w-4" />}
           />
           <SummaryCard
             title="Owned Cost Centers"
             value={cards.ownedCostCenters}
-            icon={<Wallet className="h-5 w-5" />}
+            icon={<Wallet className="h-4 w-4" />}
           />
         </div>
       )}
@@ -383,7 +383,7 @@ export default function ManagerHomePage() {
                 href="/portal/manager/my-team"
                 className="rounded-2xl border p-4 transition hover:bg-slate-50"
               >
-                <Users className="h-5 w-5 text-slate-700" />
+                <Users className="h-4 w-4 text-slate-700 dark:text-slate-300" />
                 <div className="mt-3 font-semibold text-slate-900">My Team</div>
                 <div className="mt-1 text-xs text-slate-500">
                   View all employees under your supervision.
@@ -394,7 +394,7 @@ export default function ManagerHomePage() {
                 href="/portal/manager/leave-requests"
                 className="rounded-2xl border p-4 transition hover:bg-slate-50"
               >
-                <FileClock className="h-5 w-5 text-slate-700" />
+                <FileClock className="h-4 w-4 text-slate-700 dark:text-slate-300" />
                 <div className="mt-3 font-semibold text-slate-900">Leave Requests</div>
                 <div className="mt-1 text-xs text-slate-500">
                   Review leave across your managed scope.
@@ -405,7 +405,7 @@ export default function ManagerHomePage() {
                 href="/portal/manager/timesheets"
                 className="rounded-2xl border p-4 transition hover:bg-slate-50"
               >
-                <Briefcase className="h-5 w-5 text-slate-700" />
+                <Briefcase className="h-4 w-4 text-slate-700 dark:text-slate-300" />
                 <div className="mt-3 font-semibold text-slate-900">Timesheets</div>
                 <div className="mt-1 text-xs text-slate-500">
                   Track timesheet submissions and approval flow.
@@ -416,7 +416,7 @@ export default function ManagerHomePage() {
                 href="/portal/manager/time-clocks"
                 className="rounded-2xl border p-4 transition hover:bg-slate-50"
               >
-                <Activity className="h-5 w-5 text-slate-700" />
+                <Activity className="h-4 w-4 text-slate-700 dark:text-slate-300" />
                 <div className="mt-3 font-semibold text-slate-900">Time Clocks</div>
                 <div className="mt-1 text-xs text-slate-500">
                   Monitor attendance and open clock sessions.

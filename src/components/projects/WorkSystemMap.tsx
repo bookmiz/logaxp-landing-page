@@ -55,8 +55,8 @@ export function WorkSystemMap({ active, projectId }: { active?: string; projectI
   };
 
   return (
-    <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-800 dark:bg-slate-900/30">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <details className="work-guide rounded-lg border border-slate-200 bg-slate-50/70 p-3 dark:border-slate-800 dark:bg-slate-900/30"><summary className="cursor-pointer text-xs font-medium">How projects and work fit together</summary>
+      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#5E8500] dark:text-[#86BF00]">Operating model</p>
           <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-slate-950 dark:text-white">
@@ -68,7 +68,7 @@ export function WorkSystemMap({ active, projectId }: { active?: string; projectI
         </p>
       </div>
 
-      <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+      <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
         {steps.map((step, index) => {
           const Icon = step.icon;
           const isActive = active === step.key;
@@ -78,23 +78,23 @@ export function WorkSystemMap({ active, projectId }: { active?: string; projectI
               key={step.key}
               href={withProject(step.href)}
               className={cn(
-                "group relative rounded-[1.2rem] border p-4 transition",
+                "group relative rounded-lg border p-3 transition",
                 isActive
                   ? "border-slate-950 bg-white shadow-sm dark:border-white dark:bg-slate-950"
                   : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:hover:border-slate-700"
               )}
             >
               <div className="flex items-center justify-between gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#86BF00]/15 text-[#5E8500] dark:text-[#86BF00]">
+                <div className="grid h-7 w-7 place-items-center rounded-2xl bg-[#86BF00]/15 text-[#5E8500] dark:text-[#86BF00]">
                   <Icon className="h-5 w-5" />
                 </div>
                 <span className="text-xs font-mono text-slate-400">0{index + 1}</span>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-2">
                 <div className="text-sm font-bold text-slate-500 dark:text-slate-400">{step.label}</div>
                 <h3 className="mt-1 text-base font-semibold tracking-[-0.02em] text-slate-950 dark:text-white">{step.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{step.text}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{step.text}</p>
               </div>
 
               <div className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-[#5E8500] opacity-0 transition group-hover:opacity-100 dark:text-[#86BF00]">
@@ -105,6 +105,6 @@ export function WorkSystemMap({ active, projectId }: { active?: string; projectI
           );
         })}
       </div>
-    </div>
+    </details>
   );
 }

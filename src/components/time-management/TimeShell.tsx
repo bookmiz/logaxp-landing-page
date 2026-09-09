@@ -86,7 +86,7 @@ export function TimeShell({
         {/* ─── Guarded Content Area ──────────────────────────────────────────── */}
         <div className="pt-5">
           {guard.state === "loading" ? (
-            <div className="flex min-h-[60vh] items-center justify-center">
+            <div className="flex min-h-[240px] items-center justify-center">
               <div className="flex flex-col items-center gap-6 text-center">
                 <div className="rounded-full bg-primary/10 p-6">
                   <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -103,7 +103,7 @@ export function TimeShell({
             <div className="mx-auto max-w-3xl">
               <Card className="rounded-3xl border-destructive/20 bg-destructive/5 shadow-2xl backdrop-blur-sm">
                 <CardContent className="p-12 text-center">
-                  <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-destructive/10">
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
                     <AlertCircle className="h-12 w-12 text-destructive" />
                   </div>
 

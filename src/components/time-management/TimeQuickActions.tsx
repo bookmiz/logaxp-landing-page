@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Clock, FilePlus2, Play } from "lucide-react";
+import { Clock, FilePlus2, Play } from "lucide-react";
 
 import { Button } from "@/logaxp/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/logaxp/components/ui/card";
-import { Badge } from "@/logaxp/components/ui/badge";
+
 
 function cx(...c: Array<string | false | null | undefined>) {
   return c.filter(Boolean).join(" ");
@@ -46,28 +46,26 @@ export function TimeQuickActions({ from, to, canClock = true, hasOpenClock }: Pr
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="text-base">Quick Actions</CardTitle>
-          <Badge variant="muted" className="rounded-full">
-            Hub
-          </Badge>
+
         </div>
       </CardHeader>
 
-      <CardContent className="grid gap-2 sm:grid-cols-3">
+      <CardContent className="flex flex-wrap gap-2">
         <Button
-          className={cx("justify-between rounded-xl")}
+          className={cx("h-9 gap-2 rounded-lg px-3 text-xs")}
           onClick={() => go("/portal/time-attendance/entries")}
           title="Go to Time Entries"
         >
           <span className="inline-flex items-center gap-2">
             <FilePlus2 className="h-4 w-4" />
-            Add time entry
+            Add time
           </span>
-          <ArrowRight className="h-4 w-4 opacity-80" />
+
         </Button>
 
         <Button
           variant="outline"
-          className={cx("justify-between rounded-xl")}
+          className={cx("h-9 gap-2 rounded-lg px-3 text-xs")}
           onClick={() => go("/portal/time-attendance/timers")}
           title="Go to Timers"
         >
@@ -75,12 +73,12 @@ export function TimeQuickActions({ from, to, canClock = true, hasOpenClock }: Pr
             <Play className="h-4 w-4" />
             Start timer
           </span>
-          <ArrowRight className="h-4 w-4 opacity-80" />
+
         </Button>
 
         <Button
           variant="outline"
-          className={cx("justify-between rounded-xl")}
+          className={cx("h-9 gap-2 rounded-lg px-3 text-xs")}
           onClick={() => go("/portal/time-attendance/clocks")}
           disabled={!canClock}
           title={!canClock ? "No employee context found for clock actions yet" : "Go to Time Clocks"}
@@ -89,7 +87,7 @@ export function TimeQuickActions({ from, to, canClock = true, hasOpenClock }: Pr
             <Clock className="h-4 w-4" />
             {hasOpenClock ? "Clock out" : "Clock in"}
           </span>
-          <ArrowRight className="h-4 w-4 opacity-80" />
+
         </Button>
       </CardContent>
     </Card>

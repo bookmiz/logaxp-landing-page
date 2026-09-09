@@ -50,19 +50,19 @@ export function ProjectRequiredState({
     .sort((a, b) => String(a.name ?? "").localeCompare(String(b.name ?? "")));
 
   return (
-    <div className={cn("rounded-[1.5rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950 md:p-6", className)}>
+    <div className={cn("rounded-[1.5rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950 md:p-4", className)}>
       <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div>
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#86BF00]/15 text-[#5E8500] dark:text-[#86BF00]">
-            <FolderKanban className="h-6 w-6" />
+          <div className="grid h-8 w-8 place-items-center rounded-2xl bg-[#86BF00]/15 text-[#5E8500] dark:text-[#86BF00]">
+            <FolderKanban className="h-4 w-4" />
           </div>
-          <h2 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-slate-950 dark:text-white md:text-4xl">
+          <h2 className="mt-3 text-lg font-semibold tracking-[-0.04em] text-slate-950 dark:text-white">
             {title}
           </h2>
-          <p className="mt-3 max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-300 md:text-base">
+          <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300">
             {description}
           </p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <Button asChild>
               <Link href="/portal/projects">
                 <FolderKanban className="h-4 w-4" />
