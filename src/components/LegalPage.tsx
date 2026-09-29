@@ -11,7 +11,7 @@ export default function LegalPage({ title, intro, sections }: {
       <Link href="/">Home</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link>
     </nav>
     <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">{title}</h1>
-    <p className="mt-4 text-sm opacity-70">Last updated: September 8, 2026</p>
+    <p className="mt-4 text-sm opacity-70">Last updated: September 28, 2026</p>
     <p className="mt-6 leading-8 opacity-80">{intro}</p>
     <div className="mt-10 space-y-9">
       {sections.map(section => <section key={section.title}>
@@ -21,7 +21,7 @@ export default function LegalPage({ title, intro, sections }: {
       <section>
         <h2 className="text-xl font-semibold">Contact LogaXP</h2>
         <p className="mt-3 leading-8">For questions or privacy requests, email <a className="underline underline-offset-4" href="mailto:support@logaxp.com">support@logaxp.com</a>.</p>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">{OFFICES.map(office => <div key={office.name}>
+        <div className="mt-6 grid gap-6">{OFFICES.map(office => <div key={office.name}>
           <h3 className="text-sm font-semibold">{office.name}</h3>
           <address className="mt-2 text-sm not-italic leading-6 opacity-80">{office.lines.map(line => <span className="block" key={line}>{line}</span>)}</address>
         </div>)}</div>

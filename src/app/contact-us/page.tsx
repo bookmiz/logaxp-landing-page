@@ -38,7 +38,7 @@ export default function ContactUsPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
           {/* Contact Cards */}
           <div className="bg-[var(--background)] p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-[#a3d900] transition-all duration-200">
             <div className="w-12 h-12 bg-[#a3d900]/10 rounded-lg flex items-center justify-center mb-4">
@@ -106,7 +106,7 @@ export default function ContactUsPage() {
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full px-4 py-3 bg-[var(--background)] border border-gray-300 dark:border-gray-600 rounded-lg text-[var(--foreground)] focus:ring-2 focus:ring-[#a3d900] focus:border-[#a3d900] outline-none transition-all duration-200"
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="+234 800 000 0000"
                 />
               </div>
 
